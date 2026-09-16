@@ -15,7 +15,7 @@
   --blue:#2951FE; --gold:#F2B101; --green:#1E800F; --brown:#4C1A09;
   --ink-dim:rgba(245,225,225,.55); --line:rgba(245,225,225,.14);
   --board:min(70vh, 92vw, 780px);
-  --cell:calc(var(--board)/5.4); --gap:calc(var(--board)/54);
+  --cell:calc(var(--board)/5.4); --gap:calc(var(--board)/54); --mcell:var(--cell);
   --serif:"Newsreader", Georgia, "Times New Roman", Times, serif;
 }
 *{box-sizing:border-box}
@@ -35,26 +35,23 @@ h1 span{font-style:italic;font-weight:300;color:var(--ink-dim)}
 
 /* ---------- stage ---------- */
 main{flex:1;display:flex;align-items:flex-start;justify-content:center;gap:1.2rem;padding:.4rem 1rem 1rem}
-.board{display:grid;grid-template-columns:auto var(--board);grid-template-rows:auto auto auto;gap:.5rem .7rem;align-items:center}
-.ylab{grid-row:1;grid-column:1;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;color:var(--ink-dim);font-style:italic;font-size:.9rem;letter-spacing:.06em;white-space:nowrap}
-.xlab{grid-row:2;grid-column:2;text-align:center;color:var(--ink-dim);font-style:italic;font-size:.9rem;letter-spacing:.06em}
-.mrow{grid-row:3;grid-column:2;margin-top:.55rem;padding-top:.7rem;border-top:1px dashed var(--line);position:relative}
-.mrow .mlab{position:absolute;top:-.62rem;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 .6rem;color:var(--ink-dim);font-style:italic;font-size:.82rem;letter-spacing:.06em;white-space:nowrap}
-.mlab .short{display:none}
-.mgrid{display:grid;grid-template-columns:repeat(5,var(--cell));gap:var(--gap)}
-.grid{grid-row:1;grid-column:2;width:var(--board);display:grid;grid-template-columns:repeat(5,var(--cell));grid-template-rows:repeat(4,var(--cell));gap:var(--gap);position:relative}
+.board{display:grid;grid-template-columns:auto var(--board);grid-template-rows:auto auto auto;gap:.6rem .7rem;align-items:center;margin-top:.9rem}
+.ylab{grid-row:2;grid-column:1;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;color:var(--ink-dim);font-style:italic;font-size:.9rem;letter-spacing:.06em;white-space:nowrap}
+.xlab{grid-row:1;grid-column:2;text-align:center;color:var(--ink-dim);font-style:italic;font-size:.9rem;letter-spacing:.06em}
+.mrow{grid-row:3;grid-column:2;margin-top:1.1rem;padding-top:1.3rem;border-top:1px dashed var(--line)}
+.mgrid{display:grid;grid-template-columns:repeat(5,var(--cell));gap:var(--gap);justify-items:center;align-items:center}
+.grid{grid-row:2;grid-column:2;width:var(--board);display:grid;grid-template-columns:repeat(5,var(--cell));grid-template-rows:repeat(4,var(--cell));gap:var(--gap);position:relative}
 
 /* ---------- cards ---------- */
 .card{position:relative;width:var(--cell);height:var(--cell);border-radius:calc(var(--cell)*.09);padding:calc(var(--cell)*.09);display:flex;flex-direction:column;justify-content:space-between;text-align:left;cursor:pointer;transition:opacity .35s,transform .25s;box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 6px 18px rgba(0,0,0,.35);overflow:hidden}
 .card:hover{transform:translateY(-2px)}
-.card.round{border-radius:50%;justify-content:center;align-items:center;text-align:center;padding:calc(var(--cell)*.14);gap:calc(var(--cell)*.03)}
+.card.round{width:var(--mcell);height:var(--mcell);border-radius:50%;justify-content:center;align-items:center;text-align:center;padding:calc(var(--mcell)*.14);gap:calc(var(--mcell)*.03)}
 .card .code{font-size:calc(var(--cell)*.10);letter-spacing:.08em;opacity:.7;font-variant:small-caps;line-height:1}
 .card .name{font-size:calc(var(--cell)*.118);line-height:1.12;font-weight:500;margin-top:calc(var(--cell)*.04);hyphens:auto;overflow-wrap:break-word}
-.card.round .name{font-size:calc(var(--cell)*.11);margin:0}
-.card.round .code{text-align:center}
-.card .kind{font-size:calc(var(--cell)*.085);font-style:italic;opacity:.75;text-align:center;line-height:1.1}
+.card.round .name{font-size:calc(var(--mcell)*.11);margin:0}
+.card.round .code{text-align:center;font-size:calc(var(--mcell)*.10)}
+.card .kind{font-size:calc(var(--mcell)*.085);font-style:italic;opacity:.75;text-align:center;line-height:1.1}
 .board.dim .card{opacity:.22}
-.board.dim .mlab{opacity:.4}
 .board.dim .card.origin{visibility:hidden}
 
 /* meters (risk face) */
@@ -126,9 +123,8 @@ main{flex:1;display:flex;align-items:flex-start;justify-content:center;gap:1.2re
 .back .src{font-size:.82rem;opacity:.75;font-style:italic}
 .back hr{border:0;border-top:1px solid currentColor;opacity:.25;margin:.2rem 0}
 .back .xl{margin:0;font-size:1rem}
-.back .xl a,.back .tl{color:inherit;text-decoration:none;border-bottom:1px solid currentColor}
-.back .xl a:hover,.back .tl:hover{opacity:.75}
-.back .tlh{font-size:.8rem;font-weight:400;opacity:.65;white-space:nowrap}
+.back .xl a{color:inherit;text-decoration:none;border-bottom:1px solid currentColor}
+.back .xl a:hover{opacity:.75}
 .gov .ph{display:flex;align-items:baseline;gap:.6rem;margin-top:.5rem}
 .gov .ph h4{margin:0;font-size:1rem;font-variant:small-caps;letter-spacing:.08em;font-weight:600}
 .gov .ph .sc{display:flex;gap:3px}
@@ -144,19 +140,26 @@ main{flex:1;display:flex;align-items:flex-start;justify-content:center;gap:1.2re
 
 /* ---------- portrait ---------- */
 @media (orientation:portrait), (max-width:820px){
-  :root{--board:min(84vw, 56vh, 640px)}
+  :root{--board:min(88vw, 54vh, 640px); --mcell:calc(var(--cell)*1.4)}
+  .card .name{font-size:calc(var(--cell)*.105)}
+  .board{grid-template-columns:auto var(--board);column-gap:.35rem}
+  .ylab{font-size:.8rem}
   h1 span{display:none}
-  main{flex-direction:column;align-items:center;justify-content:flex-start;gap:1rem}
-  .mrow .mlab{font-size:.75rem}
-  .mlab .long{display:none} .mlab .short{display:inline}
-  .bubbles{display:flex;gap:.8rem;width:min(92vw,660px);justify-content:space-between;align-items:flex-start}
-  .bubble{align-self:flex-start}
+  main{flex-direction:column;align-items:center;justify-content:space-between;gap:0;padding-bottom:.9rem}
+  .board{margin-top:1.4rem;gap:.7rem .6rem}
+  .mrow{margin-top:2rem;padding-top:2rem}
+  .mgrid{display:flex;justify-content:center;gap:calc(var(--gap)*2.2)}
+  .bubbles{display:flex;gap:.8rem;width:min(92vw,660px);justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:1.6rem}
+  .bubble{align-self:flex-end}
   .bubble.open{width:min(21rem,80vw)}
   .face.back{padding:1.1rem 1.1rem 1.3rem}
 }
 @media (min-width:821px) and (orientation:landscape){
+  main{flex:none;align-items:flex-end;margin-bottom:auto}
   .bubbles{display:contents}
   #legend{order:-1}
+  .bubble{margin-bottom:calc(var(--mcell)*.5 - 1.5rem)}
+  .bubble.open{margin-bottom:0}
 }
 </style>
 </head>
@@ -172,10 +175,10 @@ main{flex:1;display:flex;align-items:flex-start;justify-content:center;gap:1.2re
 
 <main id="main">
   <section class="board" id="board">
+    <div class="xlab">increasing likelihood →</div>
     <div class="ylab">increasing potential impact →</div>
     <div class="grid" id="grid"></div>
-    <div class="xlab">increasing likelihood →</div>
-    <div class="mrow"><span class="mlab"><span class="long">risk multipliers — outside the likelihood × impact grid</span><span class="short">risk multipliers — outside the grid</span></span><div class="mgrid" id="mgrid"></div></div>
+    <div class="mrow"><div class="mgrid" id="mgrid"></div></div>
   </section>
   <div class="bubbles">
     <aside class="bubble" id="legend">
@@ -283,7 +286,7 @@ main{flex:1;display:flex;align-items:flex-start;justify-content:center;gap:1.2re
   }
   function govBack(r){
     const g=gov[r.code]; if(!g) return '<h2>'+esc(r.name)+'</h2><p class="desc">No governance record.</p>';
-    let h='<div class="eyebrow">'+r.code+' · multilateral governance</div><h2><a class="tl" href="#" data-go="risks" title="Read the risk description">'+esc(r.name)+'</a> <small class="tlh">↗ risk description</small></h2>'
+    let h='<div class="eyebrow">'+r.code+' · multilateral governance</div><h2>'+esc(r.name)+'</h2>'
       +'<div class="mat">Maturity: <b>'+esc(g.maturity)+'</b> '+esc(g.trend)+' <span style="font-size:.9rem;opacity:.75">· pillar score '+esc(g.score_sum)+'/12'+(g.capped_by_critical_actor_gate?' · capped by the critical-actor gate':'')+'</span></div>'
       +(g.maturity_note?'<p class="facts">Note: '+esc(g.maturity_note)+'</p>':'');
     if(g.sub_regimes){
@@ -294,7 +297,7 @@ main{flex:1;display:flex;align-items:flex-start;justify-content:center;gap:1.2re
     } else {
       for(const p of ['assess','regulate','finance','enforce']) h+=pillarBlock(p,g.pillars[p],g.scores[p]);
     }
-    h+='<hr>'+(g.in_practice?'<dl><dt>In practice</dt><dd>'+esc(g.in_practice)+'</dd><dt>Gap</dt><dd>'+esc(g.gap)+'</dd></dl>':'<dl><dt>Gap</dt><dd>'+esc(g.gap)+'</dd></dl>');
+    h+='<hr>'+(g.in_practice?'<dl><dt>In practice</dt><dd>'+esc(g.in_practice)+'</dd><dt>Gap</dt><dd>'+esc(g.gap)+'</dd></dl>':'<dl><dt>Gap</dt><dd>'+esc(g.gap)+'</dd></dl>')+xlink('risks');
     return h;
   }
 
