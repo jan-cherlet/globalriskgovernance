@@ -14,7 +14,7 @@
   --bg:#18181A; --ink:#F5E1E1; --umber:#4C1A09; --pink:#F2C8C9; --orange:#FF520D;
   --blue:#2951FE; --gold:#F2B101; --green:#1E800F; --brown:#4C1A09;
   --ink-dim:rgba(245,225,225,.55); --line:rgba(245,225,225,.14);
-  --board:min(72vh, 92vw, 780px);
+  --board:min(70vh, 92vw, 780px);
   --cell:calc(var(--board)/5.4); --gap:calc(var(--board)/54);
   --serif:"Newsreader", Georgia, "Times New Roman", Times, serif;
 }
@@ -25,31 +25,36 @@ a{color:inherit}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ---------- header ---------- */
-header{display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:1.4rem 1rem .4rem}
+header{display:flex;flex-direction:column;align-items:center;gap:.45rem;padding:1rem 1rem .2rem}
 h1{margin:0;font-weight:400;font-size:clamp(1.35rem,2.6vw,2rem);letter-spacing:.01em;text-align:center}
 h1 span{font-style:italic;font-weight:300;color:var(--ink-dim)}
 .sub{margin:0;font-size:.95rem;color:var(--ink-dim);font-style:italic;text-align:center}
-.toggle{margin-top:.5rem;display:inline-flex;border-radius:999px;background:var(--pink);padding:3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.toggle{margin-top:.3rem;display:inline-flex;border-radius:999px;background:var(--pink);padding:3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
 .toggle button{min-width:9.2em;padding:.42em 1.1em;border-radius:999px;color:var(--umber);font-size:1rem;letter-spacing:.02em;transition:background .25s,color .25s}
 .toggle button.on{background:var(--orange);color:var(--ink)}
 
 /* ---------- stage ---------- */
-main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;padding:.6rem 1rem 1.2rem}
-.board{display:grid;grid-template-columns:auto var(--board);grid-template-rows:var(--board) auto;gap:.55rem .7rem;align-items:center}
+main{flex:1;display:flex;align-items:flex-start;justify-content:center;gap:1.2rem;padding:.4rem 1rem 1rem}
+.board{display:grid;grid-template-columns:auto var(--board);grid-template-rows:auto auto auto;gap:.5rem .7rem;align-items:center}
 .ylab{grid-row:1;grid-column:1;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;color:var(--ink-dim);font-style:italic;font-size:.9rem;letter-spacing:.06em;white-space:nowrap}
 .xlab{grid-row:2;grid-column:2;text-align:center;color:var(--ink-dim);font-style:italic;font-size:.9rem;letter-spacing:.06em}
-.grid{grid-row:1;grid-column:2;width:var(--board);height:var(--board);display:grid;grid-template-columns:repeat(5,var(--cell));grid-template-rows:repeat(5,var(--cell));gap:var(--gap);position:relative}
+.mrow{grid-row:3;grid-column:2;margin-top:.55rem;padding-top:.7rem;border-top:1px dashed var(--line);position:relative}
+.mrow .mlab{position:absolute;top:-.62rem;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 .6rem;color:var(--ink-dim);font-style:italic;font-size:.82rem;letter-spacing:.06em;white-space:nowrap}
+.mlab .short{display:none}
+.mgrid{display:grid;grid-template-columns:repeat(5,var(--cell));gap:var(--gap)}
+.grid{grid-row:1;grid-column:2;width:var(--board);display:grid;grid-template-columns:repeat(5,var(--cell));grid-template-rows:repeat(4,var(--cell));gap:var(--gap);position:relative}
 
 /* ---------- cards ---------- */
 .card{position:relative;width:var(--cell);height:var(--cell);border-radius:calc(var(--cell)*.09);padding:calc(var(--cell)*.09);display:flex;flex-direction:column;justify-content:space-between;text-align:left;cursor:pointer;transition:opacity .35s,transform .25s;box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 6px 18px rgba(0,0,0,.35);overflow:hidden}
 .card:hover{transform:translateY(-2px)}
 .card.round{border-radius:50%;justify-content:center;align-items:center;text-align:center;padding:calc(var(--cell)*.14);gap:calc(var(--cell)*.03)}
 .card .code{font-size:calc(var(--cell)*.10);letter-spacing:.08em;opacity:.7;font-variant:small-caps;line-height:1}
-.card .name{font-size:calc(var(--cell)*.118);line-height:1.12;font-weight:500;margin-top:calc(var(--cell)*.04);hyphens:auto;overflow-wrap:anywhere}
+.card .name{font-size:calc(var(--cell)*.118);line-height:1.12;font-weight:500;margin-top:calc(var(--cell)*.04);hyphens:auto;overflow-wrap:break-word}
 .card.round .name{font-size:calc(var(--cell)*.11);margin:0}
 .card.round .code{text-align:center}
 .card .kind{font-size:calc(var(--cell)*.085);font-style:italic;opacity:.75;text-align:center;line-height:1.1}
 .board.dim .card{opacity:.22}
+.board.dim .mlab{opacity:.4}
 .board.dim .card.origin{visibility:hidden}
 
 /* meters (risk face) */
@@ -99,8 +104,11 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
 .big.on{display:block;pointer-events:auto}
 .flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,.1,.2,1)}
 .flip.turned{transform:rotateY(180deg)}
+.big.settled .flip{transform:none;transform-style:flat;transition:none}
+.big.settled .face.front{display:none}
+.big.settled .face.back{transform:none;backface-visibility:visible}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.55)}
-.face.back{transform:rotateY(180deg);padding:1.4rem 1.6rem 1.5rem;display:flex;flex-direction:column;gap:.7rem;overflow:auto}
+.face.back{transform:rotateY(180deg);padding:1.4rem 1.6rem 1.5rem;display:flex;flex-direction:column;gap:.7rem;overflow:auto;transition:opacity .18s}
 .face.front{display:flex;flex-direction:column;justify-content:space-between;padding:8%}
 .face.front .name{font-size:1.4rem;line-height:1.1;font-weight:500}
 .face.front .code{font-variant:small-caps;letter-spacing:.08em;opacity:.7}
@@ -117,6 +125,10 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
 .back dd{margin:0}
 .back .src{font-size:.82rem;opacity:.75;font-style:italic}
 .back hr{border:0;border-top:1px solid currentColor;opacity:.25;margin:.2rem 0}
+.back .xl{margin:0;font-size:1rem}
+.back .xl a,.back .tl{color:inherit;text-decoration:none;border-bottom:1px solid currentColor}
+.back .xl a:hover,.back .tl:hover{opacity:.75}
+.back .tlh{font-size:.8rem;font-weight:400;opacity:.65;white-space:nowrap}
 .gov .ph{display:flex;align-items:baseline;gap:.6rem;margin-top:.5rem}
 .gov .ph h4{margin:0;font-size:1rem;font-variant:small-caps;letter-spacing:.08em;font-weight:600}
 .gov .ph .sc{display:flex;gap:3px}
@@ -132,9 +144,11 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
 
 /* ---------- portrait ---------- */
 @media (orientation:portrait), (max-width:820px){
-  :root{--board:min(84vw, 60vh, 640px)}
+  :root{--board:min(84vw, 56vh, 640px)}
   h1 span{display:none}
-  main{flex-direction:column;align-items:center;gap:1rem}
+  main{flex-direction:column;align-items:center;justify-content:flex-start;gap:1rem}
+  .mrow .mlab{font-size:.75rem}
+  .mlab .long{display:none} .mlab .short{display:inline}
   .bubbles{display:flex;gap:.8rem;width:min(92vw,660px);justify-content:space-between;align-items:flex-start}
   .bubble{align-self:flex-start}
   .bubble.open{width:min(21rem,80vw)}
@@ -149,7 +163,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
 <body>
 <header>
   <h1>Global Risk Governance Monitor <span>— catastrophic & existential risks and their multilateral governance</span></h1>
-  <p class="sub" id="sub">Fourteen terminal hazards on a likelihood × impact grid, three risk multipliers off-scale.</p>
+  <p class="sub" id="sub">Fourteen terminal hazards on a likelihood × impact grid; three risk multipliers below it, outside the grid.</p>
   <div class="toggle" role="tablist" aria-label="Face">
     <button id="tRisks" class="on" role="tab" aria-selected="true">Risks</button>
     <button id="tGov" role="tab" aria-selected="false">Governance</button>
@@ -161,6 +175,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
     <div class="ylab">increasing potential impact →</div>
     <div class="grid" id="grid"></div>
     <div class="xlab">increasing likelihood →</div>
+    <div class="mrow"><span class="mlab"><span class="long">risk multipliers — outside the likelihood × impact grid</span><span class="short">risk multipliers — outside the grid</span></span><div class="mgrid" id="mgrid"></div></div>
   </section>
   <div class="bubbles">
     <aside class="bubble" id="legend">
@@ -220,25 +235,25 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
     return top+'<div>'+pillarBars(g)+'<div class="maturity">'+esc(g.maturity)+' <small>'+esc(g.trend)+'</small></div></div>';
   }
   function buildGrid(){
-    const grid=$('#grid'); grid.innerHTML='';
+    const grid=$('#grid'),mgrid=$('#mgrid'); grid.innerHTML=''; mgrid.innerHTML='';
     risks.forEach(r=>{
       const el=document.createElement('button');
       el.className='card c-'+grp(r.code)+(r.kind==='risk multiplier'?' round':'');
-      el.style.gridColumn=r.grid.likelihood_col; el.style.gridRow=6-r.grid.impact_row;
       el.dataset.code=r.code; el.setAttribute('aria-label',r.code+' '+r.name);
       el.innerHTML=frontHTML(r);
       el.addEventListener('click',()=>open(r,el));
-      grid.appendChild(el);
+      if(r.kind==='risk multiplier'){ el.style.gridColumn=r.grid.likelihood_col; mgrid.appendChild(el); }
+      else { el.style.gridColumn=r.grid.likelihood_col; el.style.gridRow=5-Math.min(r.grid.impact_row,4); grid.appendChild(el); }
     });
   }
   function fit(){
-    document.querySelectorAll('#grid .card').forEach(el=>{
+    document.querySelectorAll('#grid .card, #mgrid .card').forEach(el=>{
       const n=el.querySelector('.name'); if(!n) return; n.style.fontSize='';
       let px=parseFloat(getComputedStyle(n).fontSize), guard=0;
       while(el.scrollHeight>el.clientHeight+1 && px>6 && guard++<12){px*=.92; n.style.fontSize=px+'px';}
     });
   }
-  function refreshFronts(){document.querySelectorAll('#grid .card').forEach(el=>{el.innerHTML=frontHTML(risks.find(r=>r.code===el.dataset.code));});fit();}
+  function refreshFronts(){document.querySelectorAll('#grid .card, #mgrid .card').forEach(el=>{el.innerHTML=frontHTML(risks.find(r=>r.code===el.dataset.code));});fit();}
   window.addEventListener('resize',()=>fit());
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fit);
 
@@ -248,7 +263,7 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
       return '<div class="eyebrow">'+r.code+' · risk multiplier</div><h2>'+esc(r.name)+'</h2>'
        +'<div class="tags"><span class="tag"><b>Amplifies</b> '+esc(r.amplifies)+'</span><span class="tag"><b>Strength</b> '+esc(r.strength)+'</span></div>'
        +'<p class="desc">'+esc(r.description)+'</p><hr><dl><dt>Amplification</dt><dd>'+esc(r.amplification_detail)+'</dd><dt>Strength</dt><dd>'+esc(r.strength_detail)+'</dd></dl>'
-       +'<p class="src">Multipliers are assessed qualitatively and are not placed on the likelihood × impact scale.</p>';
+       +'<p class="src">Multipliers are assessed qualitatively and are not placed on the likelihood × impact scale.</p>'+xlink('gov');
     }
     const L=r.likelihood, I=r.impact;
     return '<div class="eyebrow">'+r.code+' · terminal hazard · root '+esc(r.root)+(r.channel?' · '+esc(r.channel):'')+'</div><h2>'+esc(r.name)+'</h2>'
@@ -256,9 +271,10 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
      +'<span class="tag"><b>Impact</b> '+I.modal+' → '+I.tail+' — '+esc(LBL_I[I.modal].split(' — ')[0])+' to '+esc(LBL_I[I.tail].split(' — ')[0])+(I.tail_is_tipping_cascade?' (tipping cascade)':'')+'</span>'
      +'<span class="tag"><b>Confidence</b> '+esc(r.confidence)+'</span></div>'
      +'<p class="desc">'+esc(r.description)+'</p><hr>'
-     +'<dl><dt>Time profile</dt><dd>'+esc(r.time_profile)+'</dd><dt>Severity ceiling</dt><dd>'+esc(r.severity_ceiling)+'</dd><dt>Failure mode</dt><dd>'+esc(r.failure_mode)+'</dd><dt>Impact dimensions</dt><dd>'+esc(I.dominant_dimensions)+'</dd><dt>Sources</dt><dd class="src">'+esc(r.sources)+'</dd></dl>';
+     +'<dl><dt>Time profile</dt><dd>'+esc(r.time_profile)+'</dd><dt>Severity ceiling</dt><dd>'+esc(r.severity_ceiling)+'</dd><dt>Failure mode</dt><dd>'+esc(r.failure_mode)+'</dd><dt>Impact dimensions</dt><dd>'+esc(I.dominant_dimensions)+'</dd><dt>Sources</dt><dd class="src">'+esc(r.sources)+'</dd></dl>'+xlink('gov');
   }
-  const PN={assess:'Assess',regulate:'Regulate',finance:'Finance',enforce:'Enforce'};
+  function xlink(to){return '<hr><p class="xl"><a href="#" data-go="'+to+'">'+(to==='gov'?'See the multilateral governance of this risk →':'← Read the risk description')+'</a></p>';}
+  const PN={assess:'Institutions to assess',regulate:'Institutions to regulate',finance:'Institutions to finance',enforce:'Institutions to enforce'};
   function pillarBlock(p,pil,score){
     const n=typeof score==='string'?+score.split('/')[0]:score;
     const facts=[pil.type&&'Type: '+pil.type, pil.coverage&&'Coverage: '+pil.coverage, pil.binding_or_powers&&(p==='enforce'?'Powers: ':'Bindingness: ')+pil.binding_or_powers, pil.status&&'Status: '+pil.status].filter(Boolean).map(esc).join(' · ');
@@ -267,9 +283,9 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
   }
   function govBack(r){
     const g=gov[r.code]; if(!g) return '<h2>'+esc(r.name)+'</h2><p class="desc">No governance record.</p>';
-    let h='<div class="eyebrow">'+r.code+' · multilateral governance</div><h2>'+esc(r.name)+'</h2>'
+    let h='<div class="eyebrow">'+r.code+' · multilateral governance</div><h2><a class="tl" href="#" data-go="risks" title="Read the risk description">'+esc(r.name)+'</a> <small class="tlh">↗ risk description</small></h2>'
       +'<div class="mat">Maturity: <b>'+esc(g.maturity)+'</b> '+esc(g.trend)+' <span style="font-size:.9rem;opacity:.75">· pillar score '+esc(g.score_sum)+'/12'+(g.capped_by_critical_actor_gate?' · capped by the critical-actor gate':'')+'</span></div>'
-      +(g.maturity_note?'<p class="facts">'+esc(g.maturity_note)+'</p>':'');
+      +(g.maturity_note?'<p class="facts">Note: '+esc(g.maturity_note)+'</p>':'');
     if(g.sub_regimes){
       for(const [k,sr] of Object.entries(g.sub_regimes)){
         h+='<div class="subr">'+k+' — '+esc(sr.maturity)+' ('+sr.score_sum+'/12)</div>';
@@ -303,40 +319,50 @@ main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;pa
     big.style.transition='transform .6s cubic-bezier(.4,.1,.2,1)'; flip.style.transition='';
     big.style.transform=`translate(${(window.innerWidth-W)/2}px,${(window.innerHeight-H)/2}px) scale(1)`;
     setTimeout(()=>{flip.classList.add('turned');bigF.style.borderRadius='14px';},60);
+    setTimeout(()=>{ if(!openEl) return; big.style.transition='none'; big.style.transform=`translate(${Math.round((window.innerWidth-W)/2)}px,${Math.round((window.innerHeight-H)/2)}px)`; big.classList.add('settled'); },720);
     bigB.scrollTop=0;
   }
   function close(){
     if(!openEl) return;
     const el=openEl,rc=el.getBoundingClientRect(),W=big.offsetWidth,H=big.offsetHeight;
+    if(big.classList.contains('settled')){ flip.style.transition='none'; big.classList.remove('settled'); flip.getBoundingClientRect(); flip.style.transition=''; big.style.transition='transform .6s cubic-bezier(.4,.1,.2,1)'; }
     flip.classList.remove('turned');
     big.style.transform=`translate(${rc.left}px,${rc.top}px) scale(${rc.width/W},${rc.height/H})`;
     veil.classList.remove('on');
     setTimeout(()=>{big.classList.remove('on');board.classList.remove('dim');el.classList.remove('origin');openEl=null;},600);
   }
+  bigB.addEventListener('click',e=>{const a=e.target.closest('a[data-go]'); if(!a) return; e.preventDefault(); swapFace(a.dataset.go);});
+  function swapFace(to){
+    if(!openEl) return; const r=risks.find(x=>x.code===openEl.dataset.code);
+    setToggle(to); bigB.className='face back c-'+grp(r.code)+(to==='risks'?'':' gov');
+    bigB.style.opacity=0; setTimeout(()=>{bigB.innerHTML=to==='risks'?riskBack(r):govBack(r); bigB.scrollTop=0; bigB.style.opacity=1;},180);
+  }
   veil.addEventListener('click',close); $('#bigX').addEventListener('click',close);
   document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
-  window.addEventListener('resize',()=>{if(openEl){const W=Math.min(window.innerWidth*.92,720),H=Math.min(window.innerHeight*.86,660);big.style.transition='none';big.style.width=W+'px';big.style.height=H+'px';big.style.transform=`translate(${(window.innerWidth-W)/2}px,${(window.innerHeight-H)/2}px) scale(1)`;}});
+  window.addEventListener('resize',()=>{if(openEl){const W=Math.min(window.innerWidth*.92,720),H=Math.min(window.innerHeight*.86,660);big.style.transition='none';big.style.width=W+'px';big.style.height=H+'px';big.style.transform=`translate(${Math.round((window.innerWidth-W)/2)}px,${Math.round((window.innerHeight-H)/2)}px)`;}});
 
   /* ---------- toggle ---------- */
-  function setFace(f){
-    if(openEl) close();
+  function setToggle(f){
     face=f; $('#tRisks').classList.toggle('on',f==='risks'); $('#tGov').classList.toggle('on',f==='gov');
     $('#tRisks').setAttribute('aria-selected',f==='risks'); $('#tGov').setAttribute('aria-selected',f==='gov');
-    $('#sub').textContent=f==='risks'?'Fourteen terminal hazards on a likelihood × impact grid, three risk multipliers off-scale.':'The same risks, coloured as before, showing which of the four governance pillars exist for each and how mature the multilateral regime is.';
-    setTimeout(()=>{refreshFronts();buildLegend();},openEl?620:0);
+    $('#sub').textContent=f==='risks'?'Fourteen terminal hazards on a likelihood × impact grid; three risk multipliers below it, outside the grid.':'The maturity of multilateral governance of the risks, based on four governance pillars.';
+    refreshFronts(); buildLegend();
   }
+  function setFace(f){ if(openEl) close(); setTimeout(()=>setToggle(f),openEl?620:0); }
   $('#tRisks').addEventListener('click',()=>setFace('risks')); $('#tGov').addEventListener('click',()=>setFace('gov'));
 
   /* ---------- bubbles ---------- */
   function buildLegend(){
-    const cat=[['E','Earth-system destabilisation (E1–E2)','c-E'],['W','Deliberate destructive capability (W1–W3)','c-W'],['T','Loss of control over technology (T1–T3)','c-T'],['F','Loss of collective control (F1–F2)','c-F'],['N','Natural hazards (N1–N4)','c-N'],['M','Risk multipliers — round, off-scale','c-M round']];
+    const cat=[['E','Earth-system destabilisation (E1–E2)','c-E'],['W','Deliberate destructive capability (W1–W3)','c-W'],['T','Loss of control over technology (T1–T3)','c-T'],['F','Loss of collective control (F1–F2)','c-F'],['N','Natural hazards (N1–N4)','c-N'],['M','Risk multipliers — round, below the grid','c-M round']];
     let h='<h3>Categories</h3>'+cat.map(c=>'<div class="row"><span class="sw '+c[2]+'"></span><span>'+c[1]+'</span></div>').join('');
     if(face==='risks'){
       h+='<h3>Likelihood of reaching catastrophic scale by 2100</h3>'+Object.entries(LBL_L).map(([k,v])=>'<div class="row"><span style="font-variant:small-caps;width:1.6rem">'+k+'</span><span>'+esc(v)+'</span></div>').join('');
       h+='<h3>Potential impact</h3>'+Object.entries(LBL_I).map(([k,v])=>'<div class="row"><span style="font-variant:small-caps;width:1.6rem">'+k+'</span><span>'+esc(v.split(' — ')[0])+'</span></div>').join('');
       h+='<h3>Card meters</h3><div class="row"><span class="meter"><i class="modal"></i></span><span>most likely (modal) band</span></div><div class="row"><span class="meter"><i class="range"></i></span><span>documented range / tail</span></div><p style="opacity:.75">Cards sit at their modal cell, or the nearest free cell within their range. Row I5 is empty: no hazard\'s <i>most likely</i> outcome is extinction.</p>';
     } else {
-      h+='<h3>Four governance pillars</h3><div class="row"><span class="pil"><i class="on"></i></span><span><b>A</b>ssess · <b>R</b>egulate · <b>F</b>inance · <b>E</b>nforce — each scored 0–3</span></div>';
+      const pd=RG.methodology.pillars;
+      h='<h3 style="font-size:1.05rem">The four governance pillars</h3><p style="opacity:.8;margin-top:0">Each card shows four bars, one per pillar, filled 0–3 for the strength of the institutions in place:</p>'
+       +[['A','Assess',pd.assess],['R','Regulate',pd.regulate],['F','Finance',pd.finance],['E','Enforce',pd.enforce]].map(x=>'<div class="row" style="align-items:flex-start;margin:.35rem 0"><span class="pil" style="margin-top:.2rem"><i class="on"></i><i class="on"></i><i class="on"></i><b>'+x[0]+'</b></span><span><b>'+x[1]+'</b> — '+esc(x[2].replace(/:.*$/,'').replace(/\.$/,'').toLowerCase())+'</span></div>').join('')+'<hr style="border:0;border-top:1px solid var(--line);margin:.6rem 0">'+h;
       h+='<h3>Maturity of multilateral governance</h3>'+Object.entries(RG.methodology.maturity_indicator.levels).map(([k,v])=>'<div class="row"><span style="font-style:italic;min-width:7.2rem">'+k+'</span><span style="opacity:.8">'+esc(v.split('. ').slice(1).join('. ')||v)+'</span></div>').join('');
       h+='<p style="opacity:.75">↑ strengthening · → stable · ↓ eroding. Maturity is capped at <i>Developing</i> where the actors who generate the risk are unbound or immune from enforcement.</p>';
     }

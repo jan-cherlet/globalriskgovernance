@@ -86,7 +86,7 @@
    },
    "confidence": "Stated per leaf (High / Moderate / Low / Very low) and must be read alongside the bands. Where sources diverge the range is widened rather than averaged and confidence lowered.",
    "evidence_base": "Published structured estimates (Ord 2020); expert-judgment and forecasting exercises (Oxford FHI 2008, Existential Risk Persuasion Tournament 2022, Metaculus, the UN Global Risk Surveys 2024 and 2026); the six reference reports; domain base rates where they exist. Perception surveys are evidence about attention, not hazard: a shift in perception never moves a band by itself.",
-   "dashboard_placement": "Leaves are shown on an invisible 5 × 5 grid (columns = likelihood band, rows = impact band), at most one card per cell. Each leaf takes its modal cell if free, otherwise the nearest free cell within its documented likelihood and impact range, preferring a sideways move. Row I5 is empty because no leaf's most likely outcome is extinction. Multipliers are shown as round cards in the top-right corner of the grid; their position carries no likelihood or impact value.",
+   "dashboard_placement": "Leaves are shown on an invisible 5 × 5 grid (columns = likelihood band, rows = impact band), at most one card per cell. Each leaf takes its modal cell if free, otherwise the nearest free cell within its documented likelihood and impact range, preferring a sideways move. Row I5 is empty because no leaf's most likely outcome is extinction and is therefore omitted from the display, giving a 4 × 5 grid. Multipliers are shown as round cards in a separate row beneath the grid; their position carries no likelihood or impact value.",
    "limitations": "Comparative judgments from a single-analyst structured synthesis, to be replaced by formal structured expert elicitation; likelihood and impact are never multiplied into one number; leaves are scored as if separable but are correlated, so joint risk exceeds the sum of parts."
   },
   "source_reports": [
@@ -589,9 +589,9 @@
    "amplification_detail": "W1 (the trigger for nuclear use: \"Geopolitical Tensions → Large-Scale War\" is the strongest link in both UN surveys), W3, T1 (racing dynamics against safety), F1 (wartime concentration of power), and every leaf indirectly by destroying the cooperation needed to address it — UN26's \"institutional pathway\": tensions → collapse of multilateral institutions → collapse of the rule of law. UN26's backcast from large-scale war identifies rivalry's own four drivers — natural resource shortages (E2), economic fragmentation (the financial cascade), misinformation (M2) and weakening multilateral institutions (M2) — so rivalry is both the top multiplier and the most driven one; the Earth-system, economic and information layers all feed the war pathway. UN24 already found \"Geopolitical Tensions\" the most interconnected risk; WEF 2026 names this the \"Age of Competition.\"",
    "strength_detail": "very high, rising — UN26 rates every political risk more important than in 2024 and multilateral preparedness lower for all but one.",
    "grid": {
-    "likelihood_col": 4,
-    "impact_row": 4,
-    "note": "off-scale: position carries no likelihood or impact value"
+    "likelihood_col": 2,
+    "impact_row": 0,
+    "note": "outside the grid: shown in a separate row beneath the likelihood × impact grid (impact_row 0); position carries no likelihood or impact value"
    }
   },
   {
@@ -606,9 +606,9 @@
    "amplification_detail": "every leaf, by degrading response capacity; especially F1 (fragmentation invites strongmen; rule-of-law collapse is F1's political precursor), M1 (erodes conflict restraint; misinformation and institutional decay are two of UN26's four drivers of geopolitical tension) and N4/W2 (undermines pandemic response). AI-generated media is scaling it.",
    "strength_detail": "very high — the meta-multiplier.",
    "grid": {
-    "likelihood_col": 5,
-    "impact_row": 4,
-    "note": "off-scale: position carries no likelihood or impact value"
+    "likelihood_col": 3,
+    "impact_row": 0,
+    "note": "outside the grid: shown in a separate row beneath the likelihood × impact grid (impact_row 0); position carries no likelihood or impact value"
    }
   },
   {
@@ -623,9 +623,9 @@
    "amplification_detail": "W2 (pathogen design), W1 (escalation speed), M2 (synthetic disinformation — UN26: \"AI and Frontier Tech → Mis- and Disinformation\" is a strong link and the technology cluster's only exit into society), F1 (control of the decisive technology — UN26: AI ⇄ power concentration, a reinforcing loop), and F2 (deeper automation of tightly coupled systems — UN26: AI → cybersecurity breakdown, moderate). Distinct from T1, where AI itself is the hazard.",
    "strength_detail": "high and rising fastest — UN26: importance up sharply, preparedness 24th of 28.",
    "grid": {
-    "likelihood_col": 5,
-    "impact_row": 5,
-    "note": "off-scale: position carries no likelihood or impact value"
+    "likelihood_col": 4,
+    "impact_row": 0,
+    "note": "outside the grid: shown in a separate row beneath the likelihood × impact grid (impact_row 0); position carries no likelihood or impact value"
    }
   }
  ]
