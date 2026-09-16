@@ -1,0 +1,632 @@
+{
+ "dataset": "GlobalRisks",
+ "title": "Global Risk Governance Monitor — Global Catastrophic and Existential Risks",
+ "version": "3.2",
+ "date": "2026-09-16",
+ "publisher": "Jan Cherlet",
+ "website": "https://globalriskgovernance.org",
+ "author_website": "https://jancherlet.info",
+ "license": "CC BY-NC 4.0 — free to use, share and adapt for non-commercial purposes provided the origin is cited: Jan Cherlet, globalriskgovernance.org (https://creativecommons.org/licenses/by-nc/4.0/)",
+ "citation": "Cherlet, J. (2026). GlobalRisks dataset v3.2, Global Risk Governance Monitor, globalriskgovernance.org",
+ "companion_dataset": "RiskGovernance.json — multilateral governance mechanisms for each risk in this file",
+ "counts": {
+  "terminal_hazards": 14,
+  "multipliers": 3,
+  "cascades": 5
+ },
+ "methodology": {
+  "purpose": "This dataset lists the global catastrophic and existential risks facing humanity in the 21st century, organised as a risk tree, with a relative, range-based assessment of each terminal hazard's likelihood of reaching global-catastrophic scale by 2100 and of its impact. It is the data layer of the Global Risk Governance Monitor (globalriskgovernance.org).",
+  "terminology": {
+   "framing": "The phrase 'global catastrophic and existential risks' is taken from the UN Pact for the Future (A/RES/79/1, 2024). The UN Global Risk Reports 2024 and 2026 define a global risk as 'an event or condition that would have a significant negative impact on a large portion of humanity and the planet'.",
+   "global_catastrophic_risk": "Following the US Global Catastrophic Risk Management Act (as used by RAND/HSOAC 2024): the risk of events consequential enough to significantly harm or set back human civilization at the global scale. A widely used operational threshold is over 10 million fatalities or more than US$10 trillion in damage, global in scope but recoverable. Bostrom and Ćirković's broader definition — a risk that might inflict serious damage to human well-being on a global scale — is adopted alongside it.",
+   "existential_risk": "A subset of global catastrophic risk (Bostrom; Ord): a risk that threatens the premature extinction of humanity or the permanent and drastic destruction of its long-term potential — unrecoverable by definition.",
+   "civilization_collapse": "The bridging concept: a relatively rapid disaggregation of social and political order with large-scale death, economic decline and governmental disintegration; both a consequence of global catastrophe and a pathway by which it becomes existential."
+  },
+  "inclusion_criteria": {
+   "rule": "A hazard is listed as a terminal risk only if it satisfies all four criteria.",
+   "criterion_1_scope": "Global: consequences are global or plausibly cascade to global scale, not confined to one nation or region.",
+   "criterion_2_severity": "Catastrophic or terminal, by any one of three routes: (a) mortality — approximately 10 million or more deaths; (b) civilizational function — a comparable setback in governance, critical infrastructure or Earth-system function, or approximately US$10 trillion or more in damage; (c) well-being — widespread, severe and sustained loss of basic welfare (food, water, shelter, health, physical safety or fundamental freedoms) for roughly 10% or more of the world's population (~800 million people), or forced displacement on the order of 100 million or more. Route (c) follows Bostrom and Ćirković ('serious damage to human well-being on a global scale'), the UN ('a large portion of humanity'), the WEF ('population'), RAND (societal instability, reduced human capabilities) and the Sendai Framework ('people affected'). The numeric anchors are analytical operationalisations open to revision. Risks that can additionally cause extinction or permanent loss of potential are flagged existential.",
+   "criterion_3_plausibility": "Non-negligible probability within the analytic window (recent past to 2100). Astronomically improbable mechanisms (nearby gamma-ray bursts, vacuum decay) are noted but not listed.",
+   "criterion_4_distinctness": "Distinct role in the tree (root cause, terminal hazard, multiplier or cascade) and distinct primary mechanism of harm. Candidates sharing a mechanism are merged; a label hiding two mechanisms (natural vs engineered pandemic; nuclear explosion vs chemical toxicity) is split; a candidate that is the tail of another (tipping points) or the precursor of another (inequality → lock-in; great-power conventional war → nuclear war) is folded into that risk. Whether a risk maps to a distinct governance regime plays no part in inclusion.",
+   "structural_principles": [
+    "Separate the roles: roots cause; leaves happen; multipliers raise the odds or severity; cascades are how a leaf becomes global. Only leaves are scored on the likelihood × impact map, because only leaves materialise.",
+    "Treat general-purpose enabling technologies as multipliers, not risks — with one exception. AI is embedded in the leaves it facilitates and named once as a multiplier; it is a leaf only where the technology itself becomes the terminal hazard (loss of human control over advanced AI).",
+    "Preserve 'unknown unknowns' explicitly, following Ord and Bostrom's Type-0 vulnerability."
+   ]
+  },
+  "risk_tree": {
+   "basis": "Adapted from Bostrom: the Bostrom & Ćirković (2008) division of risks from nature, unintended consequences and hostile acts; the Vulnerable World Hypothesis (2019) with its recurring channels of anthropogenic catastrophe; and the typology of failure modes — bangs (sudden destruction), crunches (potential permanently curtailed), shrieks (a flawed future locked in), whimpers (slow decay).",
+   "roots": {
+    "A": "Nature — hazards exogenous to human activity: astrophysical, geophysical, heliophysical, biological (natural pathogen emergence). Only exposure and preparedness are within human control.",
+    "B": "Human activity and technology — every other catastrophic risk originates in what humans do and, above all, in the technologies humans have developed."
+   },
+   "channels_under_root_B": {
+    "B1": "Unintended, cumulative consequences ('many hands'): Earth-system destabilisation.",
+    "B2": "Deliberate use of destructive capability: weapons catastrophe.",
+    "B3": "Loss of control over powerful technology: runaway technology, including the unforeseen property of a new invention.",
+    "B4": "Loss of collective control over the human future: power or systemic fragility hardens into a state from which there is no return (shrieks and crunches)."
+   },
+   "node_types": {
+    "terminal_hazards": "14 leaves — the events that actually happen; the only nodes scored on the likelihood × impact map.",
+    "multipliers": "3 conditions that raise the probability or severity of leaves without being catastrophes in themselves; assessed qualitatively and shown as a separate layer, never on the grid scale.",
+    "cascades": "5 downstream channels through which almost any leaf becomes global — famine and agricultural failure, mass displacement, financial collapse, critical-infrastructure failure, state failure — listed once and never as risks."
+   },
+   "tipping_points": "Earth-system tipping points are the non-linear tail of the cumulative leaves (climate change, biosphere collapse), not a leaf in their own right; they account for the step from I2 to I4 in those leaves' impact ranges.",
+   "tree": [
+    "ROOT A — Nature: N1 Asteroid / comet impact; N2 Supervolcanic eruption; N3 Severe space weather; N4 Natural pandemic",
+    "ROOT B / B1 — Unintended, cumulative: E1 Climate change; E2 Biosphere collapse",
+    "ROOT B / B2 — Deliberate use of destructive capability: W1 Nuclear war; W2 Engineered pandemic; W3 Other WMD",
+    "ROOT B / B3 — Loss of control over powerful technology: T1 Uncontrolled advanced AI; T2 Failed geoengineering; T3 Unknown unknowns",
+    "ROOT B / B4 — Loss of collective control over the human future: F1 Permanent global power lock-in; F2 Civilisational systems collapse",
+    "MULTIPLIERS: M1 Great-power rivalry; M2 Social fragmentation, disinformation, governance failure; M3 AI as amplifier",
+    "CASCADES: famine · mass displacement · financial collapse · infrastructure failure · state failure"
+   ]
+  },
+  "assessment_method": {
+   "approach": "Relative, ordinal, range-based judgments under deep uncertainty — comparison aids, not forecasts. No predictive point probabilities are given; likelihood is kept separate from confidence, following IPCC practice. Each leaf is scored as a range: a modal manifestation (its most probable catastrophic form) and a tail (its worst case at lower probability). The existential tail is where existential risk lives; for the cumulative leaves the tail is the tipping cascade.",
+   "likelihood_scale": {
+    "definition": "The probability that the leaf reaches the global-catastrophic threshold (criterion 2, any route) at least once by 2100.",
+    "bands": {
+     "L1": "Very low — < 1%",
+     "L2": "Low — 1–10%",
+     "L3": "Moderate — 10–33%",
+     "L4": "High — 33–66%",
+     "L5": "Very high — > 66%"
+    }
+   },
+   "impact_scale": {
+    "definition": "Assessed across five dimensions — mortality, decline in well-being, breadth, reversibility, intergenerational loss of potential — with reversibility treated as a step-change: an unrecoverable outcome is categorically worse than any recoverable one.",
+    "bands": {
+     "I1": "Severe — global-catastrophic threshold reached by mortality (≈10 M+), function (US$10 T+) or well-being (≈10% of humanity); fully recoverable",
+     "I2": "Catastrophic — ≈100 M+ deaths or a majority of humanity's welfare set back; recoverable but scarring",
+     "I3": "Civilizational — ≈1 B+ deaths and/or global civilisation collapse; recovery uncertain, multi-generational",
+     "I4": "Near-existential — collapse threatening permanence; drastic, possibly irreversible curtailment of potential",
+     "I5": "Existential — extinction or permanent, unrecoverable foreclosure of humanity's potential"
+    }
+   },
+   "confidence": "Stated per leaf (High / Moderate / Low / Very low) and must be read alongside the bands. Where sources diverge the range is widened rather than averaged and confidence lowered.",
+   "evidence_base": "Published structured estimates (Ord 2020); expert-judgment and forecasting exercises (Oxford FHI 2008, Existential Risk Persuasion Tournament 2022, Metaculus, the UN Global Risk Surveys 2024 and 2026); the six reference reports; domain base rates where they exist. Perception surveys are evidence about attention, not hazard: a shift in perception never moves a band by itself.",
+   "dashboard_placement": "Leaves are shown on an invisible 5 × 5 grid (columns = likelihood band, rows = impact band), at most one card per cell. Each leaf takes its modal cell if free, otherwise the nearest free cell within its documented likelihood and impact range, preferring a sideways move. Row I5 is empty because no leaf's most likely outcome is extinction. Multipliers are shown as round cards in the top-right corner of the grid; their position carries no likelihood or impact value.",
+   "limitations": "Comparative judgments from a single-analyst structured synthesis, to be replaced by formal structured expert elicitation; likelihood and impact are never multiplied into one number; leaves are scored as if separable but are correlated, so joint risk exceeds the sum of parts."
+  },
+  "source_reports": [
+   {
+    "id": "UN24",
+    "title": "United Nations, Global Risk Report 2024",
+    "note": "28 risks (STEEP); 1,100 respondents in 136 countries; interconnection network; Global Vulnerabilities"
+   },
+   {
+    "id": "UN26",
+    "title": "United Nations, Global Risk Report 2026",
+    "note": "same 28 risks; 1,300 respondents (Feb–Apr 2026); importance, imminence, preparedness, 705-link network; backcast from large-scale war"
+   },
+   {
+    "id": "RAND",
+    "title": "RAND / HSOAC, Global Catastrophic Risk Assessment (2024)",
+    "note": "GCRMA definitions; six hazards; consequence categories; declines to assign probabilities"
+   },
+   {
+    "id": "GCF",
+    "title": "Global Challenges Foundation, Global Catastrophic Risks 2026",
+    "note": "climate, ecological collapse, WMD, AI in military decision-making, asteroids; Earth-system stability framing"
+   },
+   {
+    "id": "UK-NRR",
+    "title": "UK Government, National Risk Register 2025",
+    "note": "national likelihood × impact scoring; used for the globally scoped subset"
+   },
+   {
+    "id": "WEF",
+    "title": "World Economic Forum, Global Risks Report 2026",
+    "note": "33+ perception-ranked risks in five categories"
+   },
+   {
+    "id": "Pact",
+    "title": "UN General Assembly, Pact for the Future (A/RES/79/1, 2024)",
+    "note": "source of the 'catastrophic and existential risks' framing"
+   },
+   {
+    "id": "Bostrom",
+    "title": "Bostrom (2002) Existential Risks; Bostrom (2019) The Vulnerable World Hypothesis; Bostrom & Ćirković (2008) Global Catastrophic Risks",
+    "note": "failure-mode typology; vulnerability types; nature / unintended / hostile division"
+   },
+   {
+    "id": "Ord",
+    "title": "Ord (2020) The Precipice",
+    "note": "century-scale existential-risk estimates; the unknown-risk category"
+   },
+   {
+    "id": "AI-Panel",
+    "title": "UN Independent International Scientific Panel on AI, first report (July 2026)",
+    "note": "'no technical guarantee' that frontier systems follow instructions"
+   }
+  ]
+ },
+ "risks": [
+  {
+   "code": "N1",
+   "name": "Asteroid / comet impact",
+   "kind": "terminal hazard (leaf)",
+   "root": "A — Nature",
+   "channel": null,
+   "time_profile": "Persistent",
+   "severity_ceiling": "X",
+   "failure_mode": "bang",
+   "likelihood": {
+    "modal": "L1",
+    "range": [
+     "L1",
+     "L1"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I3",
+    "tail": "I5",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "mortality, breadth, permanence (tail)"
+   },
+   "confidence": "High",
+   "sources": "RAND, GCF, UK-NRR, UN24/26 (\"Space-Based Event\"), Ord",
+   "description": "A near-Earth object of ≥1 km would inject enough dust to cause global \"impact winter,\" crop failure and mass mortality; ≥10 km is a plausible extinction mechanism. Very low probability, but uniquely quantifiable from survey data (Ord: ~1 in 1,000,000 of existential catastrophe this century). UN26 places its \"Space-Based Event\" among the risks expected to bite only after eight years, absent from its network map, with \"inadequate data and information\" the stated barrier.",
+   "grid": {
+    "likelihood_col": 1,
+    "impact_row": 3
+   }
+  },
+  {
+   "code": "N2",
+   "name": "Supervolcanic eruption",
+   "kind": "terminal hazard (leaf)",
+   "root": "A — Nature",
+   "channel": null,
+   "time_profile": "Persistent",
+   "severity_ceiling": "GCR→X",
+   "failure_mode": "bang",
+   "likelihood": {
+    "modal": "L1",
+    "range": [
+     "L1",
+     "L2"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I3",
+    "tail": "I4",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "famine / well-being, breadth"
+   },
+   "confidence": "Moderate",
+   "sources": "RAND, UK-NRR, UN24/26 (\"Large-Scale Natural Hazard Risks,\" whose definition includes volcanic activity), Ord",
+   "description": "A VEI-8 eruption would eject thousands of km³ of material, causing multi-year \"volcanic winter,\" harvest collapse and possible civilization-threatening famine. More probable than a large impact (Ord: ~1 in 10,000 this century) and currently unpreventable.",
+   "grid": {
+    "likelihood_col": 1,
+    "impact_row": 4
+   }
+  },
+  {
+   "code": "N3",
+   "name": "Severe space weather",
+   "kind": "terminal hazard (leaf)",
+   "root": "A — Nature",
+   "channel": null,
+   "time_profile": "Persistent/Emerging",
+   "severity_ceiling": "GCR",
+   "failure_mode": "bang",
+   "likelihood": {
+    "modal": "L3",
+    "range": [
+     "L2",
+     "L4"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I1",
+    "tail": "I2",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "infrastructure, cascading well-being"
+   },
+   "confidence": "Moderate",
+   "sources": "RAND, UK-NRR, UN24/26 (\"Space-Based Event\")",
+   "description": "A Carrington-class coronal mass ejection could induce continent-scale, long-duration failures of electricity grids, satellites, GPS and communications, cascading into water, food, finance and health systems. Exposure rises with electrification — a solar storm is a civilisational hazard only because of grid and satellite dependence, the tight coupling that also underlies F2; recurrence on a century-to-multi-century scale.",
+   "grid": {
+    "likelihood_col": 3,
+    "impact_row": 1
+   }
+  },
+  {
+   "code": "N4",
+   "name": "Natural pandemic",
+   "kind": "terminal hazard (leaf)",
+   "root": "A — Nature",
+   "channel": null,
+   "time_profile": "Persistent / Recent-past realized",
+   "severity_ceiling": "GCR",
+   "failure_mode": "bang",
+   "likelihood": {
+    "modal": "L4",
+    "range": [
+     "L3",
+     "L5"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I2",
+    "tail": "I3",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "mortality, well-being"
+   },
+   "confidence": "Moderate–High",
+   "sources": "RAND, UK-NRR, WEF, UN24/26 (\"New Pandemic\"; \"Biorisks — natural origin\")",
+   "description": "A naturally emerging high-transmissibility, high-lethality pathogen (influenza, coronavirus, \"Disease X\") capable of exceeding the toll of 1918 or COVID-19. Realized within living memory. Six years after COVID-19, UN26 finds pandemics and biorisks fallen out of every region's top-ten risks and re-classed as long-term concerns — a shift in attention, which the report itself warns not to read as reduced hazard; the \"Biorisks → New Pandemic\" chain remains, as in 2024, an isolated pair in the network.",
+   "grid": {
+    "likelihood_col": 5,
+    "impact_row": 3
+   }
+  },
+  {
+   "code": "E1",
+   "name": "Climate change",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B1 — Unintended, cumulative (Earth-system destabilisation)",
+   "time_profile": "Persistent/Escalating",
+   "severity_ceiling": "GCR (→X at tipping tail)",
+   "failure_mode": "whimper → bang",
+   "likelihood": {
+    "modal": "L5",
+    "range": [
+     "L4",
+     "L5"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I2",
+    "tail": "I4",
+    "tail_is_tipping_cascade": true,
+    "dominant_dimensions": "well-being, breadth, intergenerational"
+   },
+   "confidence": "Mod–High (GCR) / Low (tail)",
+   "sources": "GCF, RAND, WEF, UN24/26, Ord",
+   "description": "Warming driven past safe thresholds — extreme heat, crop failure, sea-level rise, mass displacement — as the aggregate of billions of individually rational acts. Top-ranked concern across all regions and stakeholder groups in UN24 (\"Inaction on Climate Change\") and still the single most important risk in UN26 despite the turn to political risks — where it is also the largest node in the network and its strongest pure driver (five outgoing links, none incoming); top long-term risk in WEF 2026; central to GCF. Its most-likely manifestation is a whimper: GCR-scale harm by the well-being route (hundreds of millions losing livelihood and habitability). Its tail is a tipping cascade — ice-sheet loss, AMOC weakening, permafrost carbon release — which converts the whimper into a bang and lifts the ceiling to near-existential.",
+   "grid": {
+    "likelihood_col": 5,
+    "impact_row": 2
+   }
+  },
+  {
+   "code": "E2",
+   "name": "Biosphere collapse",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B1 — Unintended, cumulative (Earth-system destabilisation)",
+   "time_profile": "Persistent/Escalating",
+   "severity_ceiling": "GCR (→X at tipping tail)",
+   "failure_mode": "whimper → bang",
+   "likelihood": {
+    "modal": "L3",
+    "range": [
+     "L3",
+     "L4"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I2",
+    "tail": "I4",
+    "tail_is_tipping_cascade": true,
+    "dominant_dimensions": "food/water well-being, breadth"
+   },
+   "confidence": "Moderate",
+   "sources": "GCF, WEF, UN24/26 (three risks)",
+   "description": "Systemic failure of the living systems and resource base on which large populations depend: biodiversity and ecosystem-service loss (pollination, disease regulation, fisheries), freshwater and soil depletion, and pollution. Absorbs three UN24/26 risks sharing one mechanism — \"Rapid Decline in Biodiversity,\" \"Shortages of Natural Resources,\" \"Large-Scale Pollution\" (UN24's second-ranked concern). In UN26 biodiversity decline and pollution recorded the largest falls in perceived importance and imminence of any risk — because attention moved, the report notes, \"not because preparedness improved\" — while \"Shortages of Natural Resources\" is named in the backcast as one of the four drivers of geopolitical tension (→ M1). Most-likely manifestation is a whimper of food and water stress; its tail is biosphere tipping — Amazon dieback, coral-reef collapse, boreal shift — that can destabilise civilisation independently of temperature.",
+   "grid": {
+    "likelihood_col": 4,
+    "impact_row": 2
+   }
+  },
+  {
+   "code": "W1",
+   "name": "Nuclear war",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B2 — Deliberate use of destructive capability",
+   "time_profile": "Persistent/Escalating",
+   "severity_ceiling": "GCR→X",
+   "failure_mode": "bang",
+   "likelihood": {
+    "modal": "L3",
+    "range": [
+     "L2",
+     "L3"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I2",
+    "tail": "I5",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "mortality, breadth, permanence (tail)"
+   },
+   "confidence": "Moderate",
+   "sources": "RAND, GCF, UK-NRR, WEF, UN24/26 (\"Weapons of Mass Destruction\"; \"Large-Scale War\" as precursor), Ord",
+   "description": "Large-scale exchange between nuclear-armed states: direct blast and radiation mortality, then nuclear winter — soot-driven global cooling and agricultural collapse potentially killing billions (Ord: ~1 in 1,000 this century). Its range runs from a limited exchange (modal) to a full exchange with nuclear winter (tail). Great-power conventional war is its precursor stage: both world wars cleared the GCR threshold (1939–45: ≈70–85 M deaths), but in the nuclear age a great-power war reaching that scale without nuclear use is barely plausible — deterrence caps conventional escalation, which is why the escalation ladder exists — so the GCR-scale form of great-power war is nuclear war, and the conventional phase folds into this leaf as its precursor rather than standing as a leaf or a multiplier. AI in command, targeting and early-warning systems now compresses decision timelines and raises the chance of inadvertent escalation — the \"multi-domain escalation\" danger GCF 2026 places at the centre of its WMD chapter; that AI dimension is part of this leaf, not a separate risk. UN26 makes \"Large-Scale War\" the only risk in the top six on importance, imminence, interconnection and lack of preparedness at once; it climbed sixteen places on imminence, the survey's largest shift, with 76% of respondents expecting it within seven years; \"Geopolitical Tensions → Large-Scale War\" remains the strongest of all 705 surveyed links, \"War → Weapons of Mass Destruction\" a weaker second step; and WMD re-entered the top-ten risks in three regions.",
+   "grid": {
+    "likelihood_col": 3,
+    "impact_row": 2
+   }
+  },
+  {
+   "code": "W2",
+   "name": "Engineered pandemic",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B2 — Deliberate use of destructive capability",
+   "time_profile": "Emerging/Escalating",
+   "severity_ceiling": "X",
+   "failure_mode": "bang",
+   "likelihood": {
+    "modal": "L2",
+    "range": [
+     "L1",
+     "L3"
+    ],
+    "rising": true
+   },
+   "impact": {
+    "modal": "I3",
+    "tail": "I5",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "mortality, permanence"
+   },
+   "confidence": "Low",
+   "sources": "RAND, GCF, UK-NRR, WEF, UN24/26, Ord",
+   "description": "A pathogen released by human action — engineered as a weapon or escaping from research — exploiting synthetic biology to exceed anything natural in transmissibility and lethality (Ord: ~1 in 30 this century). Frontier AI is the decisive enabler, collapsing the expertise barrier that once confined this threat to state programmes. This is the accidental-and-deliberate half of UN24/26's \"Biorisks … of natural, accidental, or deliberate origin\" — a risk whose perceived importance fell in every region between 2024 and 2026 while the enabling technology advanced, the clearest case for keeping perception and condition apart.",
+   "grid": {
+    "likelihood_col": 2,
+    "impact_row": 3
+   }
+  },
+  {
+   "code": "W3",
+   "name": "Other WMD (chemical, radiological)",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B2 — Deliberate use of destructive capability",
+   "time_profile": "Persistent",
+   "severity_ceiling": "GCR",
+   "failure_mode": "bang",
+   "likelihood": {
+    "modal": "L2",
+    "range": [
+     "L2",
+     "L3"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I1",
+    "tail": "I3",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "mortality, well-being"
+   },
+   "confidence": "Moderate",
+   "sources": "GCF, RAND, WEF, UK-NRR, UN24/26 (\"Weapons of Mass Destruction\")",
+   "description": "Chemical weapons, radiological devices and the uncontrolled spread of radioactive material. A distinct leaf by mechanism: harm by chemical toxicity or radiological contamination rather than by nuclear explosion (W1) or by a self-replicating pathogen (W2), with a generally sub-existential ceiling because the damage is bounded by the quantity deployed.",
+   "grid": {
+    "likelihood_col": 2,
+    "impact_row": 1
+   }
+  },
+  {
+   "code": "T1",
+   "name": "Uncontrolled advanced AI",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B3 — Loss of control over powerful technology",
+   "time_profile": "Emerging/Escalating",
+   "severity_ceiling": "X",
+   "failure_mode": "bang or shriek",
+   "likelihood": {
+    "modal": "L2",
+    "range": [
+     "L1",
+     "L4"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I3",
+    "tail": "I5",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "permanence, loss of potential"
+   },
+   "confidence": "Low (widest disagreement)",
+   "sources": "RAND, WEF, UN24/26 (\"Negative Outcomes of AI and Frontier Technologies\"), Ord",
+   "description": "Advanced or general-purpose AI systems pursuing objectives misaligned with human intent, or embedded so deeply in critical infrastructure and decision-making that their failures cascade beyond human ability to override — ending in gradual or sudden human disempowerment. The one case in which AI is the terminal hazard. RAND treats it as a distinct GCR mechanism (\"global human disempowerment\"); Ord as the largest single existential risk (~1 in 10 this century); the UN's Scientific Panel on AI reported in July 2026 that \"no technical guarantee\" exists that frontier systems follow instructions. UN26 records the sharpest rise in perceived importance for \"AI and Frontier Technologies\" of any risk, ranks multilateral preparedness for it 24th of 28, and names \"inadequate data and information\" as the barrier — the system does not yet understand what it is meant to govern. Can end as a bang (rapid loss of control) or a shriek (a stable world run by systems that no longer serve human ends).",
+   "grid": {
+    "likelihood_col": 3,
+    "impact_row": 4
+   }
+  },
+  {
+   "code": "T2",
+   "name": "Failed geoengineering",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B3 — Loss of control over powerful technology",
+   "time_profile": "Emerging (later century)",
+   "severity_ceiling": "GCR→X",
+   "failure_mode": "bang",
+   "likelihood": {
+    "modal": "L2",
+    "range": [
+     "L1",
+     "L3"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I2",
+    "tail": "I4",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "breadth, well-being, intergenerational"
+   },
+   "confidence": "Low",
+   "sources": "UN24/26; GCF (Earth-system governance)",
+   "description": "Large-scale deliberate intervention in planetary processes — above all stratospheric aerosol injection to mask warming — that fails, produces unintended regional climate shifts, or is abruptly terminated (\"termination shock,\" a rebound of decades of masked warming within years). Listed by UN24/26 as \"Geoengineering Disasters,\" a longer-horizon risk: UN26 respondents expect it only after eight years, rank multilateral preparedness for it 27th of 28 — the second-least-prepared-for risk in the survey — and cite inadequate data and information as the obstacle. Distinct from E1 because it is a deliberate technological intervention that escapes control, and from W-leaves because harm is unintended.",
+   "grid": {
+    "likelihood_col": 2,
+    "impact_row": 2
+   }
+  },
+  {
+   "code": "T3",
+   "name": "Unknown unknowns",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B3 — Loss of control over powerful technology",
+   "time_profile": "Emerging",
+   "severity_ceiling": "GCR→X",
+   "failure_mode": "any",
+   "likelihood": {
+    "modal": "L2",
+    "range": [
+     "L1",
+     "L4"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I3",
+    "tail": "I5",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "wide by construction"
+   },
+   "confidence": "Very low",
+   "sources": "Ord, RAND (emerging risk), UN24/26 (\"frontier technologies\")",
+   "description": "A deliberately open leaf for hazards not yet identified or not yet mature — Bostrom's \"Type-0\" vulnerability, in which a technology drawn from the urn turns out to have a destructive property no one anticipated (nanotechnology and other speculative capabilities included). Retained because the historical base rate of being surprised is high; Ord assigns this residual a larger share of century-scale existential risk than any named natural risk.",
+   "grid": {
+    "likelihood_col": 4,
+    "impact_row": 3
+   }
+  },
+  {
+   "code": "F1",
+   "name": "Permanent global power lock-in",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B4 — Loss of collective control over the human future",
+   "time_profile": "Emerging/Escalating",
+   "severity_ceiling": "GCR→X (lock-in)",
+   "failure_mode": "shriek",
+   "likelihood": {
+    "modal": "L2",
+    "range": [
+     "L1",
+     "L3"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I3",
+    "tail": "I5",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "well-being (freedoms), permanence, potential"
+   },
+   "confidence": "Low",
+   "sources": "UN24/26 (\"Technology-Driven Power Concentration\"; \"Rise in Inequalities\"; \"Collapse of Rule of Law\"), WEF, Ord (dystopian lock-in), Bostrom",
+   "description": "Extreme, technology-driven concentration of wealth and control — in dominant corporations, monopolists of transformative technology, or entrenched authoritarian states — hardening into an order that forecloses humanity's ability to course-correct. Inequality and the collapse of the rule of law are its precursor stages; stable totalitarianism its terminal form. AI is the decisive enabler: whoever first controls transformative AI could entrench dominance beyond challenge, and ~90% of frontier training compute already sits in two states. UN24 names the risk almost exactly — \"Technology-Driven Power Concentration … facilitated by advancements in technology\" — and UN26 confirms the mechanism: perceived importance rose sharply, multilateral preparedness ranks 22nd of 28, and \"AI and Frontier Tech ⇄ Technology-Driven Power Concentration\" is the only reinforcing loop within a single category in the network. \"Collapse of Rule of Law and Massive Violations of Human Rights,\" UN26's most connected node, is the political precursor that inequality is the economic one. Bostrom's shriek: a non-extinction existential outcome.",
+   "grid": {
+    "likelihood_col": 2,
+    "impact_row": 4
+   }
+  },
+  {
+   "code": "F2",
+   "name": "Civilisational systems collapse",
+   "kind": "terminal hazard (leaf)",
+   "root": "B — Human activity & technology",
+   "channel": "B4 — Loss of collective control over the human future",
+   "time_profile": "Persistent/Escalating",
+   "severity_ceiling": "GCR→X",
+   "failure_mode": "crunch",
+   "likelihood": {
+    "modal": "L2",
+    "range": [
+     "L1",
+     "L3"
+    ],
+    "rising": false
+   },
+   "impact": {
+    "modal": "I3",
+    "tail": "I4",
+    "tail_is_tipping_cascade": false,
+    "dominant_dimensions": "systemic breadth, permanence"
+   },
+   "confidence": "Low",
+   "sources": "RAND, WEF, UK-NRR, UN24/26",
+   "description": "A self-reinforcing polycrisis across tightly coupled global systems — finance, energy, food, water, digital and physical infrastructure — that crosses into irreversible loss of the capacity to sustain complex society. Tight systemic coupling is its enabling condition: the interdependence of global supply, finance, energy, food and infrastructure is what turns local shocks into global ones, and it is governable ex ante through resilience and redundancy standards (the sectoral regimes in the companion RiskGovernance dataset). It is described here rather than held as a separate multiplier (v3.2) because it is a property of the modern world too generic to count as a distinct node. Listed as a leaf only in this irreversible form (Bostrom's crunch; RAND's \"civilization collapse\"); recoverable systemic shocks are cascades. Absorbs the outcome side of UN24/26's \"Global Financial Crisis,\" \"Supply Chain Collapse\" and \"Breakdown in Cybersecurity\" — all three moved towards the near term in UN26 (financial crisis and supply-chain collapse now expected within years; cybersecurity preparedness 26th of 28).",
+   "grid": {
+    "likelihood_col": 3,
+    "impact_row": 3
+   }
+  },
+  {
+   "code": "M1",
+   "name": "Great-power rivalry",
+   "kind": "risk multiplier",
+   "root": null,
+   "channel": null,
+   "amplifies": "W1, W3, T1, F1; all leaves via lost cooperation",
+   "strength": "very high, rising",
+   "description": "Geopolitical competition and interstate armed conflict — shifting power dynamics, alliances and strategic interests (UN24/26's \"Geopolitical Tensions\") and the conventional wars they produce (UN24/26's \"Large-Scale War,\" whose GCR-scale escalation is leaf W1).",
+   "amplification_detail": "W1 (the trigger for nuclear use: \"Geopolitical Tensions → Large-Scale War\" is the strongest link in both UN surveys), W3, T1 (racing dynamics against safety), F1 (wartime concentration of power), and every leaf indirectly by destroying the cooperation needed to address it — UN26's \"institutional pathway\": tensions → collapse of multilateral institutions → collapse of the rule of law. UN26's backcast from large-scale war identifies rivalry's own four drivers — natural resource shortages (E2), economic fragmentation (the financial cascade), misinformation (M2) and weakening multilateral institutions (M2) — so rivalry is both the top multiplier and the most driven one; the Earth-system, economic and information layers all feed the war pathway. UN24 already found \"Geopolitical Tensions\" the most interconnected risk; WEF 2026 names this the \"Age of Competition.\"",
+   "strength_detail": "very high, rising — UN26 rates every political risk more important than in 2024 and multilateral preparedness lower for all but one.",
+   "grid": {
+    "likelihood_col": 4,
+    "impact_row": 4,
+    "note": "off-scale: position carries no likelihood or impact value"
+   }
+  },
+  {
+   "code": "M2",
+   "name": "Social fragmentation, disinformation, governance failure",
+   "kind": "risk multiplier",
+   "root": null,
+   "channel": null,
+   "amplifies": "all leaves via response capacity; F1, M1, N4/W2",
+   "strength": "very high",
+   "description": "The erosion of the collective capacity to decide and act: inequality-driven polarisation and distrust, the collapse of a shared information environment (UN24's stand-out \"global vulnerability,\" already occurring for 80% of respondents; still the most imminent risk in UN26), weakening institutions and rule of law, and the retreat of multilateralism itself. UN26 sharpens the picture: \"Collapse of Rule of Law\" is the most connected node in its network (seven links, driver and consequence alike); \"Collapse of Social Cohesion\" is the network's terminal sink (four links in, one out), where the war, technology, economic and climate pathways all discharge; \"Mis- and Disinformation\" is the spillover channel carrying technological risk into society; and for \"Collapse of Multilateral Institutions\" respondents know what is needed but name funding as the obstacle. Confidence in institutions' capacity to reduce risk fell for 23 of the 28 risks between the two surveys; 86% call risk-reduction funding inadequate.",
+   "amplification_detail": "every leaf, by degrading response capacity; especially F1 (fragmentation invites strongmen; rule-of-law collapse is F1's political precursor), M1 (erodes conflict restraint; misinformation and institutional decay are two of UN26's four drivers of geopolitical tension) and N4/W2 (undermines pandemic response). AI-generated media is scaling it.",
+   "strength_detail": "very high — the meta-multiplier.",
+   "grid": {
+    "likelihood_col": 5,
+    "impact_row": 4,
+    "note": "off-scale: position carries no likelihood or impact value"
+   }
+  },
+  {
+   "code": "M3",
+   "name": "AI as amplifier",
+   "kind": "risk multiplier",
+   "root": null,
+   "channel": null,
+   "amplifies": "W2, W1, M2, F1, F2",
+   "strength": "high, rising fastest",
+   "description": "AI as a general-purpose capability that lowers barriers and compresses timelines across the tree.",
+   "amplification_detail": "W2 (pathogen design), W1 (escalation speed), M2 (synthetic disinformation — UN26: \"AI and Frontier Tech → Mis- and Disinformation\" is a strong link and the technology cluster's only exit into society), F1 (control of the decisive technology — UN26: AI ⇄ power concentration, a reinforcing loop), and F2 (deeper automation of tightly coupled systems — UN26: AI → cybersecurity breakdown, moderate). Distinct from T1, where AI itself is the hazard.",
+   "strength_detail": "high and rising fastest — UN26: importance up sharply, preparedness 24th of 28.",
+   "grid": {
+    "likelihood_col": 5,
+    "impact_row": 5,
+    "note": "off-scale: position carries no likelihood or impact value"
+   }
+  }
+ ]
+}

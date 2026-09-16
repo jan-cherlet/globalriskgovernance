@@ -1,481 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Global Risk Governance Monitor</title>
-<meta name="description" content="Global Risk Governance Monitor — an interactive map of the global catastrophic and existential risks facing humanity this century, their likelihood and impact, and the multilateral governance mechanisms that exist to address them." />
-<meta property="og:title" content="Global Risk Governance Monitor" />
-<meta property="og:description" content="Interactive map of global catastrophic and existential risks and the multilateral mechanisms that govern them." />
-<meta property="og:type" content="website" />
+<meta name="description" content="Global Risk Governance Monitor — an interactive map of the global catastrophic and existential risks facing humanity this century, their likelihood and impact, and the maturity of the multilateral governance that exists for each.">
+<meta name="author" content="Jan Cherlet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#FAF9F5; --card:#FFFFFF; --ink:#1F1D1A; --ink-2:#4A463F; --ink-3:#8A857B; --ink-4:#B8B3A8;
-    --rule:#E6E2D8; --shadow:0 1px 2px rgba(31,29,26,.06),0 8px 24px -8px rgba(31,29,26,.16);
-    /* palette */
-    --blue:#2951FE; --amber:#F2B101; --green:#1E800F; --orange:#FF520D; --brown:#4C1A09;
-    /* families */
-    --N:var(--blue); --T:var(--orange); --E:var(--green); --G:var(--amber); --U:var(--brown);
-    /* governance coverage (palette-fitting) */
-    --cov-robust:#1E800F; --cov-dev:#4F6FD6; --cov-weak:#C98F00; --cov-min:#B3261E;
-    color-scheme: light;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;height:100%}
-  body{background:var(--bg);color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased;overflow:hidden}
+:root{
+  --bg:#18181A; --ink:#F5E1E1; --umber:#4C1A09; --pink:#F2C8C9; --orange:#FF520D;
+  --blue:#2951FE; --gold:#F2B101; --green:#1E800F; --brown:#4C1A09;
+  --ink-dim:rgba(245,225,225,.55); --line:rgba(245,225,225,.14);
+  --board:min(72vh, 92vw, 780px);
+  --cell:calc(var(--board)/5.4); --gap:calc(var(--board)/54);
+  --serif:"Newsreader", Georgia, "Times New Roman", Times, serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.35}
+body{min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
-  header{position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px 16px 6px}
-  .titlewrap{text-align:center;line-height:1.15}
-  h1{font-size:clamp(18px,2.3vw,24px);margin:0;font-weight:700;letter-spacing:-.2px}
-  .sub{margin:4px 0 0;color:var(--ink-3);font-size:clamp(11px,1.3vw,13px)}
+/* ---------- header ---------- */
+header{display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:1.4rem 1rem .4rem}
+h1{margin:0;font-weight:400;font-size:clamp(1.35rem,2.6vw,2rem);letter-spacing:.01em;text-align:center}
+h1 span{font-style:italic;font-weight:300;color:var(--ink-dim)}
+.sub{margin:0;font-size:.95rem;color:var(--ink-dim);font-style:italic;text-align:center}
+.toggle{margin-top:.5rem;display:inline-flex;border-radius:999px;background:var(--pink);padding:3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.toggle button{min-width:9.2em;padding:.42em 1.1em;border-radius:999px;color:var(--umber);font-size:1rem;letter-spacing:.02em;transition:background .25s,color .25s}
+.toggle button.on{background:var(--orange);color:var(--ink)}
 
-  .toggle{display:inline-flex;background:#fff;border:1px solid var(--rule);border-radius:999px;padding:4px;position:relative;box-shadow:var(--shadow)}
-  .toggle button{position:relative;z-index:2;border:0;background:transparent;color:var(--ink-3);font-size:clamp(13px,1.6vw,15px);
-    font-weight:600;padding:10px 26px;border-radius:999px;cursor:pointer;transition:color .3s;white-space:nowrap;font-family:inherit}
-  .toggle button.active{color:#fff}
-  .toggle .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--ink);
-    transition:transform .45s cubic-bezier(.6,.05,.1,1);z-index:1}
-  body[data-mode="gov"] .toggle .thumb{transform:translateX(100%)}
-  .hint{color:var(--ink-3);font-size:11.5px}
-  .hint b{color:var(--ink-2);font-weight:600}
+/* ---------- stage ---------- */
+main{flex:1;display:flex;align-items:center;justify-content:center;gap:1.2rem;padding:.6rem 1rem 1.2rem}
+.board{display:grid;grid-template-columns:auto var(--board);grid-template-rows:var(--board) auto;gap:.55rem .7rem;align-items:center}
+.ylab{grid-row:1;grid-column:1;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;color:var(--ink-dim);font-style:italic;font-size:.9rem;letter-spacing:.06em;white-space:nowrap}
+.xlab{grid-row:2;grid-column:2;text-align:center;color:var(--ink-dim);font-style:italic;font-size:.9rem;letter-spacing:.06em}
+.grid{grid-row:1;grid-column:2;width:var(--board);height:var(--board);display:grid;grid-template-columns:repeat(5,var(--cell));grid-template-rows:repeat(5,var(--cell));gap:var(--gap);position:relative}
 
-  /* stage with invisible 5x5 grid */
-  #stage{position:absolute;inset:112px 0 0 0;overflow:hidden}
-  #board{position:absolute;left:78px;right:26px;top:14px;bottom:58px}
-  #links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+/* ---------- cards ---------- */
+.card{position:relative;width:var(--cell);height:var(--cell);border-radius:calc(var(--cell)*.09);padding:calc(var(--cell)*.09);display:flex;flex-direction:column;justify-content:space-between;text-align:left;cursor:pointer;transition:opacity .35s,transform .25s;box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 6px 18px rgba(0,0,0,.35);overflow:hidden}
+.card:hover{transform:translateY(-2px)}
+.card.round{border-radius:50%;justify-content:center;align-items:center;text-align:center;padding:calc(var(--cell)*.14);gap:calc(var(--cell)*.03)}
+.card .code{font-size:calc(var(--cell)*.10);letter-spacing:.08em;opacity:.7;font-variant:small-caps;line-height:1}
+.card .name{font-size:calc(var(--cell)*.118);line-height:1.12;font-weight:500;margin-top:calc(var(--cell)*.04);hyphens:auto;overflow-wrap:anywhere}
+.card.round .name{font-size:calc(var(--cell)*.11);margin:0}
+.card.round .code{text-align:center}
+.card .kind{font-size:calc(var(--cell)*.085);font-style:italic;opacity:.75;text-align:center;line-height:1.1}
+.board.dim .card{opacity:.22}
+.board.dim .card.origin{visibility:hidden}
 
-  /* axes (the two dimensions, visible at first sight) */
-  .axis{position:absolute;pointer-events:none;color:var(--ink-3);font-size:10.5px;letter-spacing:.2px;z-index:3}
-  .axis .ttl{font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--ink-2);font-size:10px}
-  #ax-x{left:78px;right:26px;bottom:12px;height:40px}
-  #ax-x .ttl{position:absolute;left:0;right:0;bottom:0;text-align:center}
-  #ax-x .ticks{position:absolute;left:0;right:0;top:0;display:flex}
-  #ax-x .ticks span{flex:1;text-align:center;border-top:1px solid var(--rule);padding-top:5px}
-  #ax-y{left:10px;top:14px;bottom:58px;width:62px}
-  #ax-y .ttl{position:absolute;left:-2px;top:50%;transform:translate(-50%,-50%) rotate(-90deg);white-space:nowrap;transform-origin:center}
-  #ax-y .ticks{position:absolute;left:22px;right:0;top:0;bottom:0;display:flex;flex-direction:column}
-  #ax-y .ticks span{flex:1;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;border-right:1px solid var(--rule);text-align:right;line-height:1.1}
+/* meters (risk face) */
+.meters{display:flex;flex-direction:column;gap:calc(var(--cell)*.045)}
+.meter{display:flex;align-items:center;gap:calc(var(--cell)*.035)}
+.meter b{font-size:calc(var(--cell)*.085);width:calc(var(--cell)*.09);font-weight:600;opacity:.8}
+.meter i{display:block;width:calc(var(--cell)*.075);height:calc(var(--cell)*.075);border-radius:50%;border:1px solid currentColor;opacity:.28}
+.meter i.range{opacity:.95;border-width:2px}
+.meter i.modal{background:currentColor;opacity:1}
+/* pillars (governance face) */
+.pillars{display:flex;gap:calc(var(--cell)*.05);align-items:flex-end}
+.pil{display:flex;flex-direction:column-reverse;align-items:center;gap:calc(var(--cell)*.02)}
+.pil b{font-size:calc(var(--cell)*.08);font-weight:600;opacity:.85;margin-top:calc(var(--cell)*.025)}
+.pil i{display:block;width:calc(var(--cell)*.13);height:calc(var(--cell)*.045);border-radius:2px;background:currentColor;opacity:.22}
+.pil i.on{opacity:1}
+.maturity{font-size:calc(var(--cell)*.095);font-style:italic;line-height:1.05;margin-top:calc(var(--cell)*.03)}
+.maturity small{font-style:normal;opacity:.75}
 
-  /* cards */
-  .card{position:absolute;transform:translate(-50%,-50%);z-index:2;width:var(--cw,150px);padding:9px 10px 8px;border-radius:10px;cursor:pointer;
-    background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--nc);box-shadow:var(--shadow);
-    text-align:left;color:var(--ink);font:inherit;
-    transition:left .6s cubic-bezier(.6,.05,.1,1),top .6s cubic-bezier(.6,.05,.1,1),transform .45s ease,opacity .45s ease,box-shadow .45s ease,border-color .45s}
-  .card:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-  .card .code{font-size:9.5px;font-weight:700;letter-spacing:.6px;color:var(--nc)}
-  .card .nm{font-size:11.5px;font-weight:600;line-height:1.22;margin-top:2px;min-height:28px;color:var(--ink)}
-  .card .meters{margin-top:6px;display:flex;flex-direction:column;gap:3px}
-  .card .meter{display:flex;align-items:center;gap:5px}
-  .card .meter .lab{font-size:8px;color:var(--ink-3);width:9px;font-weight:700}
-  .card .dots{display:flex;gap:3px}
-  .card .dot{width:8px;height:5px;border-radius:2px;background:#ECE9E1}
-  .card .dot.on{background:var(--nc)}
-  .card .dot.tail{background:transparent;border:1px solid var(--nc);opacity:.75}
-  .card .covbadge{display:none;margin-top:7px;font-size:9px;font-weight:700;letter-spacing:.3px;padding:3px 7px;border-radius:5px;text-align:center}
+/* colour groups */
+.c-E{background:var(--blue);color:var(--ink)} .c-F{background:var(--gold);color:var(--umber)}
+.c-N{background:var(--green);color:var(--ink)} .c-W{background:var(--orange);color:var(--umber)}
+.c-T{background:var(--brown);color:var(--ink)} .c-M{background:var(--pink);color:var(--umber)}
 
-  body[data-mode="gov"] .card{border-top-color:var(--cc)}
-  body[data-mode="gov"] .card .code{color:var(--cc)}
-  body[data-mode="gov"] .card .meters{opacity:.3}
-  body[data-mode="gov"] .card .covbadge{display:block}
+/* ---------- bubbles ---------- */
+.bubble{width:3rem;height:3rem;border-radius:1.5rem;background:rgba(245,225,225,.07);border:1px solid var(--line);overflow:hidden;transition:width .35s,height .35s,border-radius .35s;flex:none;align-self:flex-end;display:flex;flex-direction:column;backdrop-filter:blur(6px)}
+.bubble .ic{width:3rem;height:3rem;display:flex;align-items:center;justify-content:center;flex:none;font-size:1.1rem;color:var(--ink);opacity:.85}
+.bubble .ic svg{width:1.25rem;height:1.25rem;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.bubble .body{display:none;padding:0 1.1rem 1.1rem;font-size:.9rem;line-height:1.4;overflow:auto}
+.bubble.open{width:min(21rem,90vw);height:auto;max-height:min(var(--board),70vh);border-radius:1rem}
+.bubble.open .body{display:block}
+.bubble.open .ic{justify-content:space-between;padding:0 .9rem 0 1.1rem;font-style:italic;color:var(--ink-dim)}
+.bubble h3{margin:.4rem 0 .35rem;font-size:.95rem;font-weight:500;letter-spacing:.03em;font-variant:small-caps}
+.bubble p{margin:.3rem 0}
+.bubble .row{display:flex;align-items:center;gap:.55rem;margin:.22rem 0}
+.sw{width:1.05rem;height:1.05rem;border-radius:.25rem;flex:none}
+.sw.round{border-radius:50%}
+.bubble a{color:var(--pink)}
+.bubble .dl{display:inline-block;margin:.25rem .5rem .15rem 0;padding:.25em .7em;border:1px solid var(--pink);border-radius:999px;text-decoration:none;font-size:.85rem}
+.bubble .meter i, .bubble .pil i{color:var(--ink)}
+.bubble .meter{gap:.2rem} .bubble .meter i{width:.5rem;height:.5rem} .bubble .meter b{width:auto;font-size:.8rem;margin-right:.2rem}
+.bubble .pil i{width:.8rem;height:.3rem}
 
-  body.has-sel .card:not(.selected){opacity:.22}
-  body.has-sel .card.related{opacity:1}
-  .card.selected{transform:translate(-50%,-50%) scale(1.18);z-index:6;box-shadow:0 2px 4px rgba(31,29,26,.08),0 22px 50px -12px rgba(31,29,26,.35);border-color:var(--ink-4)}
-  .card.related{z-index:4;box-shadow:0 2px 4px rgba(31,29,26,.08),0 14px 34px -10px rgba(31,29,26,.3)}
+/* ---------- overlay / big card ---------- */
+.veil{position:fixed;inset:0;background:rgba(24,24,26,.55);opacity:0;pointer-events:none;transition:opacity .35s;z-index:20}
+.veil.on{opacity:1;pointer-events:auto}
+.big{position:fixed;z-index:30;left:0;top:0;transform-origin:0 0;perspective:1600px;pointer-events:none;display:none}
+.big.on{display:block;pointer-events:auto}
+.flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,.1,.2,1)}
+.flip.turned{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.55)}
+.face.back{transform:rotateY(180deg);padding:1.4rem 1.6rem 1.5rem;display:flex;flex-direction:column;gap:.7rem;overflow:auto}
+.face.front{display:flex;flex-direction:column;justify-content:space-between;padding:8%}
+.face.front .name{font-size:1.4rem;line-height:1.1;font-weight:500}
+.face.front .code{font-variant:small-caps;letter-spacing:.08em;opacity:.7}
+.big .x{position:absolute;top:.6rem;right:.8rem;font-size:1.5rem;line-height:1;opacity:.7;z-index:2}
+.big .x:hover{opacity:1}
+.back h2{margin:0;font-weight:500;font-size:1.55rem;line-height:1.12;padding-right:2rem}
+.back .eyebrow{font-variant:small-caps;letter-spacing:.1em;font-size:.85rem;opacity:.75}
+.back .desc{font-size:1rem;line-height:1.45}
+.back .tags{display:flex;flex-wrap:wrap;gap:.35rem .4rem}
+.tag{font-size:.78rem;padding:.2em .6em;border-radius:999px;border:1px solid currentColor;opacity:.9;white-space:nowrap}
+.tag b{font-weight:600}
+.back dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.25rem .8rem;font-size:.9rem}
+.back dt{font-variant:small-caps;letter-spacing:.06em;opacity:.7}
+.back dd{margin:0}
+.back .src{font-size:.82rem;opacity:.75;font-style:italic}
+.back hr{border:0;border-top:1px solid currentColor;opacity:.25;margin:.2rem 0}
+.gov .ph{display:flex;align-items:baseline;gap:.6rem;margin-top:.5rem}
+.gov .ph h4{margin:0;font-size:1rem;font-variant:small-caps;letter-spacing:.08em;font-weight:600}
+.gov .ph .sc{display:flex;gap:3px}
+.gov .ph .sc i{display:block;width:14px;height:6px;border-radius:2px;background:currentColor;opacity:.22}
+.gov .ph .sc i.on{opacity:1}
+.gov .mech{font-size:.92rem;line-height:1.42;margin:.15rem 0 0}
+.gov .facts{font-size:.82rem;opacity:.85;margin:.15rem 0 0;line-height:1.35}
+.gov .mat{font-size:1.2rem;font-style:italic}
+.gov .mat b{font-style:normal;font-weight:600}
+.gov .subr{font-variant:small-caps;letter-spacing:.08em;font-size:.85rem;opacity:.75;margin-top:.5rem}
 
-  .link{stroke-width:1.5;fill:none;opacity:0;transition:opacity .5s ease}
-  .link.show{opacity:.7;stroke-dasharray:4 6;animation:flow 1.2s linear infinite}
-  @keyframes flow{to{stroke-dashoffset:-20}}
+.err{margin:2rem auto;max-width:36rem;text-align:center;color:var(--ink-dim);font-style:italic}
 
-  /* detail drawer */
-  #detail{position:absolute;top:126px;right:16px;width:min(360px,42vw);max-height:calc(100% - 146px);z-index:30;background:#fff;
-    border:1px solid var(--rule);border-radius:14px;box-shadow:0 2px 6px rgba(31,29,26,.06),0 24px 60px -14px rgba(31,29,26,.3);
-    overflow:auto;transform:translateX(16px);opacity:0;pointer-events:none;transition:opacity .4s,transform .4s}
-  #detail.open{opacity:1;transform:none;pointer-events:auto}
-  #detail .dhead{padding:16px 18px 12px;border-bottom:1px solid var(--rule);position:sticky;top:0;background:#fff}
-  #detail .dcode{font-size:11px;font-weight:700;letter-spacing:.8px}
-  #detail h2{margin:3px 0 0;font-size:17px;font-weight:700;line-height:1.2;padding-right:30px}
-  #detail .dclose{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:8px;border:1px solid var(--rule);background:#fff;color:var(--ink-3);cursor:pointer;font-size:14px;line-height:1}
-  #detail .dbody{padding:14px 18px 20px}
-  #detail p{margin:0 0 12px;color:var(--ink-2);font-size:13px;line-height:1.55}
-  .kv{display:flex;gap:10px;margin:0 0 9px;font-size:12.5px}
-  .kv .k{color:var(--ink-3);min-width:96px;font-weight:600}
-  .kv .v{color:var(--ink);flex:1}
-  .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;color:#fff}
-  .seclabel{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-3);margin:16px 0 8px;font-weight:700}
-  .conns{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-  .conns li{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--ink-2);background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:7px 9px;cursor:pointer;transition:border-color .2s,background .2s}
-  .conns li:hover{background:#fff;border-color:var(--ink-4)}
-  .conns li .ctag{font-weight:700;font-size:10.5px;padding:1px 6px;border-radius:5px;flex-shrink:0;margin-top:1px;color:#fff}
-  .mechs{margin:0;padding-left:16px;color:var(--ink-2);font-size:12.5px;line-height:1.5}
-  .mechs li{margin-bottom:4px}
-
-  /* bottom-corner bubbles: legend (left) and info (right) */
-  .bubble-btn{position:absolute;bottom:16px;z-index:25;height:34px;min-width:34px;border-radius:999px;border:1px solid var(--rule);background:#fff;color:var(--ink-2);cursor:pointer;
-    font-size:12.5px;font-weight:700;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;font-family:inherit}
-  #legend-btn{left:16px}
-  #about-btn{right:16px;width:34px;padding:0;font-size:15px}
-  .panel{position:absolute;bottom:58px;z-index:26;background:#fff;border:1px solid var(--rule);border-radius:14px;padding:14px 16px;box-shadow:0 2px 6px rgba(31,29,26,.06),0 20px 50px -14px rgba(31,29,26,.3);
-    width:min(300px,84vw);max-height:calc(100% - 80px);overflow:auto;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .3s,transform .3s}
-  .panel.open{opacity:1;transform:none;pointer-events:auto}
-  #legend{left:16px}
-  #about{right:16px;width:min(420px,88vw)}
-  .panel h4{margin:0 0 8px;font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-3);font-weight:700}
-  .panel h4+h4{margin-top:14px}
-  .lgrow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);margin:5px 0}
-  .lgrow .sw{width:12px;height:12px;border-radius:3px;flex-shrink:0}
-  .lgrow .band{font-weight:700;color:var(--ink);width:22px;flex-shrink:0}
-  .lgrow .prob{color:var(--ink-3);margin-left:auto;font-size:11px}
-  .lgrow .dots{display:flex;gap:3px;flex-shrink:0}
-  .lgrow .dot{width:8px;height:5px;border-radius:2px;background:#ECE9E1}
-  .lgrow .dot.on{background:var(--ink-2)}
-  .panel p{color:var(--ink-2);font-size:12.5px;line-height:1.55;margin:8px 0}
-  .panel a{color:var(--blue);font-weight:600;text-decoration:none}
-  .panel a:hover{text-decoration:underline}
-  .panel code{background:var(--bg);border:1px solid var(--rule);padding:1px 5px;border-radius:4px;font-size:11.5px}
-
-  @media (max-width:760px){
-    header{gap:9px;padding-top:12px}
-    #stage{inset:110px 0 0 0}
-    #board{left:52px;right:10px;top:8px;bottom:50px}
-    #ax-x{left:52px;right:10px;bottom:8px}
-    #ax-y{left:4px;width:44px;top:8px;bottom:50px}
-    #ax-y .ticks{left:14px}
-    #ax-y .ticks span{font-size:8.5px;padding-right:5px}
-    #ax-x .ticks span{font-size:8.5px}
-    .card{--cw:64px;padding:5px 5px 4px;border-radius:7px;border-top-width:2px}
-    .card .code{font-size:7.5px}
-    .card .nm{font-size:8px;min-height:20px;line-height:1.15}
-    .card .meters{gap:2px;margin-top:3px}
-    .card .dot{width:5px;height:3px}
-    .card .meter .lab{font-size:6.5px;width:6px}
-    .card .covbadge{font-size:7px;padding:2px 4px;margin-top:4px}
-    #detail{right:0;left:0;width:auto;top:auto;bottom:0;max-height:58%;border-radius:14px 14px 0 0;transform:translateY(16px)}
-    #detail.open{transform:none}
-  }
-  @media (min-width:761px) and (max-width:1100px){ .card{--cw:118px} .card .nm{font-size:10.5px} }
-  @media (prefers-reduced-motion:reduce){ .link.show{animation:none} }
+/* ---------- portrait ---------- */
+@media (orientation:portrait), (max-width:820px){
+  :root{--board:min(84vw, 60vh, 640px)}
+  h1 span{display:none}
+  main{flex-direction:column;align-items:center;gap:1rem}
+  .bubbles{display:flex;gap:.8rem;width:min(92vw,660px);justify-content:space-between;align-items:flex-start}
+  .bubble{align-self:flex-start}
+  .bubble.open{width:min(21rem,80vw)}
+  .face.back{padding:1.1rem 1.1rem 1.3rem}
+}
+@media (min-width:821px) and (orientation:landscape){
+  .bubbles{display:contents}
+  #legend{order:-1}
+}
 </style>
 </head>
-<body data-mode="risk">
-  <header>
-    <div class="titlewrap">
-      <h1>Global Risk Governance Monitor</h1>
-      <p class="sub">The global catastrophic and existential risks facing humanity this century — and the multilateral governance meant to hold them.</p>
-    </div>
-    <div class="toggle" role="tablist" aria-label="View mode">
-      <span class="thumb" aria-hidden="true"></span>
-      <button id="tab-risk" role="tab" class="active" aria-selected="true">Risks</button>
-      <button id="tab-gov" role="tab" aria-selected="false">Governance</button>
-    </div>
-    <div class="hint" id="hint">Position = <b>likelihood</b> (across) × <b>impact</b> (up) · colour = risk category · click a card to focus it</div>
-  </header>
+<body>
+<header>
+  <h1>Global Risk Governance Monitor <span>— catastrophic & existential risks and their multilateral governance</span></h1>
+  <p class="sub" id="sub">Fourteen terminal hazards on a likelihood × impact grid, three risk multipliers off-scale.</p>
+  <div class="toggle" role="tablist" aria-label="Face">
+    <button id="tRisks" class="on" role="tab" aria-selected="true">Risks</button>
+    <button id="tGov" role="tab" aria-selected="false">Governance</button>
+  </div>
+</header>
 
-  <main id="stage" aria-label="Risk map">
-    <div class="axis" id="ax-y"><span class="ttl">Impact</span><div class="ticks" id="yt"></div></div>
-    <div class="axis" id="ax-x"><div class="ticks" id="xt"></div><span class="ttl">Likelihood of reaching global-catastrophic scale this century</span></div>
-    <div id="board">
-      <svg id="links" aria-hidden="true"></svg>
-    </div>
+<main id="main">
+  <section class="board" id="board">
+    <div class="ylab">increasing potential impact →</div>
+    <div class="grid" id="grid"></div>
+    <div class="xlab">increasing likelihood →</div>
+  </section>
+  <div class="bubbles">
+    <aside class="bubble" id="legend">
+      <button class="ic" aria-label="Legend" title="Legend"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="4" rx="1"/><rect x="4" y="12" width="10" height="4" rx="1"/><rect x="4" y="19" width="6" height="1" rx=".5"/></svg><span class="lbl" hidden>legend</span></button>
+      <div class="body" id="legendBody"></div>
+    </aside>
+    <aside class="bubble" id="info">
+      <button class="ic" aria-label="About" title="About this monitor"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><span class="lbl" hidden>info</span></button>
+      <div class="body" id="infoBody"></div>
+    </aside>
+  </div>
+</main>
 
-    <button class="bubble-btn" id="legend-btn" aria-expanded="false" aria-controls="legend">≡ <span>Legend</span></button>
-    <div class="panel" id="legend" role="region" aria-label="Legend"></div>
-
-    <button class="bubble-btn" id="about-btn" aria-expanded="false" aria-controls="about" title="About">i</button>
-    <div class="panel" id="about" role="region" aria-label="About">
-      <h4>About</h4>
-      <p>The Global Risk Governance Monitor maps <b>16 global catastrophic and existential risks</b> — the term used by the UN <i>Pact for the Future</i> (2024) — across five categories, and the multilateral treaties and agencies that exist to assess and manage them.</p>
-      <p><b>Risks view.</b> Each card sits on an invisible grid: further <b>right</b> = more likely to reach global-catastrophic scale this century; further <b>up</b> = more severe. Solid meter dots show the most-likely outcome; hollow dots show the lower-probability worst case. Click a card to centre it and reveal its interconnections.</p>
-      <p><b>Governance view.</b> Cards re-colour by how well the risk is governed (Robust → Minimal). Click a card to see the treaties and agencies that exist, how binding and effective they are, and the primary gap.</p>
-      <p>Likelihood and impact are relative, range-based expert judgments under deep uncertainty — for comparison, not prediction. Sources: UN Global Risk Report 2024, RAND Global Catastrophic Risk Assessment 2024, Global Challenges Foundation 2026, WEF Global Risks Report 2026, UK National Risk Register 2025, Ord (<i>The Precipice</i>). Full method in <code>MasterList.md</code> and <code>GovernanceMapping.md</code>. Data as of September 2026.</p>
-      <p>The Global Risk Governance Monitor was created and is maintained by <a href="https://jancherlet.info" target="_blank" rel="noopener">Jan Cherlet</a>.</p>
-    </div>
-  </main>
-
-  <aside id="detail" aria-live="polite">
-    <div class="dhead">
-      <button class="dclose" id="dclose" aria-label="Close">✕</button>
-      <div class="dcode" id="d-code"></div>
-      <h2 id="d-name"></h2>
-    </div>
-    <div class="dbody" id="d-body"></div>
-  </aside>
+<div class="veil" id="veil"></div>
+<div class="big" id="big"><div class="flip" id="flip"><div class="face front" id="bigFront"></div><div class="face back" id="bigBack"></div></div><button class="x" id="bigX" aria-label="Close">×</button></div>
 
 <script>
-/* ---------------- DATA ---------------- */
-const FAM = {
-  N:{name:"Natural", hex:"#2951FE"},
-  T:{name:"Technological", hex:"#FF520D"},
-  E:{name:"Environmental", hex:"#1E800F"},
-  G:{name:"Geopolitical / societal", hex:"#F2B101"},
-  U:{name:"Unknown", hex:"#4C1A09"}
-};
-const COV = {
-  Robust:{hex:"#1E800F"}, Developing:{hex:"#4F6FD6"}, Weak:{hex:"#C98F00"}, Minimal:{hex:"#B3261E"}
-};
-const LBL_L = {1:"Very low",2:"Low",3:"Moderate",4:"High",5:"Very high"};
-const PROB_L = {1:"<1%",2:"1–10%",3:"10–33%",4:"33–66%",5:">66%"};
-const LBL_I = {1:"Severe",2:"Catastrophic",3:"Civilizational",4:"Near-existential",5:"Existential"};
-
-/* gx = likelihood column 1..5 (left→right), gy = impact row 1..5 (bottom→top).
-   Each card sits at its exact modal cell where free; otherwise the nearest free cell
-   *within its own documented likelihood/impact range* (see MasterList.md §5.7). */
-const DATA = [
-  {c:"N1",f:"N",name:"Asteroid / comet impact",L:1,Lr:"L1",Im:3,It:5,conf:"High",gx:1,gy:3,
-   blurb:"A ≥1 km near-Earth object would cause a global impact winter and crop failure; ≥10 km is a plausible extinction mechanism. Very low probability, but uniquely quantifiable from astronomical surveys.",
-   conn:[{t:"G3",l:"impact winter → food & systems failure"}],
-   cov:"Developing",fn:"Both (assessment-led)",bind:"Advisory (non-binding)",
-   mech:["UN COPUOS","IAWN — detection & warning","SMPAG — mitigation planning","DART proved deflection is possible"],
-   gap:"No binding authority to decide, command or fund an actual deflection mission.",
-   gassess:"Detection is well-governed and was exercised in the 2024 YR4 scare; the decision to act is not."},
-  {c:"N2",f:"N",name:"Supervolcanic eruption",L:1,Lr:"L1–L2",Im:3,It:4,conf:"Moderate",gx:1,gy:4,
-   blurb:"A VEI-8 eruption would cause a multi-year volcanic winter and possible civilization-threatening famine. Higher near-term odds than a large impact — and currently unpreventable.",
-   conn:[{t:"E1",l:"volcanic winter → climate shock"},{t:"G3",l:"global harvest failure → collapse"}],
-   cov:"Minimal",fn:"Assessment (barely)",bind:"None",
-   mech:["UNDRR / Sendai Framework (generic disaster risk)","Scientific bodies (IAVCEI, Global Volcano Model)"],
-   gap:"No dedicated regime and no global food-collapse contingency.",
-   gassess:"One of the least-governed catastrophic risks on the map."},
-  {c:"N3",f:"N",name:"Severe space weather",L:3,Lr:"L2–L4",Im:1,It:2,conf:"Moderate",gx:3,gy:1,
-   blurb:"A Carrington-scale solar storm could cause continent-scale, long-duration failures of grids, satellites and communications — cascading into water, food, finance and health systems.",
-   conn:[{t:"G3",l:"grid failure → systemic cascade"}],
-   cov:"Weak",fn:"Assessment (monitoring)",bind:"None (global)",
-   mech:["WMO space-weather coordination","ICAO aviation advisories","ISES forecasting network"],
-   gap:"No binding global standards for hardening grids and critical infrastructure.",
-   gassess:"Good forecasting, little mitigation; repeatedly flagged as under-prioritised."},
-  {c:"N4",f:"N",name:"Natural pandemic",L:4,Lr:"L3–L5",Im:2,It:3,conf:"Moderate–High",gx:5,gy:3,
-   blurb:"A naturally emerging high-transmissibility, high-lethality pathogen able to exceed 1918 or COVID-19. Realised as a global catastrophe within living memory.",
-   conn:[{t:"T2",l:"shares response infrastructure"},{t:"E1",l:"climate raises spillover"},{t:"E2",l:"ecological collapse raises spillover"}],
-   cov:"Developing",fn:"Both",bind:"Binding (IHR) + new treaty pending",
-   mech:["WHO","International Health Regulations (2005)","Pandemic Agreement (2025, not yet in force)","CEPI, Gavi"],
-   gap:"Enforcement, the unfinished equity / PABS bargain, financing, and the US exit from WHO.",
-   gassess:"Strengthening after COVID-19, but not yet a proven regime."},
-
-  {c:"T1",f:"T",name:"Nuclear war (incl. AI-compressed escalation)",L:3,Lr:"L2–L3",Im:2,It:5,conf:"Moderate",gx:2,gy:2,
-   blurb:"A large exchange with direct blast and radiation, plus nuclear winter — soot-driven global cooling and agricultural collapse potentially killing billions. AI in military command and early-warning compresses decision time and raises the odds of inadvertent escalation.",
-   conn:[{t:"G1",l:"great-power conflict is the trigger"},{t:"E1",l:"nuclear winter is a climate catastrophe"},{t:"T3",l:"AI in command systems compresses escalation"}],
-   cov:"Weak",fn:"Both",bind:"Binding + verified (non-proliferation); arsenal caps lapsed; military-AI rules soft only",
-   mech:["NPT","IAEA safeguards","CTBTO monitoring","TPNW","New START — expired Feb 2026, no successor","CCW GGE on autonomous weapons; REAIM (non-binding)"],
-   gap:"No binding limits on the largest arsenals for the first time since 1972; China outside all frameworks; the AI–nuclear nexus entirely ungoverned.",
-   gassess:"A regime eroding in real time."},
-  {c:"T2",f:"T",name:"Anthropogenic pandemic (AI-facilitated)",L:2,Lr:"L1–L3, rising",Im:3,It:5,conf:"Low",gx:2,gy:3,
-   blurb:"A pathogen released by human action — engineered as a weapon or escaping from research — potentially more transmissible and lethal than anything natural. Frontier AI is collapsing the expertise barrier to designing or enhancing pathogens.",
-   conn:[{t:"T3",l:"AI lowers the design barrier"},{t:"N4",l:"shared detection & response"}],
-   cov:"Weak",fn:"Prohibition (unverified)",bind:"Binding but unverifiable",
-   mech:["Biological Weapons Convention (no verification body)","Australia Group (export controls)","UN Secretary-General's Mechanism"],
-   gap:"No BWC verification protocol; dual-use research and the AI–bio convergence are ungoverned.",
-   gassess:"A ban with no way to detect cheating."},
-  {c:"T3",f:"T",name:"Loss of control over advanced AI",L:2,Lr:"L1–L4",Im:3,It:5,conf:"Low (widest disagreement)",gx:3,gy:4,
-   blurb:"Advanced AI systems pursuing misaligned objectives, or embedded so deeply in critical systems that their failures cascade beyond human ability to override — ending in gradual or sudden human disempowerment. The one case where AI is the terminal hazard, not an enabler.",
-   conn:[{t:"T2",l:"enables engineered pathogens"},{t:"T1",l:"compresses nuclear escalation"},{t:"G2",l:"supercharges disinformation"},{t:"G4",l:"enables permanent power lock-in"}],
-   cov:"Minimal",fn:"Assessment emerging",bind:"Almost none binding for safety",
-   mech:["Council of Europe AI Convention (rights-focused)","UN Independent Scientific Panel on AI (2025)","Global Dialogue on AI Governance (2026)","OECD & UNESCO soft law"],
-   gap:"No binding frontier-safety regime; ~90% of training compute concentrated in two states.",
-   gassess:"Capabilities are accelerating faster than any government can regulate."},
-  {c:"T4",f:"T",name:"Other WMD (chemical, radiological)",L:2,Lr:"L2–L3",Im:1,It:3,conf:"Moderate",gx:2,gy:1,
-   blurb:"The non-nuclear, non-biological CBRN spectrum — chemical weapons, radiological devices and uncontrolled radioactive material — mapped to distinct treaty regimes.",
-   conn:[{t:"G1",l:"conflict / terror use"},{t:"T2",l:"biological weapons sit alongside"}],
-   cov:"Robust",fn:"Both (chemical)",bind:"Binding + verified (chemical); binding (radiological)",
-   mech:["Chemical Weapons Convention + OPCW (gold standard)","IAEA, CPPNM, ICSANT (radiological / nuclear security)"],
-   gap:"Uneven radiological source security; enforcement against a defiant state.",
-   gassess:"The chemical regime is the model the others could follow."},
-
-  {c:"E1",f:"E",name:"Catastrophic climate change",L:5,Lr:"L4–L5",Im:2,It:4,conf:"Mod–High (GCR) / Low (tail)",gx:5,gy:2,
-   blurb:"Warming pushed past thresholds — extreme heat, crop failure, sea-level rise, mass displacement — with tail risks of runaway feedbacks. Top-ranked concern in the UN Global Risk Report; a powerful multiplier of other risks.",
-   conn:[{t:"G1",l:"drives conflict & displacement"},{t:"E2",l:"reinforces ecosystem loss"},{t:"E3",l:"can trigger tipping points"},{t:"N4",l:"raises zoonotic spillover"}],
-   cov:"Developing",fn:"Both",bind:"Procedurally binding; targets voluntary",
-   mech:["UNFCCC","Paris Agreement","IPCC (assessment)","Green Climate Fund; loss & damage fund"],
-   gap:"National targets are unenforced, with a persistent ambition and finance shortfall.",
-   gassess:"The most comprehensive architecture of any risk — but under-performing on results."},
-  {c:"E2",f:"E",name:"Ecological collapse & resource depletion",L:3,Lr:"L3–L4",Im:2,It:3,conf:"Moderate",gx:3,gy:2,
-   blurb:"Systemic failure of the ecosystems underpinning food, water, pollination and disease regulation, plus depletion and pollution of freshwater, soil, fisheries and forests — able to destabilise civilisation independently of temperature.",
-   conn:[{t:"E1",l:"coupled with climate"},{t:"E3",l:"part of Earth-system decline"},{t:"N4",l:"raises spillover risk"}],
-   cov:"Weak",fn:"Both (assessment-led)",bind:"Binding frameworks; voluntary targets",
-   mech:["Convention on Biological Diversity","Kunming-Montreal Global Biodiversity Framework","IPBES; CITES","High Seas Treaty (in force 2026); Minamata / Basel conventions"],
-   gap:"Voluntary targets repeatedly missed; finance lagging; the US is not a party to the CBD; no global regime for freshwater or soil.",
-   gassess:"A history of missed targets (the predecessor Aichi goals were almost all missed)."},
-  {c:"E3",f:"E",name:"Earth-system tipping points (incl. geoengineering)",L:2,Lr:"L2–L4",Im:3,It:4,conf:"Low",gx:2,gy:4,
-   blurb:"Crossing interacting biophysical thresholds — ice sheets, ocean circulation (AMOC), permafrost, nutrient cycles — that could shift Earth into a hotter, less habitable state; and deliberate planetary intervention (geoengineering) that fails or is abruptly terminated.",
-   conn:[{t:"E1",l:"climate can trigger"},{t:"E2",l:"ecosystem feedbacks"}],
-   cov:"Minimal",fn:"Fragmented assessment",bind:"None at Earth-system level; soft geoengineering moratoria",
-   mech:["Split across UNFCCC / CBD / UNCLOS-BBNJ / Montreal","CBD geoengineering moratorium (2010, non-binding)","'Planetary boundaries' has no treaty home"],
-   gap:"No regime governs Earth-system integrity as a whole; stratospheric geoengineering is unruled.",
-   gassess:"The largest structural gap on the map — the target of calls for planetary-commons governance."},
-
-  {c:"G1",f:"G",name:"Great-power / state-based conflict",L:4,Lr:"L3–L5",Im:1,It:5,conf:"Moderate",gx:4,gy:1,
-   blurb:"Major interstate war and multi-domain escalation that can trigger nuclear use, shatter supply chains and collapse cooperation. The most interconnected risk in the UN Global Risk Report's network; top near-term cluster in WEF 2026.",
-   conn:[{t:"T1",l:"can escalate to nuclear"},{t:"E1",l:"climate stress as a driver"},{t:"G3",l:"shatters supply chains"}],
-   cov:"Weak",fn:"Management (collective security)",bind:"Charter binding; Council paralysed",
-   mech:["UN Charter & Security Council","International Court of Justice","International Criminal Court","Regional organisations"],
-   gap:"Veto paralysis; no effective check on aggression by (or protected by) a permanent member.",
-   gassess:"The mechanism exists but is disabled at the moment of need."},
-  {c:"G2",f:"G",name:"Governance & information collapse",L:5,Lr:"L4–L5",Im:1,It:2,conf:"Low",gx:5,gy:1,
-   blurb:"The mutually reinforcing breakdown of collective decision-making — disinformation (the UN's stand-out 'global vulnerability'), polarisation, eroding institutions and the retreat of multilateralism. AI-generated media is now scaling it.",
-   conn:[{t:"T3",l:"AI supercharges disinformation"},{t:"G1",l:"erodes conflict restraint"},{t:"G4",l:"the opposite failure mode"}],
-   cov:"Minimal",fn:"Soft coordination",bind:"None",
-   mech:["Global Digital Compact (2024)","UNESCO platform / literacy work","UN Global Principles for Information Integrity"],
-   gap:"A near-total gap on disinformation and platform accountability, in tension with free expression.",
-   gassess:"The top 'global vulnerability' in the UN survey — with almost no governing regime."},
-  {c:"G3",f:"G",name:"Global systemic & infrastructure collapse",L:3,Lr:"L3–L4",Im:2,It:3,conf:"Low–Moderate",gx:4,gy:3,
-   blurb:"Cascading failure across tightly coupled global systems — finance, energy, food, water and critical digital/physical infrastructure — where one shock propagates system-wide (a 'polycrisis').",
-   conn:[{t:"N3",l:"space-weather trigger"},{t:"G1",l:"conflict trigger"},{t:"E1",l:"climate stress"}],
-   cov:"Weak",fn:"Both (finance)",bind:"Soft law (finance) / nascent (cyber)",
-   mech:["Financial Stability Board, IMF, BIS, G20","UN Cybercrime Convention (2024, not in force)","Sectoral bodies (IEA, FAO, WFP)"],
-   gap:"No integrated governance of cascading, cross-sector systemic risk or infrastructure interdependence.",
-   gassess:"Finance is reasonably governed; the cross-sector cascade is not."},
-  {c:"G4",f:"G",name:"Technology-driven power concentration (AI-facilitated)",L:3,Lr:"L2–L4",Im:1,It:4,conf:"Low",gx:4,gy:2,
-   blurb:"Accumulation of economic, technological and political power in very few hands, with AI as the decisive enabler — ~90% of frontier compute sits in two states. At the extreme, a permanent 'lock-in' foreclosing humanity's future: an existential pathway without extinction.",
-   conn:[{t:"T3",l:"control of AI enables lock-in"},{t:"G2",l:"opposite failure mode to fragmentation"}],
-   cov:"Minimal",fn:"Partial assessment",bind:"Soft / under negotiation",
-   mech:["OECD/G20 global minimum tax (weakened 2026)","UN Framework Convention on Tax Cooperation (negotiating)","No global antitrust"],
-   gap:"No global competition regime, no governance of AI-power concentration, nothing aimed at the lock-in pathway.",
-   gassess:"Among the least-governed risks — a largely novel frontier."},
-
-  {c:"U1",f:"U",name:"Unknown / unforeseen risks",L:2,Lr:"L2–L3",Im:3,It:5,conf:"Very low",gx:3,gy:3,
-   blurb:"An open category for hazards not yet identified or mature — novel technologies and genuinely new mechanisms. Historically, the unforeseen have hurt most, so the residual is kept explicit.",
-   conn:[{t:"T3",l:"emerging-technology overlap"}],
-   cov:"Minimal",fn:"Assessment (nascent)",bind:"None",
-   mech:["Pact for the Future (2024)","Declaration on Future Generations","Emerging UN strategic-foresight capacity"],
-   gap:"No standing, well-resourced anticipatory mechanism to detect and govern risks before they mature.",
-   gassess:"The system remains reactive, not anticipatory."}
-];
-
-/* --------- helpers --------- */
-const hexA=(hex,a)=>{const n=parseInt(hex.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;};
-const cellPct = d => ({ x:(d.gx-0.5)*20, y:(5-d.gy+0.5)*20 });
-
-/* --------- axes --------- */
-document.getElementById('xt').innerHTML = [1,2,3,4,5].map(k=>`<span>${LBL_L[k]}<br><span style="color:var(--ink-4)">${PROB_L[k]}</span></span>`).join('');
-document.getElementById('yt').innerHTML = [5,4,3,2,1].map(k=>`<span>${LBL_I[k]}</span>`).join('');
-
-/* --------- render cards --------- */
-const board=document.getElementById('board'), svg=document.getElementById('links');
-const cardEls={};
-DATA.forEach(d=>{
-  const b=document.createElement('button');
-  b.className='card';
-  b.style.setProperty('--nc',FAM[d.f].hex);
-  b.style.setProperty('--cc',COV[d.cov].hex);
-  const p=cellPct(d); b.style.left=p.x+'%'; b.style.top=p.y+'%';
-  b.dataset.code=d.c;
-  b.setAttribute('aria-label',`${d.name} — ${FAM[d.f].name}; likelihood ${LBL_L[d.L]}, impact ${LBL_I[d.Im]} to ${LBL_I[d.It]}`);
-  let ld='',id='';
-  for(let k=1;k<=5;k++) ld+=`<span class="dot ${k<=d.L?'on':''}"></span>`;
-  for(let k=1;k<=5;k++) id+=`<span class="dot ${k<=d.Im?'on':(k<=d.It?'tail':'')}"></span>`;
-  b.innerHTML=`<div class="code">${d.c}</div><div class="nm">${d.name}</div>
-    <div class="meters"><div class="meter"><span class="lab">L</span><span class="dots">${ld}</span></div>
-    <div class="meter"><span class="lab">I</span><span class="dots">${id}</span></div></div>
-    <div class="covbadge" style="background:${hexA(COV[d.cov].hex,.12)};color:${COV[d.cov].hex};border:1px solid ${hexA(COV[d.cov].hex,.35)}">${d.cov}</div>`;
-  b.addEventListener('click',e=>{e.stopPropagation();select(d.c);});
-  board.appendChild(b); cardEls[d.c]=b;
-});
-
-/* --------- selection --------- */
-let selected=null;
-const detail=document.getElementById('detail');
-function select(code){
-  const d=DATA.find(x=>x.c===code); if(!d) return;
-  if(selected && selected!==code){ const o=DATA.find(x=>x.c===selected); const op=cellPct(o); cardEls[selected].style.left=op.x+'%'; cardEls[selected].style.top=op.y+'%'; }
-  selected=code;
-  document.body.classList.add('has-sel');
-  Object.values(cardEls).forEach(n=>n.classList.remove('selected','related'));
-  const el=cardEls[code]; el.classList.add('selected'); el.style.left='50%'; el.style.top='50%';
-  if(document.body.dataset.mode==='risk') d.conn.forEach(cn=>cardEls[cn.t]&&cardEls[cn.t].classList.add('related'));
-  drawLinks(d); renderDetail(d); detail.classList.add('open');
-}
-function deselect(){
-  if(!selected) return;
-  const d=DATA.find(x=>x.c===selected), el=cardEls[selected], p=cellPct(d);
-  el.classList.remove('selected'); el.style.left=p.x+'%'; el.style.top=p.y+'%';
-  Object.values(cardEls).forEach(n=>n.classList.remove('related'));
-  document.body.classList.remove('has-sel'); clearLinks(); detail.classList.remove('open'); selected=null;
-}
-
-/* --------- links --------- */
-function clearLinks(){ [...svg.querySelectorAll('.link')].forEach(l=>l.remove()); }
-function drawLinks(d){
-  clearLinks(); if(document.body.dataset.mode!=='risk') return;
-  const w=board.clientWidth,h=board.clientHeight; svg.setAttribute('width',w); svg.setAttribute('height',h);
-  const fx=w/2, fy=h/2;
-  d.conn.forEach(cn=>{
-    const t=DATA.find(x=>x.c===cn.t); if(!t) return; const p=cellPct(t);
-    const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
-    ln.setAttribute('x1',fx);ln.setAttribute('y1',fy);ln.setAttribute('x2',w*p.x/100);ln.setAttribute('y2',h*p.y/100);
-    ln.setAttribute('class','link'); ln.setAttribute('stroke',FAM[d.f].hex);
-    svg.appendChild(ln); requestAnimationFrame(()=>ln.classList.add('show'));
-  });
-}
-
-/* --------- detail panel --------- */
-function renderDetail(d){
-  const gov=document.body.dataset.mode==='gov';
-  const dc=document.getElementById('d-code'); dc.textContent=`${d.c} · ${FAM[d.f].name}`; dc.style.color=gov?COV[d.cov].hex:FAM[d.f].hex;
-  document.getElementById('d-name').textContent=d.name;
-  const body=document.getElementById('d-body');
-  if(!gov){
-    const conns=d.conn.length?`<ul class="conns">${d.conn.map(cn=>{const t=DATA.find(x=>x.c===cn.t);
-      return `<li data-jump="${cn.t}"><span class="ctag" style="background:${FAM[t.f].hex}">${cn.t}</span><span>${cn.l}</span></li>`;}).join('')}</ul>`
-      :`<p style="color:var(--ink-3)">Few direct couplings — a largely independent, exogenous hazard.</p>`;
-    body.innerHTML=`<p>${d.blurb}</p>
-      <div class="kv"><span class="k">Likelihood</span><span class="v">${LBL_L[d.L]} <span style="color:var(--ink-3)">(${PROB_L[d.L]} this century · range ${d.Lr})</span></span></div>
-      <div class="kv"><span class="k">Impact</span><span class="v">${LBL_I[d.Im]} → <b>${LBL_I[d.It]}</b> <span style="color:var(--ink-3)">(most likely → worst case)</span></span></div>
-      <div class="kv"><span class="k">Confidence</span><span class="v">${d.conf}</span></div>
-      <div class="seclabel">Most evident interconnections</div>${conns}`;
-    body.querySelectorAll('[data-jump]').forEach(li=>li.addEventListener('click',()=>select(li.dataset.jump)));
-  } else {
-    const c=COV[d.cov].hex;
-    body.innerHTML=`<div class="kv"><span class="k">Governance</span><span class="v"><span class="pill" style="background:${c}">${d.cov}</span></span></div>
-      <div class="kv"><span class="k">Function</span><span class="v">${d.fn}</span></div>
-      <div class="kv"><span class="k">Bindingness</span><span class="v">${d.bind}</span></div>
-      <div class="seclabel">Mechanisms that exist</div><ul class="mechs">${d.mech.map(m=>`<li>${m}</li>`).join('')}</ul>
-      <div class="seclabel">Primary gap</div><p style="color:var(--cov-min)">${d.gap}</p>
-      <div class="seclabel">Assessment</div><p>${d.gassess}</p>`;
+(async function(){
+  const $=s=>document.querySelector(s);
+  let GR, RG;
+  try{
+    const [a,b]=await Promise.all([fetch('GlobalRisks.json',{cache:'no-cache'}),fetch('RiskGovernance.json',{cache:'no-cache'})]);
+    if(!a.ok||!b.ok) throw new Error('HTTP '+a.status+'/'+b.status);
+    GR=await a.json(); RG=await b.json();
+  }catch(e){
+    $('#main').innerHTML='<p class="err">The data files <code>GlobalRisks.json</code> and <code>RiskGovernance.json</code> could not be loaded ('+e.message+'). They must sit in the same folder as this page and be served over http(s) — a browser will not load them from a file:// address.</p>';
+    return;
   }
-}
+  const gov=Object.fromEntries(RG.risks.map(r=>[r.code,r]));
+  const risks=GR.risks;
+  const LBL_L=GR.methodology.assessment_method.likelihood_scale.bands;
+  const LBL_I=GR.methodology.assessment_method.impact_scale.bands;
+  const grp=c=>c[0]==='M'?'M':c[0];
+  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  let face='risks';
 
-/* --------- mode toggle --------- */
-const tabRisk=document.getElementById('tab-risk'),tabGov=document.getElementById('tab-gov'),hint=document.getElementById('hint');
-function setMode(m){
-  document.body.dataset.mode=m;
-  tabRisk.classList.toggle('active',m==='risk');tabRisk.setAttribute('aria-selected',m==='risk');
-  tabGov.classList.toggle('active',m==='gov');tabGov.setAttribute('aria-selected',m==='gov');
-  hint.innerHTML=m==='risk'?'Position = <b>likelihood</b> (across) × <b>impact</b> (up) · colour = risk category · click a card to focus it'
-    :'Same positions · colour = <b>how well the risk is governed</b> · click a card for its treaties, agencies and gaps';
-  buildLegend();
-  if(selected){const d=DATA.find(x=>x.c===selected);Object.values(cardEls).forEach(n=>n.classList.remove('related'));
-    if(m==='risk')d.conn.forEach(cn=>cardEls[cn.t]&&cardEls[cn.t].classList.add('related'));drawLinks(d);renderDetail(d);}
-  else clearLinks();
-}
-tabRisk.addEventListener('click',()=>setMode('risk'));tabGov.addEventListener('click',()=>setMode('gov'));
+  /* ---------- card fronts ---------- */
+  function dots(kind,r){
+    if(kind==='L'){const m=+r.likelihood.modal[1],lo=+r.likelihood.range[0][1],hi=+r.likelihood.range[1][1];
+      return '<span class="meter"><b>L</b>'+[1,2,3,4,5].map(k=>'<i class="'+(k===m?'modal':(k>=lo&&k<=hi?'range':''))+'"></i>').join('')+'</span>';}
+    const m=+r.impact.modal[1],t=+r.impact.tail[1];
+    return '<span class="meter"><b>I</b>'+[1,2,3,4,5].map(k=>'<i class="'+(k===m?'modal':(k>m&&k<=t?'range':''))+'"></i>').join('')+'</span>';
+  }
+  function pillarBars(g){
+    return '<div class="pillars">'+['assess','regulate','finance','enforce'].map(p=>{
+      const v=g.scores[p]; const n=typeof v==='string'?+v.split('/')[0]:v; const L=p[0].toUpperCase();
+      return '<span class="pil"><b>'+L+'</b>'+[1,2,3].map(k=>'<i class="'+(k<=n?'on':'')+'"></i>').join('')+'</span>';}).join('')+'</div>';
+  }
+  function frontHTML(r){
+    const g=gov[r.code];
+    if(r.kind==='risk multiplier'){
+      const mid=face==='risks'?'<div class="kind">multiplier</div>':'<div class="kind">'+esc(g.maturity)+' '+esc(g.trend)+'</div>';
+      return '<div class="code">'+r.code+'</div><div class="name">'+esc(r.name)+'</div>'+mid;
+    }
+    const top='<div><div class="code">'+r.code+'</div><div class="name">'+esc(r.name)+'</div></div>';
+    if(face==='risks') return top+'<div class="meters">'+dots('L',r)+dots('I',r)+'</div>';
+    return top+'<div>'+pillarBars(g)+'<div class="maturity">'+esc(g.maturity)+' <small>'+esc(g.trend)+'</small></div></div>';
+  }
+  function buildGrid(){
+    const grid=$('#grid'); grid.innerHTML='';
+    risks.forEach(r=>{
+      const el=document.createElement('button');
+      el.className='card c-'+grp(r.code)+(r.kind==='risk multiplier'?' round':'');
+      el.style.gridColumn=r.grid.likelihood_col; el.style.gridRow=6-r.grid.impact_row;
+      el.dataset.code=r.code; el.setAttribute('aria-label',r.code+' '+r.name);
+      el.innerHTML=frontHTML(r);
+      el.addEventListener('click',()=>open(r,el));
+      grid.appendChild(el);
+    });
+  }
+  function fit(){
+    document.querySelectorAll('#grid .card').forEach(el=>{
+      const n=el.querySelector('.name'); if(!n) return; n.style.fontSize='';
+      let px=parseFloat(getComputedStyle(n).fontSize), guard=0;
+      while(el.scrollHeight>el.clientHeight+1 && px>6 && guard++<12){px*=.92; n.style.fontSize=px+'px';}
+    });
+  }
+  function refreshFronts(){document.querySelectorAll('#grid .card').forEach(el=>{el.innerHTML=frontHTML(risks.find(r=>r.code===el.dataset.code));});fit();}
+  window.addEventListener('resize',()=>fit());
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fit);
 
-/* --------- legend (collapsed by default) --------- */
-const legend=document.getElementById('legend');
-function dots(n){let s='';for(let k=1;k<=5;k++)s+=`<span class="dot ${k<=n?'on':''}"></span>`;return `<span class="dots">${s}</span>`;}
-function buildLegend(){
-  const gov=document.body.dataset.mode==='gov';
-  let h=`<h4>${gov?'Governance coverage (card colour)':'Risk category (card colour)'}</h4>`;
-  if(gov) h+=Object.keys(COV).map(c=>`<div class="lgrow"><span class="sw" style="background:${COV[c].hex}"></span>${c}</div>`).join('');
-  else h+=Object.keys(FAM).map(f=>`<div class="lgrow"><span class="sw" style="background:${FAM[f].hex}"></span>${FAM[f].name}</div>`).join('');
-  h+=`<h4>Likelihood (left → right · meter L)</h4>`+[1,2,3,4,5].map(k=>`<div class="lgrow"><span class="band">L${k}</span>${dots(k)}<span>${LBL_L[k]}</span><span class="prob">${PROB_L[k]}</span></div>`).join('');
-  h+=`<h4>Impact (bottom → top · meter I)</h4>`+[1,2,3,4,5].map(k=>`<div class="lgrow"><span class="band">I${k}</span>${dots(k)}<span>${LBL_I[k]}</span></div>`).join('');
-  h+=`<p style="font-size:11px;color:var(--ink-3);margin-top:10px">Solid dots = most-likely outcome; hollow dots = lower-probability worst case.</p>`;
-  legend.innerHTML=h;
-}
-const legendBtn=document.getElementById('legend-btn'),aboutBtn=document.getElementById('about-btn'),about=document.getElementById('about');
-function togglePanel(panel,btn,other,otherBtn){const open=!panel.classList.contains('open');panel.classList.toggle('open',open);btn.setAttribute('aria-expanded',open);
-  if(open){other.classList.remove('open');otherBtn.setAttribute('aria-expanded',false);}}
-legendBtn.addEventListener('click',e=>{e.stopPropagation();togglePanel(legend,legendBtn,about,aboutBtn);});
-aboutBtn.addEventListener('click',e=>{e.stopPropagation();togglePanel(about,aboutBtn,legend,legendBtn);});
-[legend,about].forEach(p=>p.addEventListener('click',e=>e.stopPropagation()));
+  /* ---------- detail (back) ---------- */
+  function riskBack(r){
+    if(r.kind==='risk multiplier'){
+      return '<div class="eyebrow">'+r.code+' · risk multiplier</div><h2>'+esc(r.name)+'</h2>'
+       +'<div class="tags"><span class="tag"><b>Amplifies</b> '+esc(r.amplifies)+'</span><span class="tag"><b>Strength</b> '+esc(r.strength)+'</span></div>'
+       +'<p class="desc">'+esc(r.description)+'</p><hr><dl><dt>Amplification</dt><dd>'+esc(r.amplification_detail)+'</dd><dt>Strength</dt><dd>'+esc(r.strength_detail)+'</dd></dl>'
+       +'<p class="src">Multipliers are assessed qualitatively and are not placed on the likelihood × impact scale.</p>';
+    }
+    const L=r.likelihood, I=r.impact;
+    return '<div class="eyebrow">'+r.code+' · terminal hazard · root '+esc(r.root)+(r.channel?' · '+esc(r.channel):'')+'</div><h2>'+esc(r.name)+'</h2>'
+     +'<div class="tags"><span class="tag"><b>Likelihood</b> '+L.modal+' — '+esc(LBL_L[L.modal])+' · range '+L.range[0]+'–'+L.range[1]+(L.rising?' · rising':'')+'</span>'
+     +'<span class="tag"><b>Impact</b> '+I.modal+' → '+I.tail+' — '+esc(LBL_I[I.modal].split(' — ')[0])+' to '+esc(LBL_I[I.tail].split(' — ')[0])+(I.tail_is_tipping_cascade?' (tipping cascade)':'')+'</span>'
+     +'<span class="tag"><b>Confidence</b> '+esc(r.confidence)+'</span></div>'
+     +'<p class="desc">'+esc(r.description)+'</p><hr>'
+     +'<dl><dt>Time profile</dt><dd>'+esc(r.time_profile)+'</dd><dt>Severity ceiling</dt><dd>'+esc(r.severity_ceiling)+'</dd><dt>Failure mode</dt><dd>'+esc(r.failure_mode)+'</dd><dt>Impact dimensions</dt><dd>'+esc(I.dominant_dimensions)+'</dd><dt>Sources</dt><dd class="src">'+esc(r.sources)+'</dd></dl>';
+  }
+  const PN={assess:'Assess',regulate:'Regulate',finance:'Finance',enforce:'Enforce'};
+  function pillarBlock(p,pil,score){
+    const n=typeof score==='string'?+score.split('/')[0]:score;
+    const facts=[pil.type&&'Type: '+pil.type, pil.coverage&&'Coverage: '+pil.coverage, pil.binding_or_powers&&(p==='enforce'?'Powers: ':'Bindingness: ')+pil.binding_or_powers, pil.status&&'Status: '+pil.status].filter(Boolean).map(esc).join(' · ');
+    return '<div class="ph"><h4>'+PN[p]+'</h4><span class="sc">'+[1,2,3].map(k=>'<i class="'+(k<=n?'on':'')+'"></i>').join('')+'</span><span style="font-size:.8rem;opacity:.7">'+(typeof score==='string'?score:n)+'/3</span></div>'
+     +'<p class="mech">'+(pil.mechanisms?esc(pil.mechanisms):'<i>none</i>')+'</p>'+(facts?'<p class="facts">'+facts+'</p>':'');
+  }
+  function govBack(r){
+    const g=gov[r.code]; if(!g) return '<h2>'+esc(r.name)+'</h2><p class="desc">No governance record.</p>';
+    let h='<div class="eyebrow">'+r.code+' · multilateral governance</div><h2>'+esc(r.name)+'</h2>'
+      +'<div class="mat">Maturity: <b>'+esc(g.maturity)+'</b> '+esc(g.trend)+' <span style="font-size:.9rem;opacity:.75">· pillar score '+esc(g.score_sum)+'/12'+(g.capped_by_critical_actor_gate?' · capped by the critical-actor gate':'')+'</span></div>'
+      +(g.maturity_note?'<p class="facts">'+esc(g.maturity_note)+'</p>':'');
+    if(g.sub_regimes){
+      for(const [k,sr] of Object.entries(g.sub_regimes)){
+        h+='<div class="subr">'+k+' — '+esc(sr.maturity)+' ('+sr.score_sum+'/12)</div>';
+        for(const p of ['assess','regulate','finance','enforce']) h+=pillarBlock(p,sr.pillars[p],sr.scores[p]);
+      }
+    } else {
+      for(const p of ['assess','regulate','finance','enforce']) h+=pillarBlock(p,g.pillars[p],g.scores[p]);
+    }
+    h+='<hr>'+(g.in_practice?'<dl><dt>In practice</dt><dd>'+esc(g.in_practice)+'</dd><dt>Gap</dt><dd>'+esc(g.gap)+'</dd></dl>':'<dl><dt>Gap</dt><dd>'+esc(g.gap)+'</dd></dl>');
+    return h;
+  }
 
-/* --------- misc --------- */
-document.getElementById('stage').addEventListener('click',()=>{deselect();legend.classList.remove('open');about.classList.remove('open');legendBtn.setAttribute('aria-expanded',false);aboutBtn.setAttribute('aria-expanded',false);});
-document.getElementById('dclose').addEventListener('click',e=>{e.stopPropagation();deselect();});
-detail.addEventListener('click',e=>e.stopPropagation());
-document.addEventListener('keydown',e=>{if(e.key==='Escape')deselect();});
-window.addEventListener('resize',()=>{if(selected)drawLinks(DATA.find(x=>x.c===selected));});
-buildLegend();
+  /* ---------- open / close ---------- */
+  const big=$('#big'),flip=$('#flip'),bigF=$('#bigFront'),bigB=$('#bigBack'),veil=$('#veil'),board=$('#board');
+  let openEl=null;
+  function open(r,el){
+    if(openEl) return;
+    openEl=el; const rc=el.getBoundingClientRect();
+    const W=Math.min(window.innerWidth*.92,720), H=Math.min(window.innerHeight*.86,660);
+    const cls='c-'+grp(r.code);
+    bigF.className='face front '+cls; bigB.className='face back '+cls+(face==='risks'?'':' gov');
+    bigF.style.borderRadius=r.kind==='risk multiplier'?'50%':'14px';
+    bigF.innerHTML='<div><div class="code">'+r.code+'</div><div class="name">'+esc(r.name)+'</div></div>';
+    bigB.innerHTML=face==='risks'?riskBack(r):govBack(r);
+    big.style.width=W+'px'; big.style.height=H+'px';
+    flip.style.transition='none'; flip.className='flip';
+    big.style.transition='none';
+    big.style.transform=`translate(${rc.left}px,${rc.top}px) scale(${rc.width/W},${rc.height/H})`;
+    big.classList.add('on'); veil.classList.add('on'); board.classList.add('dim'); el.classList.add('origin');
+    big.getBoundingClientRect();
+    big.style.transition='transform .6s cubic-bezier(.4,.1,.2,1)'; flip.style.transition='';
+    big.style.transform=`translate(${(window.innerWidth-W)/2}px,${(window.innerHeight-H)/2}px) scale(1)`;
+    setTimeout(()=>{flip.classList.add('turned');bigF.style.borderRadius='14px';},60);
+    bigB.scrollTop=0;
+  }
+  function close(){
+    if(!openEl) return;
+    const el=openEl,rc=el.getBoundingClientRect(),W=big.offsetWidth,H=big.offsetHeight;
+    flip.classList.remove('turned');
+    big.style.transform=`translate(${rc.left}px,${rc.top}px) scale(${rc.width/W},${rc.height/H})`;
+    veil.classList.remove('on');
+    setTimeout(()=>{big.classList.remove('on');board.classList.remove('dim');el.classList.remove('origin');openEl=null;},600);
+  }
+  veil.addEventListener('click',close); $('#bigX').addEventListener('click',close);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  window.addEventListener('resize',()=>{if(openEl){const W=Math.min(window.innerWidth*.92,720),H=Math.min(window.innerHeight*.86,660);big.style.transition='none';big.style.width=W+'px';big.style.height=H+'px';big.style.transform=`translate(${(window.innerWidth-W)/2}px,${(window.innerHeight-H)/2}px) scale(1)`;}});
+
+  /* ---------- toggle ---------- */
+  function setFace(f){
+    if(openEl) close();
+    face=f; $('#tRisks').classList.toggle('on',f==='risks'); $('#tGov').classList.toggle('on',f==='gov');
+    $('#tRisks').setAttribute('aria-selected',f==='risks'); $('#tGov').setAttribute('aria-selected',f==='gov');
+    $('#sub').textContent=f==='risks'?'Fourteen terminal hazards on a likelihood × impact grid, three risk multipliers off-scale.':'The same risks, coloured as before, showing which of the four governance pillars exist for each and how mature the multilateral regime is.';
+    setTimeout(()=>{refreshFronts();buildLegend();},openEl?620:0);
+  }
+  $('#tRisks').addEventListener('click',()=>setFace('risks')); $('#tGov').addEventListener('click',()=>setFace('gov'));
+
+  /* ---------- bubbles ---------- */
+  function buildLegend(){
+    const cat=[['E','Earth-system destabilisation (E1–E2)','c-E'],['W','Deliberate destructive capability (W1–W3)','c-W'],['T','Loss of control over technology (T1–T3)','c-T'],['F','Loss of collective control (F1–F2)','c-F'],['N','Natural hazards (N1–N4)','c-N'],['M','Risk multipliers — round, off-scale','c-M round']];
+    let h='<h3>Categories</h3>'+cat.map(c=>'<div class="row"><span class="sw '+c[2]+'"></span><span>'+c[1]+'</span></div>').join('');
+    if(face==='risks'){
+      h+='<h3>Likelihood of reaching catastrophic scale by 2100</h3>'+Object.entries(LBL_L).map(([k,v])=>'<div class="row"><span style="font-variant:small-caps;width:1.6rem">'+k+'</span><span>'+esc(v)+'</span></div>').join('');
+      h+='<h3>Potential impact</h3>'+Object.entries(LBL_I).map(([k,v])=>'<div class="row"><span style="font-variant:small-caps;width:1.6rem">'+k+'</span><span>'+esc(v.split(' — ')[0])+'</span></div>').join('');
+      h+='<h3>Card meters</h3><div class="row"><span class="meter"><i class="modal"></i></span><span>most likely (modal) band</span></div><div class="row"><span class="meter"><i class="range"></i></span><span>documented range / tail</span></div><p style="opacity:.75">Cards sit at their modal cell, or the nearest free cell within their range. Row I5 is empty: no hazard\'s <i>most likely</i> outcome is extinction.</p>';
+    } else {
+      h+='<h3>Four governance pillars</h3><div class="row"><span class="pil"><i class="on"></i></span><span><b>A</b>ssess · <b>R</b>egulate · <b>F</b>inance · <b>E</b>nforce — each scored 0–3</span></div>';
+      h+='<h3>Maturity of multilateral governance</h3>'+Object.entries(RG.methodology.maturity_indicator.levels).map(([k,v])=>'<div class="row"><span style="font-style:italic;min-width:7.2rem">'+k+'</span><span style="opacity:.8">'+esc(v.split('. ').slice(1).join('. ')||v)+'</span></div>').join('');
+      h+='<p style="opacity:.75">↑ strengthening · → stable · ↓ eroding. Maturity is capped at <i>Developing</i> where the actors who generate the risk are unbound or immune from enforcement.</p>';
+    }
+    $('#legendBody').innerHTML=h;
+  }
+  function buildInfo(){
+    $('#infoBody').innerHTML='<h3>About</h3><p>The Global Risk Governance Monitor maps the global catastrophic and existential risks facing humanity this century — the UN\'s own phrase in the <i>Pact for the Future</i> (2024) — with a relative, range-based assessment of their likelihood and impact, and inventories the multilateral institutions and treaties that exist to assess, regulate, finance and enforce the reduction of each.</p>'
+     +'<p>Risks are organised as a tree: two roots (nature; human activity and technology), four channels, fourteen terminal hazards, three multipliers. Governance is scored on four pillars and rolled up into a five-level maturity indicator, benchmarked against the ozone regime.</p>'
+     +'<h3>Data</h3><p>Both datasets are open data under CC BY-NC 4.0 — free for non-commercial use with attribution to Jan Cherlet, globalriskgovernance.org.</p>'
+     +'<a class="dl" href="GlobalRisks.json" download>GlobalRisks.json · v'+esc(GR.version)+'</a><a class="dl" href="RiskGovernance.json" download>RiskGovernance.json · v'+esc(RG.version)+'</a>'
+     +'<p style="opacity:.75">Data as of '+esc(GR.date)+'. Sources: UN Global Risk Reports 2024 & 2026, RAND/HSOAC 2024, Global Challenges Foundation 2026, UK National Risk Register 2025, WEF Global Risks Report 2026, Bostrom, Ord, treaty depositaries.</p>'
+     +'<h3>Credit</h3><p>Created and maintained by <a href="https://jancherlet.info" target="_blank" rel="noopener">Jan Cherlet</a>. <a href="https://globalriskgovernance.org">globalriskgovernance.org</a></p>';
+  }
+  document.querySelectorAll('.bubble .ic').forEach(b=>b.addEventListener('click',()=>{const bb=b.parentElement,o=bb.classList.toggle('open');b.querySelector('.lbl').hidden=!o;}));
+
+  buildGrid(); fit(); buildLegend(); buildInfo();
+})();
 </script>
 </body>
 </html>
