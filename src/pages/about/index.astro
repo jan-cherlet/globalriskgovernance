@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../site.config.mjs';
+import { hazards, multipliers, GR, RG, fmtDate, latestDate } from '../../lib/data.mjs';
+---
+<Base title="About" description="What the Global Risk Governance Monitor is, why it exists and who maintains it." newsletter>
+  <div class="wrap doc">
+    <header class="page-head">
+      <p class="eyebrow">{site.name}</p>
+      <h1>About the Monitor</h1>
+      <p class="lead">The Monitor maps the global catastrophic and existential risks that humanity faces this century, and the multilateral institutions and treaties that exist to reduce each one.</p>
+    </header>
+    <hr />
+    <div class="prose">
+      <h2>Why a Monitor?</h2>
+      <p>In the Pact for the Future (2024), the member states of the United Nations recognised 'global catastrophic and existential risks' and committed to address them. A risk of this size cannot be reduced by one country alone. It needs institutions that many states share.</p>
+      <p>The Monitor asks a simple question for each risk: do such institutions exist, and how complete are they? It looks at four functions. Someone must assess the risk. Rules must commit states to reduce it. Money must pay for the reduction. And someone must be able to check and enforce the rules.</p>
+      <p>The answer today is that no risk is governed in full. A few have a developed regime with weak points. Most have only assessment and dialogue. The Monitor shows where the gaps are, so that they can be discussed and closed.</p>
+
+      <h2>What it contains</h2>
+      <p>The Monitor describes {hazards.length} risks and {multipliers.length} risk multipliers. The risks are events that could cause a global catastrophe. The multipliers are conditions that make those events more likely or more severe.</p>
+      <p>For each risk there is one page. It explains the risk, gives a relative assessment of its likelihood and impact, and lists the institutions and treaties that govern it, with a score for each of the four functions. The scores add up to a maturity level, from Non-existent to Fully developed. The yardstick for Fully developed is the regime that protects the ozone layer.</p>
+      <p>You can start from the <a href="/#risks">risk cards</a>, <a href="/risks/">filter the risks</a>, compare them in the <a href="/governance/">governance overview</a> or place them on the <a href="/map/">interactive grid</a> of likelihood and impact.</p>
+
+      <h2>Method, paper and data</h2>
+      <p>The <a href="/method/">method page</a> explains how the risks were selected and how the scores are given. The full argument and the sources are set out in the paper <a href={site.paperUrl}>{site.paperTitle}</a> (Cherlet, 2026).</p>
+      <p>The website is generated from two open datasets, which you can download from the <a href="/data/">data page</a>. The current versions are GlobalRisks {GR.version} and RiskGovernance {RG.version}, dated {fmtDate(latestDate)}. Both are licensed CC BY-NC 4.0: free to use, share and adapt for non-commercial purposes, with attribution to Jan Cherlet, globalriskgovernance.org.</p>
+      <p>The assessments are judgements by a single analyst, based on published reports and primary sources. They are meant as aids for comparison and discussion, not as forecasts.</p>
+
+      <h2>Who is behind it</h2>
+      <p>The Monitor is created and maintained by <a href={site.authorUrl}>Jan Cherlet</a>. Corrections and suggestions are welcome: <a href={site.contactUrl}>get in touch</a>.</p>
+    </div>
+  </div>
+</Base>

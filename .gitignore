@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.astro/
+public/GlobalRisks.json
+public/RiskGovernance.json
+public/Cherlet_2026_GCER_multilateral_governance.pdf

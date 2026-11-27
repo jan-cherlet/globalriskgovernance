@@ -1,0 +1,132 @@
+---
+// Interactive likelihood x impact grid, restyled to the light theme and the domain colours.
+import Base from '../../layouts/Base.astro';
+import Dots from '../../components/Dots.astro';
+import { icon } from '../../lib/icons.mjs';
+import { site, pillarLabels } from '../../site.config.mjs';
+import { hazards, multipliers, risks, gridPlace, L_BANDS, I_BANDS, PILLARS, GR } from '../../lib/data.mjs';
+
+const ROWS = [4, 3, 2, 1];
+const COLS = [1, 2, 3, 4, 5];
+const at = (row, col) => gridPlace.at(row, col);
+---
+<Base title="Interactive grid" description={`The ${hazards.length} risks placed on a grid of likelihood and impact, with a second view that shows the maturity of their multilateral governance.`}>
+  <div class="wrap doc">
+    <header class="page-head" style="padding-bottom:24px">
+      <p class="eyebrow">{site.name}</p>
+      <h1>Likelihood and impact at a glance</h1>
+      <p class="lead">Each tile is one risk. Its place shows how likely the risk is to reach catastrophic scale by 2100 and how severe its most likely impact would be. Select a tile for its name and a summary.</p>
+    </header>
+
+    <div class="map-top">
+      <div class="seg-toggle" role="group" aria-label="What the tiles show">
+        <button type="button" id="face-risks" aria-pressed="true">Risks</button>
+        <button type="button" id="face-gov" aria-pressed="false">Governance</button>
+      </div>
+      <p class="small" style="margin:0" id="face-note">The tiles show each risk in its domain colour.</p>
+    </div>
+
+    <div class="map-board" data-face="risks" id="board">
+      <div class="axis-x" style="grid-row:1">Increasing likelihood <span aria-hidden="true">→</span></div>
+      <div class="axis-y" style="grid-column:1">Increasing impact <span aria-hidden="true">→</span></div>
+      {ROWS.map((row, ri) => COLS.map((col) => {
+        const r = at(row, col);
+        return (
+          <div class={`map-cell${r ? '' : ' empty'}`} style={`grid-row:${ri + 2};grid-column:${col + 1}`}>
+            {r && (
+              <button type="button" class={`tile on-color d-${r.domain.color}`} data-code={r.code}>
+                <span class="tname">{r.name}</span>
+                <span class="trow">
+                  <span class="tmeta f-risks"><Fragment set:html={icon(r.icons.symbol, { cls: 'sym' })} /></span>
+                  <span class="tmeta f-gov" hidden><span class="long">{r.gov.maturity}</span><span class="short num" aria-hidden="true">{r.gov.score_sum}/12</span> <span aria-hidden="true">{r.gov.trend}</span><span class="visually-hidden">, {r.gov.trend_label.toLowerCase()}</span></span>
+                </span>
+              </button>
+            )}
+          </div>
+        );
+      }))}
+      {ROWS.map((row, ri) => <div class="map-rowlab" style={`grid-row:${ri + 2};grid-column:7`}><b>{I_BANDS[`I${row}`].label}</b><span>most likely impact</span></div>)}
+      {COLS.map((col) => <div class="map-collab" style={`grid-row:6;grid-column:${col + 1}`}><b>{L_BANDS[`L${col}`].label}</b><span>{L_BANDS[`L${col}`].range}</span></div>)}
+    </div>
+
+    <div class="map-mult">
+      <h3>Risk multipliers</h3>
+      <p class="measure small" style="margin-top:4px">The multipliers raise the likelihood or severity of every risk. They are not placed on the grid.</p>
+      <div class="row">
+        {multipliers.map((r) => (
+          <div class="map-cell">
+            <button type="button" class={`tile on-color d-${r.domain.color}`} data-code={r.code}>
+              <span class="tname">{r.name}</span>
+              <span class="tmeta f-risks">Multiplier</span>
+              <span class="tmeta f-gov" hidden>{r.gov.maturity} <span aria-hidden="true">{r.gov.trend}</span></span>
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:40px">
+      <p class="small">A risk sits in the cell of its most likely likelihood and impact. Where two risks share a cell, one moves to the nearest free cell inside its assessed range. The level Existential is not shown as a row, because no risk has extinction as its most likely outcome; for several risks it is the worst case. Grey cells are empty. See the <a href="/method/#assessment">method</a>.</p>
+    </div>
+  </div>
+
+  {risks.map((r) => (
+    <template id={`t-${r.code}`} data-color={r.domain.color}>
+      <span class="label">{r.isMultiplier ? 'Risk multiplier' : r.domain.name}</span>
+      <h2 id="flip-h">{r.name}</h2>
+      <p>{r.summary}</p>
+      {!r.isMultiplier ? (
+        <ul class="pills">
+          <li class="pill">Likelihood: {r.L.label.toLowerCase()} ({r.L.range})</li>
+          <li class="pill">Impact: {r.I.label.toLowerCase()}{r.I.tail > r.I.modal ? `, worst case ${r.I.tailLabel.toLowerCase()}` : ''}</li>
+        </ul>
+      ) : (
+        <ul class="pills"><li class="pill">Strength: {r.strength.toLowerCase()}</li></ul>
+      )}
+      <span class="label">Multilateral governance: {r.gov.maturity.toLowerCase()}, {r.gov.trend_label.toLowerCase()} ({r.gov.score_sum} of 12)</span>
+      <div class="pmeter">{PILLARS.map((p) => <div>{pillarLabels[p]}<Dots score={r.gov.scores[p]} /></div>)}</div>
+      <a class="btn" href={r.href}>Open the full page</a>
+      <p style="margin-top:14px"><strong>The gap.</strong> {r.gov.gap}</p>
+    </template>
+  ))}
+  <div class="flip-veil" id="veil" data-open="false">
+    <div class="flip-card on-color" id="flip" role="dialog" aria-modal="true" aria-labelledby="flip-h">
+      <button class="x" id="flip-x" aria-label="Close">×</button>
+      <div id="flip-body"></div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var board = document.getElementById('board'), veil = document.getElementById('veil'), card = document.getElementById('flip'), body = document.getElementById('flip-body');
+      var bR = document.getElementById('face-risks'), bG = document.getElementById('face-gov'), note = document.getElementById('face-note'), last = null;
+      function face(f) {
+        bR.setAttribute('aria-pressed', f === 'risks'); bG.setAttribute('aria-pressed', f === 'gov');
+        document.querySelectorAll('.f-risks').forEach(function (e) { e.hidden = f !== 'risks'; });
+        document.querySelectorAll('.f-gov').forEach(function (e) { e.hidden = f !== 'gov'; });
+        note.textContent = f === 'risks' ? 'The tiles show each risk in its domain colour.' : 'The tiles show the maturity of multilateral governance and its trend.';
+      }
+      bR.addEventListener('click', function () { face('risks'); });
+      bG.addEventListener('click', function () { face('gov'); });
+      function open(btn) {
+        var t = document.getElementById('t-' + btn.dataset.code); if (!t) return;
+        last = btn; body.innerHTML = ''; body.appendChild(t.content.cloneNode(true));
+        card.className = 'flip-card on-color d-' + t.dataset.color;
+        veil.dataset.open = 'true'; document.getElementById('flip-x').focus();
+      }
+      function close() { veil.dataset.open = 'false'; if (last) last.focus(); }
+      document.querySelectorAll('.tile').forEach(function (b) { b.addEventListener('click', function () { open(b); }); });
+      document.getElementById('flip-x').addEventListener('click', close);
+      veil.addEventListener('click', function (e) { if (e.target === veil) close(); });
+      document.addEventListener('keydown', function (e) {
+        if (veil.dataset.open !== 'true') return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'Tab') {
+          var f = card.querySelectorAll('a[href], button'), first = f[0], lastEl = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); lastEl.focus(); }
+          else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); first.focus(); }
+        }
+      });
+    })();
+  </script>
+</Base>

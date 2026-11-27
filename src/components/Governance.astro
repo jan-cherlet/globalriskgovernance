@@ -1,0 +1,89 @@
+---
+// Governance block of a risk page (redesign file, M12).
+import Dots from './Dots.astro';
+import Maturity from './Maturity.astro';
+import { PILLARS, MATURITY_LEVELS, paragraphs } from '../lib/data.mjs';
+import { pillarLabels, pillarPlain, pillarQuestion } from '../site.config.mjs';
+const { risk } = Astro.props;
+const g = risk.gov;
+const isNone = (p, score) => Number(score) === 0;
+const extra = (m) => (m || '').replace(/^None( for this risk)?\.\s*/i, '').trim();
+---
+<section class="block" id="governance" aria-labelledby="gov-h">
+  <h2 id="gov-h">{risk.isMultiplier ? 'How is this multiplier governed?' : 'How is this risk governed?'}</h2>
+  <p>The score shows how far multilateral institutions cover four functions: to assess the risk, to regulate it, to finance its reduction and to enforce the rules. Each function is scored from 0 to 3.</p>
+
+  <div class="meter" role="group" aria-label="Scores for the four governance pillars">
+    {PILLARS.map((p) => (
+      <div class="seg">
+        <span class="label">{pillarLabels[p]} <span class="num">{g.scores[p]}/3</span></span>
+        <Dots score={g.scores[p]} />
+      </div>
+    ))}
+  </div>
+  <div class="meter-sum">
+    <span class="num"><strong>{g.score_sum} of 12</strong></span>
+    <Maturity gov={g} />
+    <span class="small">{MATURITY_LEVELS[g.maturity].meaning}</span>
+  </div>
+  {g.capped_by_critical_actor_gate && <p class="gov-note"><strong>Capped.</strong> The score alone would give a higher level. Maturity is capped at Developing because the states that mostly determine this risk are not bound by the regime or are immune from its enforcement.</p>}
+  {g.scores_note && <p class="gov-note">{g.scores_note}</p>}
+  {g.maturity_note && <p class="gov-note">{g.maturity_note}</p>}
+
+  <div class="pillar-cards">
+    {PILLARS.map((p) => {
+      const pil = g.pillars[p]; const none = isNone(p, g.scores[p]); const more = extra(pil.mechanisms);
+
+      return (
+        <article class={`scard${none ? ' none' : ''}`}>
+          <span class="label"><span>{pillarLabels[p]} · {pillarPlain[p]}</span><Dots score={g.scores[p]} /></span>
+          <h5>{none ? 'None in place' : pillarQuestion[p]}</h5>
+          {none ? (more && <p>{more}</p>) : paragraphs(pil.mechanisms, 3).map((t) => <p>{t}</p>)}
+          {(pil.type || pil.coverage || pil.binding_or_powers || pil.status) && (
+            <dl>
+              {pil.type && <div><dt>Type</dt><dd>{pil.type}</dd></div>}
+              {pil.coverage && <div><dt>Coverage</dt><dd>{pil.coverage}</dd></div>}
+              {pil.binding_or_powers && <div><dt>{p === 'enforce' ? 'Powers' : 'Binding force'}</dt><dd>{pil.binding_or_powers}</dd></div>}
+              {pil.status && <div><dt>Status</dt><dd>{pil.status}</dd></div>}
+            </dl>
+          )}
+        </article>
+      );
+    })}
+  </div>
+
+  {g.sub_regimes && (
+    <div class="block" style="padding-top:28px">
+      <h4>The two sub-regimes</h4>
+      {Object.entries(g.sub_regimes).map(([k, sr]) => (
+        <details class="sub">
+          <summary>{sr.name} <span class="badge" data-level={sr.maturity}>{sr.maturity}</span> <span class="small num">{sr.score_sum} of 12</span></summary>
+          <div class="pillar-cards">
+            {PILLARS.map((p) => (
+              <article class="scard">
+                <span class="label"><span>{pillarLabels[p]}</span><Dots score={sr.scores[p]} /></span>
+                {paragraphs(sr.pillars[p].mechanisms, 3).map((t) => <p>{t}</p>)}
+                <dl>
+                  {sr.pillars[p].coverage && <div><dt>Coverage</dt><dd>{sr.pillars[p].coverage}</dd></div>}
+                  {sr.pillars[p].binding_or_powers && <div><dt>{p === 'enforce' ? 'Powers' : 'Binding force'}</dt><dd>{sr.pillars[p].binding_or_powers}</dd></div>}
+                  {sr.pillars[p].status && <div><dt>Status</dt><dd>{sr.pillars[p].status}</dd></div>}
+                </dl>
+              </article>
+            ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  )}
+
+  {g.in_practice && (
+    <div class="block" style="padding-top:28px">
+      <h4>In practice</h4>
+      <p>{g.in_practice}</p>
+    </div>
+  )}
+  <div class="gap-card">
+    <h3>The gap</h3>
+    <p>{g.gap}</p>
+  </div>
+</section>

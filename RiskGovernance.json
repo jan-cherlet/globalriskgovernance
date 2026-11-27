@@ -1,1006 +1,1063 @@
 {
- "dataset": "RiskGovernance",
- "title": "Global Risk Governance Monitor — Multilateral Governance of Global Catastrophic and Existential Risks",
- "version": "3.1",
- "date": "2026-09-16",
- "publisher": "Jan Cherlet",
- "website": "https://globalriskgovernance.org",
- "author_website": "https://jancherlet.info",
- "license": "CC BY-NC 4.0 — free to use, share and adapt for non-commercial purposes provided the origin is cited: Jan Cherlet, globalriskgovernance.org (https://creativecommons.org/licenses/by-nc/4.0/)",
- "citation": "Cherlet, J. (2026). RiskGovernance dataset v3.1, Global Risk Governance Monitor, globalriskgovernance.org",
- "companion_dataset": "GlobalRisks.json — definitions and likelihood/impact assessment of the risks governed",
- "methodology": {
-  "purpose": "This dataset inventories, for each global catastrophic and existential risk in the companion GlobalRisks dataset, the multilateral institutions and treaties that exist to assess, regulate, finance and enforce the reduction of the risk; records the coverage, bindingness and enforcement power of each; and derives a single maturity indicator of multilateral risk governance per risk. It is the governance data layer of the Global Risk Governance Monitor (globalriskgovernance.org).",
-  "scope": {
-   "rule": "A mechanism is inventoried if it meets all three tests.",
-   "test_1_multilateral": "Constituted by, or open to, states from at least two continents. This admits universal UN bodies, global treaties, cross-regional clubs (OECD, Australia Group, Wassenaar) and cross-continental bilateral treaties (US–Russia arms control); it excludes purely national instruments and single-continent regional bodies. A regional organisation is admitted where its instruments are open to and joined by states from other continents (the Council of Europe's Budapest and AI conventions; the OSCE).",
-   "test_2_intergovernmental": "Governments are the members or parties. Public–private partnerships (CEPI, Gavi), scientific unions (IAVCEI, IUCN), industry standards bodies and NGO initiatives are noted where they fill a vacuum but not scored; their presence in place of an intergovernmental body is itself a finding.",
-   "test_3_function": "The mechanism's mandate covers the risk explicitly, or a defined component of it. Generic bodies whose mandate incidentally touches the risk are recorded as generic and score at most 1 on any pillar.",
-   "coverage": "Recorded as the number of governments that participate in, are party to, or have formally recognised the mechanism, banded Universal (≥180 states), Broad (120–179), Partial (60–119) or Club (<60), with a note on critical actors absent — states whose behaviour predominantly determines the risk but who sit outside."
-  },
-  "pillars": {
-   "basis": "The four pillars correspond to the functions the regime-effectiveness literature identifies as necessary for an international institution to change outcomes: Haas, Keohane & Levy (1993) — raising concern (knowledge, monitoring), improving the contractual environment (rules, commitments) and building capacity (finance, assistance) — plus the enforcement condition emphasised by Downs, Rocke & Barsoom (1996) and Mitchell (1994). The Sendai Framework's four priorities and the IRGC risk-governance cycle carry the same logic.",
-   "assess": "Standing intergovernmental bodies that produce authoritative knowledge of the risk and detect or monitor it: scientific assessment panels, monitoring networks, early-warning systems.",
-   "regulate": "Treaties and other instruments that commit states to reduce the risk: prohibitions, limits, standards, targets, obligations of conduct.",
-   "finance": "Dedicated intergovernmental funds or facilities that pay for proactive risk reduction, as distinct from disaster response after the fact.",
-   "enforce": "Bodies with independent power to verify compliance and to respond to non-compliance: inspection, adjudication, sanction.",
-   "alternative_labels": "Knowledge · Rules · Money · Teeth"
-  },
-  "recorded_fields": {
-   "type": "treaty / UN organ or agency / assessment panel / fund / club / soft-law instrument",
-   "coverage": "number of governments and coverage band",
-   "bindingness_ladder": [
-    "Binding + verified",
-    "Binding",
-    "Soft law (declarations, voluntary targets, codes)",
-    "Advisory"
-   ],
-   "enforcement_powers": "inspection / adjudication / referral / sanction, with effectiveness of use: proven / partial / weak / untested"
-  },
-  "pillar_scoring": {
-   "scale": "Each pillar is scored 0–3 per risk.",
-   "0": "Assess: nothing dedicated. Regulate: no instrument. Finance: none. Enforce: none.",
-   "1": "Assess: a generic body touches the risk incidentally, or an ad-hoc study. Regulate: soft law only, or a binding instrument covering only a sliver of the risk. Finance: ad-hoc or general-purpose funding. Enforce: self-reporting or peer review only, no independent verification.",
-   "2": "Assess: a dedicated intergovernmental body with partial coverage, thin capacity, or new and untested. Regulate: a binding treaty in force with broad coverage but weak, voluntary or unverified substantive obligations; or binding and adequate but not yet in force or with key actors outside. Finance: a dedicated fund that is small against need or not yet capitalised. Enforce: independent verification or adjudication without sanction power, or with a power rarely usable.",
-   "3": "Assess: standing, dedicated, authoritative and near-universal, with operational monitoring where the risk allows. Regulate: binding, substantive, near-universal, including the critical actors. Finance: dedicated, capitalised and replenished at scale. Enforce: verification and sanction power, used with demonstrable effect.",
-   "natural_risks": "For natural hazards, Regulate and Enforce measure agreed protocols for prevention and preparedness (who authorises a deflection, who stockpiles for a volcanic winter, what grid-hardening standard applies). Scores are not relaxed, because the absence of such protocols is a real gap."
-  },
-  "maturity_indicator": {
-   "levels": {
-    "Fully developed": "Score 10–12, Regulate = 3, Enforce ≥ 2, no pillar at 0. All four functions present, binding on the actors who matter, verified, financed, enforced.",
-    "Developed": "Score 7–9, Regulate ≥ 2, no pillar at 0. A binding regime with all four functions present but at least one materially weak.",
-    "Developing": "Score 4–6 with at least one pillar ≥ 2; or any higher score with a pillar at 0; or capped by the critical-actor gate. Real institutions exist, but a function is missing or the regime cannot bind the actors who generate the risk.",
-    "Nascent": "Score 1–3; or 4–6 with no pillar ≥ 2. Assessment or dialogue only; no binding instrument in force on the risk itself.",
-    "Non-existent": "Score 0. No dedicated mechanism of any kind."
-   },
-   "critical_actor_gate": "Where the states whose behaviour predominantly determines the risk are not bound by the regime's substantive obligations, or are structurally immune from its enforcement (for example a permanent-member veto), maturity is capped at Developing whatever the sum.",
-   "trend": "↑ strengthening · → stable · ↓ eroding, judged on 2024–2026 events.",
-   "interpretation": "The level indicates architectural maturity; the Enforce score and the per-risk 'in practice' note carry effectiveness. Both are shown so that a Developed regime that under-performs is not confused with one that performs."
-  },
-  "benchmark": {
-   "code": "OZONE",
-   "name": "Stratospheric ozone depletion (benchmark, not a live risk)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "Scientific, Environmental Effects and Technology & Economic Assessment Panels (quadrennial since 1989); WMO/UNEP ozone monitoring",
-     "type": null,
-     "coverage": "Universal",
-     "binding_or_powers": null,
-     "status": "standing, authoritative"
+  "dataset": "RiskGovernance",
+  "title": "Global Risk Governance Monitor: Multilateral Governance of Global Catastrophic and Existential Risks",
+  "version": "4.0",
+  "date": "2026-11-27",
+  "publisher": "Jan Cherlet",
+  "website": "https://globalriskgovernance.org",
+  "author_website": "https://jancherlet.info",
+  "license": "CC BY-NC 4.0. Free to use, share and adapt for non-commercial purposes, provided the origin is cited: Jan Cherlet, globalriskgovernance.org (https://creativecommons.org/licenses/by-nc/4.0/)",
+  "citation": "Cherlet, J. (2026). RiskGovernance dataset v4.0, Global Risk Governance Monitor, globalriskgovernance.org",
+  "companion_dataset": "GlobalRisks.json contains the definitions of the risks governed and the assessment of their likelihood and impact.",
+  "changes": [
+    "Version 4.0 (27 November 2026). All text was rewritten in short, full sentences.",
+    "Climate change: the climate conference COP31 in Antalya (November 2026) closed without a political decision. The United States has given notice that it will leave the UN Framework Convention on Climate Change. New pledges to the climate funds fell. The scores did not change, and the trend remains eroding.",
+    "Biosphere collapse: the results of the first global review of the biodiversity targets and of the finance decisions of October 2026 were added. The scores did not change.",
+    "Uncontrolled advanced AI: Pax Silica, led by the United States, and the World AI Cooperation Organization, proposed by China, were added. The scores did not change. The trend remains strengthening, with a note on fragmentation.",
+    "AI as amplifier: the outcome of the Seventh Review Conference of the Convention on Certain Conventional Weapons (November 2026) was added. The trend changed from strengthening to stable.",
+    "Permanent global power lock-in: a note on the two AI groupings was added.",
+    "Structure: maturity levels are now objects with a rule and a meaning. Every risk has a trend label in words. For 'Other WMD', the top-level pillars summarise the two sub-regimes and the top-level scores are their average."
+  ],
+  "methodology": {
+    "purpose": "For each global catastrophic and existential risk in the companion GlobalRisks dataset, this dataset lists the multilateral institutions and treaties that exist to assess, regulate, finance and enforce the reduction of the risk. It records the coverage, the binding force and the enforcement power of each. From these it derives one indicator per risk: the maturity of multilateral risk governance. The dataset is the governance layer of the Global Risk Governance Monitor (globalriskgovernance.org).",
+    "scope": {
+      "rule": "A mechanism is listed if it passes all three tests.",
+      "test_1_multilateral": "Multilateral. The mechanism is formed by, or open to, states from at least two continents. This includes universal UN bodies, global treaties, clubs that span regions (the OECD, the Australia Group, the Wassenaar Arrangement) and bilateral treaties across continents (arms control between the United States and Russia). It excludes purely national instruments and regional bodies of a single continent. A regional organisation is included where its instruments are open to states from other continents and those states have joined. Examples are the Budapest Convention and the AI convention of the Council of Europe, and the OSCE.",
+      "test_2_intergovernmental": "Intergovernmental. Governments are the members or the parties. Public-private partnerships (CEPI, Gavi), scientific unions (IAVCEI, IUCN), industry standards bodies and initiatives of non-governmental organisations are mentioned where they fill a gap, but they are not scored. Their presence in place of an intergovernmental body is itself a finding.",
+      "test_3_function": "Function. The mandate of the mechanism covers the risk explicitly, or a defined part of it. General bodies whose mandate touches the risk only in passing are recorded as generic. They score at most 1 on any pillar.",
+      "coverage": "Coverage is the number of governments that take part in the mechanism, are party to it or have formally recognised it. There are four bands: Universal (180 states or more), Broad (120 to 179), Partial (60 to 119) and Club (fewer than 60). A note records which critical actors are missing. Critical actors are the states whose behaviour mostly determines the risk."
     },
-    "regulate": {
-     "mechanisms": "Vienna Convention 1985; Montreal Protocol 1987; Kigali Amendment 2016",
-     "type": null,
-     "coverage": "198 parties — the only universally ratified treaties in UN history; Kigali 160+",
-     "binding_or_powers": null,
-     "status": "Binding + verified; adjustable (controls tightened nine times)"
+    "pillars": {
+      "basis": "The four pillars are the functions that the research on regime effectiveness finds necessary for an international institution to change outcomes. Haas, Keohane and Levy (1993) name three: raising concern through knowledge and monitoring, improving the contractual environment through rules and commitments, and building capacity through finance and assistance. Downs, Rocke and Barsoom (1996) and Mitchell (1994) add the condition of enforcement. The four priorities of the Sendai Framework and the risk-governance cycle of the IRGC follow the same logic.",
+      "assess": "Standing intergovernmental bodies that produce authoritative knowledge about the risk and detect or monitor it. Examples are scientific assessment panels, monitoring networks and early-warning systems.",
+      "regulate": "Treaties and other instruments that commit states to reduce the risk. Examples are prohibitions, limits, standards, targets and obligations of conduct.",
+      "finance": "Dedicated intergovernmental funds or facilities that pay for reducing the risk in advance. Paying for disaster response after the event does not count.",
+      "enforce": "Bodies with an independent power to verify compliance and to respond to non-compliance, through inspection, adjudication or sanction.",
+      "alternative_labels": "Knowledge, Rules, Money, Teeth"
     },
-    "finance": {
-     "mechanisms": "Multilateral Fund (1991)",
-     "type": null,
-     "coverage": "all parties",
-     "binding_or_powers": null,
-     "status": "~US$5 bn disbursed; 2024–26 replenishment US$965 m"
+    "recorded_fields": {
+      "type": "Treaty, UN organ or agency, assessment panel, fund, club, or soft-law instrument.",
+      "coverage": "The number of governments and the coverage band.",
+      "bindingness_ladder": [
+        "Binding and verified",
+        "Binding",
+        "Soft law (declarations, voluntary targets, codes)",
+        "Advisory"
+      ],
+      "enforcement_powers": "Inspection, adjudication, referral or sanction. The effectiveness of their use is rated as proven, partial, weak or untested."
     },
-    "enforce": {
-     "mechanisms": "Ozone Secretariat; Implementation Committee with non-compliance procedure; Article 4 trade restrictions with non-parties",
-     "type": null,
-     "coverage": "all parties",
-     "binding_or_powers": null,
-     "status": "verification through mandatory reporting; trade sanctions available; used (e.g., 2018–19 CFC-11 illegal-production episode detected by atmospheric monitoring and resolved)"
-    }
-   },
-   "scores": {
-    "assess": 3,
-    "regulate": 3,
-    "finance": 3,
-    "enforce": 3
-   },
-   "score_sum": 12,
-   "maturity": "Fully developed",
-   "trend": "→",
-   "note": "A genuine global catastrophic risk of the 1980s, resolved by governance; the yardstick for Fully developed. Five ingredients co-occur: binding rules, independent verification, universal membership, financed transition, adjustability."
-  },
-  "verification": "Membership, ratification and status figures verified against primary sources to 16 September 2026; approximate counts are marked '~'. Items to re-verify at the next update: CCW Review Conference outcome (Nov 2026); TPNW Review Conference (Nov–Dec 2026); Paris Agreement party count; UN Cybercrime Convention ratifications; BBNJ party count; GBF finance after COP17."
- },
- "risks": [
-  {
-   "code": "N1",
-   "name": "Asteroid / comet impact",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "International Asteroid Warning Network (IAWN) — UN-endorsed (UNGA 68/75, 2013), chaired by NASA; Space Mission Planning Advisory Group (SMPAG) — chaired by ESA; UN COPUOS (104 member states)",
-     "type": "UN-endorsed networks; UN committee",
-     "coverage": "IAWN: ~60 signatory institutions in ~25 countries; SMPAG: ~20 space agencies; COPUOS Partial→Broad",
-     "binding_or_powers": "Advisory",
-     "status": "Detection operational (≈95% of ≥1 km objects catalogued); procedures exercised for 2024 YR4 in 2025; capacity concentrated in US/EU/Japan"
+    "pillar_scoring": {
+      "scale": "Each pillar is scored from 0 to 3 for each risk.",
+      "0": "Assess: nothing dedicated. Regulate: no instrument. Finance: none. Enforce: none.",
+      "1": "Assess: a generic body touches the risk in passing, or there is a one-off study. Regulate: soft law only, or a binding instrument that covers only a small part of the risk. Finance: one-off or general-purpose funding. Enforce: self-reporting or peer review only, without independent verification.",
+      "2": "Assess: a dedicated intergovernmental body that has partial coverage or thin capacity, or is new and untested. Regulate: a binding treaty in force with broad coverage but with weak, voluntary or unverified obligations; or a binding and adequate treaty that is not yet in force or that key actors have not joined. Finance: a dedicated fund that is small compared with the need, or not yet funded. Enforce: independent verification or adjudication without the power to sanction, or with a power that can rarely be used.",
+      "3": "Assess: a standing, dedicated and authoritative body with near-universal membership, and with operational monitoring where the risk allows it. Regulate: binding, substantive and near-universal rules that include the critical actors. Finance: a dedicated fund that is funded and replenished at scale. Enforce: powers of verification and sanction that are used with demonstrable effect.",
+      "natural_risks": "For natural hazards, the Regulate and Enforce pillars measure agreed protocols for prevention and preparedness. Examples are who authorises the deflection of an asteroid, who holds food stocks for a volcanic winter, and which standard applies to the hardening of electricity grids. The scores are not relaxed for natural hazards, because the absence of such protocols is a real gap."
     },
-    "regulate": {
-     "mechanisms": "Outer Space Treaty 1967 (115 parties) governs space activity but is silent on planetary defence; no protocol on who authorises or commands a deflection",
-     "type": "Treaty (generic)",
-     "coverage": "Partial",
-     "binding_or_powers": "Binding, but not on this risk",
-     "status": "Deflection is technically proven (DART 2022; ESA Hera arriving 2026), yet the decision has no legal home"
-    },
-    "finance": {
-     "mechanisms": "none dedicated — missions are national (NASA, ESA, JAXA)",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 2,
-    "regulate": 1,
-    "finance": 0,
-    "enforce": 0
-   },
-   "score_sum": 3,
-   "maturity": "Nascent",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "the best-understood risk on the map, governed only at the knowledge end. UN26: \"Space-Based Event\" expected after eight years; data gaps the stated barrier.",
-   "gap": "no agreed protocol, mandate or fund for the response decision; long-period comets under-surveyed.",
-   "maturity_note": null
-  },
-  {
-   "code": "N2",
-   "name": "Supervolcanic eruption",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "UNDRR / Global Assessment Report (generic hazards); ICAO Volcanic Ash Advisory Centres (aviation ash only). Not scored: IAVCEI, WOVO, Global Volcano Model (scientific unions), Smithsonian Global Volcanism Program (national)",
-     "type": "UN office; generic",
-     "coverage": "Universal (generic)",
-     "binding_or_powers": "Advisory",
-     "status": "No intergovernmental body monitors supervolcanic systems as a global catastrophic hazard"
-    },
-    "regulate": {
-     "mechanisms": "Sendai Framework 2015–2030 (endorsed UNGA 69/283; 187 states) — generic DRR",
-     "type": "Soft law",
-     "coverage": "Universal (generic)",
-     "binding_or_powers": "Non-binding",
-     "status": "Nothing addresses the defining threat: multi-year global harvest failure"
-    },
-    "finance": {
-     "mechanisms": "none dedicated (UNDRR trust fund generic and small)",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 1,
-    "regulate": 1,
-    "finance": 0,
-    "enforce": 0
-   },
-   "score_sum": 2,
-   "maturity": "Nascent",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "unpreventable, near-ungoverned.",
-   "gap": "no monitoring mandate, no food-system contingency (strategic reserves, resilient-food planning), no fund.",
-   "maturity_note": "effectively non-existent for the global-scale scenario"
-  },
-  {
-   "code": "N3",
-   "name": "Severe space weather",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "WMO space-weather coordination (193 members); ICAO global space-weather advisory centres (since 2019: US, PECASUS, ACFJ, China–Russia consortium); International Space Environment Service (ISES) — regional warning centres in ~20 countries on five continents; COPUOS Expert Group on Space Weather",
-     "type": "UN agencies; network",
-     "coverage": "Universal (WMO, ICAO); Club (ISES)",
-     "binding_or_powers": "Advisory",
-     "status": "Short-term forecasting good; monitoring assets (L1 spacecraft) national"
-    },
-    "regulate": {
-     "mechanisms": "ICAO Annex 3 standards on space-weather advisories — binding under the Chicago Convention (193 states) but aviation only; no standard for electricity grids, satellites or telecoms; IEC standards voluntary",
-     "type": "Treaty annex (sectoral)",
-     "coverage": "Universal (aviation only)",
-     "binding_or_powers": "Binding, sliver",
-     "status": "Grid hardening is national and uneven"
-    },
-    "finance": {
-     "mechanisms": "none dedicated",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "ICAO USOAP audits (aviation only; no sanctions)",
-     "type": "Audit",
-     "coverage": "Universal (aviation)",
-     "binding_or_powers": "No sanction",
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 2,
-    "regulate": 1,
-    "finance": 0,
-    "enforce": 0
-   },
-   "score_sum": 3,
-   "maturity": "Nascent",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "forecasting is governed; the systems at risk are not.",
-   "gap": "no binding resilience standard for grids and critical infrastructure against a Carrington-class event; UN26 lists the space-based event as a data-gap risk.",
-   "maturity_note": null
-  },
-  {
-   "code": "N4",
-   "name": "Natural pandemic",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "WHO (193 members after the US withdrawal took effect Jan 2026; Argentina has announced withdrawal); WHO Hub for Pandemic and Epidemic Intelligence (Berlin, 2021); GOARN; GISRS influenza network (since 1952); IHR event notification; Quadripartite One Health (WHO–FAO–WOAH–UNEP)",
-     "type": "UN agency; networks",
-     "coverage": "Universal",
-     "binding_or_powers": "Advisory",
-     "status": "Strongest detection architecture of any risk on the map"
-    },
-    "regulate": {
-     "mechanisms": "International Health Regulations (2005) — 196 states parties, binding; 2024 amendments (new \"pandemic emergency\" tier, equity provisions) in force 19 Sept 2025 for non-rejecting states (US rejected). WHO Pandemic Agreement — adopted 20 May 2025 (WHA78.1; 124–0–11), binding once in force, but opens for signature only after the Pathogen Access and Benefit-Sharing (PABS) annex is adopted — missed May 2026, now targeted May 2027",
-     "type": "Treaty",
-     "coverage": "Universal (IHR)",
-     "binding_or_powers": "Binding (IHR) — obligations largely procedural (notification, core capacities); Agreement adopted, not in force",
-     "status": "Universality dented by US exit"
-    },
-    "finance": {
-     "mechanisms": "Pandemic Fund (World Bank FIF, 2022; ~US$2 bn+ contributed against an estimated US$10 bn/yr need); WHO Contingency Fund for Emergencies; not scored: CEPI (US$3.5 bn, partnership), Gavi (2026–30 replenishment ~US$9 bn, short of target)",
-     "type": "Fund",
-     "coverage": "Broad donor base",
-     "binding_or_powers": null,
-     "status": "Dedicated but under-capitalised"
-    },
-    "enforce": {
-     "mechanisms": "IHR Emergency Committee (declares PHEIC); new IHR Implementation Committee (2024 amendments) — facilitative review; no inspection, no sanction",
-     "type": "Review",
-     "coverage": "Universal",
-     "binding_or_powers": "Review only",
-     "status": "COVID-19 showed notification delays go unpunished"
-    }
-   },
-   "scores": {
-    "assess": 3,
-    "regulate": 2,
-    "finance": 2,
-    "enforce": 1
-   },
-   "score_sum": 8,
-   "maturity": "Developed",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "the system detects well and complies weakly. UN26: pandemics and biorisks out of every region's top ten — an attention shift the report itself warns against.",
-   "gap": "no compliance leverage; PABS/equity bargain unfinished; financing a fraction of need; a major power outside WHO.",
-   "maturity_note": "↑ if the Agreement enters force; ↓ on US exit — net stable"
-  },
-  {
-   "code": "E1",
-   "name": "Climate change",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "IPCC (195 members; AR7 cycle under way); WMO Global Atmosphere Watch, State of the Climate; Global Climate Observing System; UNEP Emissions Gap Report",
-     "type": "Panel; UN agencies",
-     "coverage": "Universal",
-     "binding_or_powers": "Advisory",
-     "status": "Exemplary — the model every other risk borrows"
-    },
-    "regulate": {
-     "mechanisms": "UNFCCC 1992 (198 parties); Paris Agreement 2015 (194 parties after the US withdrawal took effect 27 Jan 2026)",
-     "type": "Treaty",
-     "coverage": "Universal (minus US)",
-     "binding_or_powers": "Binding on procedure (NDC submission, reporting); NDC content and the 1.5/2 °C goal non-binding",
-     "status": "2025 NDC round short of a 1.5 °C pathway"
-    },
-    "finance": {
-     "mechanisms": "Green Climate Fund (GCF-2 replenishment US$13.6 bn; ~US$30 bn pledged since 2010); GEF climate focal area; Adaptation Fund; Fund for Responding to Loss and Damage (2023; ~US$0.8 bn pledged); NCQG (COP29) goal US$300 bn/yr by 2035",
-     "type": "Funds",
-     "coverage": "Universal (Paris parties)",
-     "binding_or_powers": null,
-     "status": "Largest dedicated architecture of any risk; still far below need"
-    },
-    "enforce": {
-     "mechanisms": "Paris Enhanced Transparency Framework (biennial reports, technical expert review); Implementation and Compliance Committee — facilitative, non-punitive; ICJ Advisory Opinion (23 July 2025): states have binding obligations to prevent significant climate harm — opens a litigation route; ITLOS advisory opinion 2024 (GHG as marine pollution)",
-     "type": "Review; courts",
-     "coverage": "Universal",
-     "binding_or_powers": "No sanction; adjudication emerging",
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 3,
-    "regulate": 2,
-    "finance": 3,
-    "enforce": 1
-   },
-   "score_sum": 9,
-   "maturity": "Developed",
-   "trend": "↓",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "comprehensive architecture, weak outcomes — emissions still above the pathway. UN26: still the most important risk and among the three best prepared for (identification, not reduction).",
-   "gap": "no enforcement of national targets; finance shortfall; the second-largest emitter outside. An effectiveness gap, not an architecture gap.",
-   "maturity_note": "US withdrawal; ambition gap"
-  },
-  {
-   "code": "E2",
-   "name": "Biosphere collapse",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "IPBES (~150 members); FAO (SOFO, SOFIA, soil and water reports); UNEP GEO; UNCCD Global Land Outlook. Not scored: IUCN Red List (hybrid)",
-     "type": "Panel; UN agencies",
-     "coverage": "Broad (IPBES) / Universal (FAO)",
-     "binding_or_powers": "Advisory",
-     "status": "Strong on biodiversity; thin on freshwater and soil as global risks"
-    },
-    "regulate": {
-     "mechanisms": "CBD 1993 (196 parties; US not a party) with Kunming–Montreal GBF 2022 (23 targets, \"30×30\" — voluntary); CITES (185; binding trade rules); Ramsar (172), CMS (133); BBNJ / High Seas Treaty — in force 17 Jan 2026 (70+ parties); UNCCD (197); pollution: Basel (191), Stockholm (186), Rotterdam (167), Minamata (~150); UN Watercourses Convention (38 parties — weak); global plastics treaty — INC-5.2 (Geneva, Aug 2025) failed to agree, negotiations continuing",
-     "type": "Treaties",
-     "coverage": "Universal (CBD, minus US)",
-     "binding_or_powers": "Binding frameworks, voluntary targets (CBD); binding sectoral rules (CITES, chemicals)",
-     "status": "Aichi targets (2010–20) almost entirely missed"
-    },
-    "finance": {
-     "mechanisms": "GEF biodiversity focal area (GEF-8 US$5.3 bn across all areas); Global Biodiversity Framework Fund (2023; ~US$0.4 bn); Cali Fund (2024, DSI levies — negligible so far); Kunming Biodiversity Fund (China, US$230 m); target of US$20 bn/yr international flows by 2025 missed, US$200 bn/yr total by 2030",
-     "type": "Funds",
-     "coverage": "Broad",
-     "binding_or_powers": null,
-     "status": "Dedicated but an order of magnitude short"
-    },
-    "enforce": {
-     "mechanisms": "CITES compliance procedure with trade suspensions (used, effective — but narrow); CBD: reporting and review only; chemicals conventions: compliance committees, no sanctions",
-     "type": "Review; sanction (CITES only)",
-     "coverage": null,
-     "binding_or_powers": "Sanction in one sliver",
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 2,
-    "regulate": 2,
-    "finance": 2,
-    "enforce": 1
-   },
-   "score_sum": 7,
-   "maturity": "Developed",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "architecture on paper, targets missed, finance lagging. UN26: biodiversity and pollution fell most in perceived importance and imminence.",
-   "gap": "voluntary targets; finance; the US absent; no global regime for freshwater or soil; plastics unresolved.",
-   "maturity_note": "at the floor of the band"
-  },
-  {
-   "code": "W1",
-   "name": "Nuclear war",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "IAEA safeguards (180 members; 182 comprehensive safeguards agreements; Additional Protocol in force for ~142); CTBTO International Monitoring System (337 facilities, operational though the treaty is not in force); UN independent Scientific Panel on the Effects of Nuclear War (UNGA 79/238, Dec 2024; 21 experts appointed July 2025; report to UNGA 2027 — first such study since 1988); UNIDIR; UNSCEAR",
-     "type": "Agency; monitoring; panel",
-     "coverage": "Universal",
-     "binding_or_powers": "Advisory (assessment); verification (safeguards)",
-     "status": "Monitoring of proliferation and testing is world-class; monitoring of war risk only now being built"
-    },
-    "regulate": {
-     "mechanisms": "NPT 1970 — 191 parties (India, Israel, Pakistan never joined; DPRK withdrew 2003); CTBT 1996 — 187 signatures, ~178 ratifications, not in force (9 Annex-2 states outstanding; Russia revoked ratification Nov 2023); TPNW 2021 — 75 states parties (July 2026), 25 further signatories, first Review Conference Nov–Dec 2026 — no nuclear-armed state inside; five nuclear-weapon-free-zone treaties (~116 states); UNSC 1540 (binding on all 193; non-state actors); Nuclear Suppliers Group (48, export controls). Bilateral: New START expired 5 Feb 2026 — no successor, no negotiation; for the first time since 1972 no treaty limits the two largest arsenals; INF gone 2019; Open Skies gone 2020–21",
-     "type": "Treaties; club",
-     "coverage": "Universal (NPT)",
-     "binding_or_powers": "Binding + verified (non-proliferation); Art. VI disarmament obligation unenforced; no binding limit on any arsenal; test ban customary only",
-     "status": "Critical actors: all nine possessors sit outside any numerical limit; China in no arms-control framework"
-    },
-    "finance": {
-     "mechanisms": "IAEA regular budget and Technical Cooperation Fund finance verification and safety, not risk reduction; CTBTO budget; no fund for arms control or risk reduction",
-     "type": "Budgets",
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": "Finance of the Enforce pillar, not of reduction"
-    },
-    "enforce": {
-     "mechanisms": "IAEA Board → UN Security Council referral (Iran 2006; DPRK); UNSC sanctions (DPRK 1718 regime since 2006; UN sanctions on Iran re-imposed by \"snapback\" 28 Sept 2025); IAEA inspections",
-     "type": "Verification; referral; sanction",
-     "coverage": "Universal",
-     "binding_or_powers": "Sanction power exists",
-     "status": "Partial: DPRK acquired weapons under sanction; Iran's programme met with strikes (June 2025), not compliance"
-    }
-   },
-   "scores": {
-    "assess": 3,
-    "regulate": 2,
-    "finance": 1,
-    "enforce": 2
-   },
-   "score_sum": 8,
-   "maturity": "Developing",
-   "trend": "↓",
-   "capped_by_critical_actor_gate": true,
-   "in_practice": "the regime governs who may acquire nuclear weapons far better than whether the possessors use them — and the layer that limited arsenals has lapsed. UN26: WMD re-entered the top-ten risks in three regions; large-scale war the least-prepared-for major risk.",
-   "gap": "no arsenal limits; no rules on AI in nuclear command and control (see M3); CTBT not in force; the possessors outside the prohibition treaty.",
-   "maturity_note": null
-  },
-  {
-   "code": "W2",
-   "name": "Engineered pandemic",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "BWC Implementation Support Unit (4 staff); a BWC Science & Technology advisory mechanism — recommended by the 2023–26 Working Group, not yet established (Working Group extended into 2026; decision at the Tenth Review Conference, 2027); UN Secretary-General's Mechanism (UNSGM) for investigating alleged use — ad hoc roster; detection of outbreaks borrowed from N4 (WHO/GOARN) but without attribution capacity; WHO Global Guidance Framework for the Responsible Use of the Life Sciences (2022, soft)",
-     "type": "Unit; mechanism",
-     "coverage": "Universal (in principle)",
-     "binding_or_powers": "Advisory",
-     "status": "No standing body assesses dual-use or AI-enabled biology"
-    },
-    "regulate": {
-     "mechanisms": "Biological Weapons Convention 1975 — 189 states parties, binding prohibition, no verification body (protocol negotiations collapsed 2001); 1925 Geneva Protocol (146); UNSC 1540 (all 193); Australia Group (43 members, export controls, voluntary club); Cartagena Protocol (173; LMO biosafety, not weapons)",
-     "type": "Treaty; club",
-     "coverage": "Universal (BWC)",
-     "binding_or_powers": "Binding, unverified; nothing on dual-use research, lab biosafety or AI-bio design",
-     "status": "Critical actors inside the BWC but unverifiable"
-    },
-    "finance": {
-     "mechanisms": "none dedicated (a BWC International Cooperation & Assistance fund is proposed, not created); Pandemic Fund and 1540 trust fund only incidentally",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "BWC Article VI complaint to the Security Council — never used; voluntary Confidence-Building Measures (roughly half of parties submit); UNSGM investigations (used for chemical allegations, not biological)",
-     "type": "Self-report",
-     "coverage": "Universal",
-     "binding_or_powers": "No verification, no sanction",
-     "status": "Weak by construction"
-    }
-   },
-   "scores": {
-    "assess": 1,
-    "regulate": 2,
-    "finance": 1,
-    "enforce": 1
-   },
-   "score_sum": 5,
-   "maturity": "Developing",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "a fifty-year-old prohibition with no way to detect cheating, facing a technology that is dissolving the expertise barrier. UN26: biorisks fell in perceived importance in every region.",
-   "gap": "verification; dual-use and AI-bio governance; a dedicated assessment body; any finance.",
-   "maturity_note": null
-  },
-  {
-   "code": "W3",
-   "name": "Other WMD (chemical, radiological)",
-   "kind": "terminal hazard (leaf)",
-   "sub_regimes": {
-    "chemical": {
-     "pillars": {
-      "assess": {
-       "mechanisms": "OPCW Technical Secretariat and Scientific Advisory Board; declarations regime",
-       "type": "Agency",
-       "coverage": "Universal",
-       "binding_or_powers": "Verification",
-       "status": "Standing, expert, funded"
+    "maturity_indicator": {
+      "order": [
+        "Non-existent",
+        "Nascent",
+        "Developing",
+        "Developed",
+        "Fully developed"
+      ],
+      "levels": {
+        "Fully developed": {
+          "rule": "Score 10 to 12, with Regulate at 3, Enforce at 2 or more, and no pillar at 0.",
+          "meaning": "All four functions are present. The rules bind the actors that matter, and they are verified, financed and enforced."
+        },
+        "Developed": {
+          "rule": "Score 7 to 9, with Regulate at 2 or more and no pillar at 0.",
+          "meaning": "A binding regime exists with all four functions, but at least one of them is clearly weak."
+        },
+        "Developing": {
+          "rule": "Score 4 to 6 with at least one pillar at 2 or more; or any higher score with a pillar at 0; or a regime capped by the critical-actor gate.",
+          "meaning": "Real institutions exist, but a function is missing or the regime cannot bind the actors that generate the risk."
+        },
+        "Nascent": {
+          "rule": "Score 1 to 3; or score 4 to 6 with no pillar at 2 or more.",
+          "meaning": "There is assessment or dialogue only. No binding instrument is in force on the risk itself."
+        },
+        "Non-existent": {
+          "rule": "Score 0.",
+          "meaning": "There is no dedicated mechanism of any kind."
+        }
       },
-      "regulate": {
-       "mechanisms": "Chemical Weapons Convention 1997 — 193 states parties (outside: Egypt, DPRK, South Sudan; Israel signatory)",
-       "type": "Treaty",
-       "coverage": "Universal",
-       "binding_or_powers": "Binding + verified",
-       "status": "All declared stockpiles (72,000 t) destroyed — completed July 2023"
+      "critical_actor_gate": "Maturity is capped at Developing, whatever the score, in two cases. The first is where the states whose behaviour mostly determines the risk are not bound by the substantive obligations of the regime. The second is where those states are structurally immune from its enforcement, for example through the veto of a permanent member of the Security Council.",
+      "trend": {
+        "↑": "Strengthening",
+        "→": "Stable",
+        "↓": "Eroding",
+        "basis": "The trend is judged on events from 2024 to 2026."
       },
-      "finance": {
-       "mechanisms": "OPCW regular budget; Article X assistance; voluntary trust funds (e.g., Syria destruction 2013–14)",
-       "type": "Budget; trust funds",
-       "coverage": "Universal",
-       "binding_or_powers": null,
-       "status": "No standing reduction fund, but destruction was financed when needed"
+      "interpretation": "The maturity level describes the architecture of the regime. Its effectiveness is shown by the Enforce score and by the note 'in practice' for each risk. Both are given, so that a Developed regime that performs poorly is not mistaken for one that performs well."
+    },
+    "benchmark": {
+      "code": "OZONE",
+      "name": "Stratospheric ozone depletion (a benchmark, not a current risk)",
+      "pillars": {
+        "assess": {
+          "mechanisms": "Three assessment panels have reported every four years since 1989: the Scientific Assessment Panel, the Environmental Effects Assessment Panel and the Technology and Economic Assessment Panel. The WMO and UNEP monitor the ozone layer.",
+          "type": null,
+          "coverage": "Universal",
+          "binding_or_powers": null,
+          "status": "Standing and authoritative."
+        },
+        "regulate": {
+          "mechanisms": "The Vienna Convention (1985), the Montreal Protocol (1987) and the Kigali Amendment (2016).",
+          "type": null,
+          "coverage": "198 parties. These are the only treaties in UN history that every state has ratified. The Kigali Amendment has more than 160 parties.",
+          "binding_or_powers": null,
+          "status": "Binding and verified. The controls can be adjusted and have been tightened nine times."
+        },
+        "finance": {
+          "mechanisms": "The Multilateral Fund, created in 1991.",
+          "type": null,
+          "coverage": "All parties",
+          "binding_or_powers": null,
+          "status": "About US$5 billion has been paid out. The replenishment for 2024 to 2026 is US$965 million."
+        },
+        "enforce": {
+          "mechanisms": "The Ozone Secretariat, an Implementation Committee with a non-compliance procedure, and trade restrictions with non-parties under Article 4 of the Protocol.",
+          "type": null,
+          "coverage": "All parties",
+          "binding_or_powers": null,
+          "status": "Compliance is verified through mandatory reporting, and trade sanctions are available. The powers have been used. In 2018 and 2019, atmospheric monitoring detected illegal production of CFC-11, and the case was resolved."
+        }
       },
-      "enforce": {
-       "mechanisms": "OPCW inspections (routine, and challenge inspections on request); Investigation and Identification Team attributing use (Syria); Conference of States Parties suspended Syria's rights (2021); referral to UNSC/UNGA available (Council action vetoed by Russia)",
-       "type": "Inspection; attribution; sanction",
-       "coverage": "Universal",
-       "binding_or_powers": "Sanction power, used",
-       "status": "Proven — Nobel Peace Prize 2013; limits shown when a state defies the regime under great-power protection"
+      "scores": {
+        "assess": 3,
+        "regulate": 3,
+        "finance": 3,
+        "enforce": 3
+      },
+      "score_sum": 12,
+      "maturity": "Fully developed",
+      "trend": "→",
+      "trend_label": "Stable",
+      "note": "Ozone depletion was a real global catastrophic risk in the 1980s and was resolved by governance. It is the yardstick for the level Fully developed. Five ingredients come together: binding rules, independent verification, universal membership, a financed transition and rules that can be adjusted."
+    },
+    "verification": "Membership, ratification and status figures were verified against primary sources up to 16 September 2026. The entries on climate change, biosphere collapse, uncontrolled advanced AI and AI as amplifier were updated to 27 November 2026 from UN documents and specialist reporting. Approximate counts are marked 'about'. To be verified again at the next update: the outcome of the Review Conference of the Treaty on the Prohibition of Nuclear Weapons (November to December 2026); the number of parties to the UN Framework Convention on Climate Change after the United States leaves on 27 February 2027; the membership and legal status of the World AI Cooperation Organization and of Pax Silica; the work of the expert group on autonomous weapons in 2027 and 2028; the ratifications of the UN Convention against Cybercrime and of the High Seas Treaty; and the annex to the WHO Pandemic Agreement (target May 2027)."
+  },
+  "risks": [
+    {
+      "code": "N1",
+      "name": "Asteroid / comet impact",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The International Asteroid Warning Network (IAWN) was endorsed by the UN General Assembly in 2013 (resolution 68/75) and is chaired by NASA. The Space Mission Planning Advisory Group (SMPAG) is chaired by the European Space Agency. The UN Committee on the Peaceful Uses of Outer Space (COPUOS) has 104 member states.",
+          "type": "UN-endorsed networks, UN committee",
+          "coverage": "IAWN: about 60 institutions in about 25 countries. SMPAG: about 20 space agencies. COPUOS: partial to broad.",
+          "binding_or_powers": "Advisory",
+          "status": "Detection works: about 95% of objects of 1 km or more are catalogued. The procedures were tested in 2025 for asteroid 2024 YR4. Capacity is concentrated in the United States, Europe and Japan."
+        },
+        "regulate": {
+          "mechanisms": "The Outer Space Treaty (1967, 115 parties) governs activities in space but says nothing about planetary defence. No protocol states who may authorise or command the deflection of an object.",
+          "type": "Treaty (generic)",
+          "coverage": "Partial",
+          "binding_or_powers": "Binding, but not on this risk",
+          "status": "Deflection is technically proven by NASA's DART mission (2022), and the European Hera mission arrives at the same asteroid in 2026. The decision to deflect has no legal home."
+        },
+        "finance": {
+          "mechanisms": "None. Missions are paid for nationally, by NASA, the European Space Agency and Japan's space agency.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 2,
+        "regulate": 1,
+        "finance": 0,
+        "enforce": 0
+      },
+      "score_sum": 3,
+      "maturity": "Nascent",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "This is the best-understood risk in the Monitor, but it is governed only on the knowledge side. In the UN Global Risk Report 2026, respondents expect a space-based event only after eight years and name gaps in data as the barrier.",
+      "gap": "There is no agreed protocol, mandate or fund for the decision to respond. Long-period comets are not surveyed well enough.",
+      "maturity_note": null
+    },
+    {
+      "code": "N2",
+      "name": "Supervolcanic eruption",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The UN Office for Disaster Risk Reduction covers hazards in general in its Global Assessment Report. The Volcanic Ash Advisory Centres of the International Civil Aviation Organization cover volcanic ash for aviation only. Scientific unions such as IAVCEI, the World Organization of Volcano Observatories and the Global Volcano Model, and the national Smithsonian Global Volcanism Program, are not intergovernmental and are not scored.",
+          "type": "UN office (generic)",
+          "coverage": "Universal (generic)",
+          "binding_or_powers": "Advisory",
+          "status": "No intergovernmental body monitors supervolcanic systems as a global catastrophic hazard."
+        },
+        "regulate": {
+          "mechanisms": "The Sendai Framework for Disaster Risk Reduction 2015-2030 was adopted by 187 states and endorsed by the UN General Assembly (resolution 69/283). It covers disaster risk in general.",
+          "type": "Soft law",
+          "coverage": "Universal (generic)",
+          "binding_or_powers": "Non-binding",
+          "status": "Nothing addresses the defining threat: the failure of harvests worldwide for several years."
+        },
+        "finance": {
+          "mechanisms": "None. The trust fund of the UN Office for Disaster Risk Reduction is general and small.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 1,
+        "regulate": 1,
+        "finance": 0,
+        "enforce": 0
+      },
+      "score_sum": 2,
+      "maturity": "Nascent",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "The hazard cannot be prevented, and it is almost ungoverned.",
+      "gap": "There is no mandate to monitor, no contingency plan for the food system (strategic reserves, planning for resilient foods) and no fund.",
+      "maturity_note": "For the global-scale scenario, governance is in effect non-existent."
+    },
+    {
+      "code": "N3",
+      "name": "Severe space weather",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The World Meteorological Organization (193 members) coordinates space-weather services. Since 2019 the International Civil Aviation Organization has run global space-weather advisory centres. They are operated by the United States, the European PECASUS consortium, the ACFJ consortium (Australia, Canada, France and Japan) and a consortium of China and Russia. The International Space Environment Service links regional warning centres in about 20 countries on five continents. COPUOS has an Expert Group on Space Weather.",
+          "type": "UN agencies, network",
+          "coverage": "Universal (WMO, ICAO); club (International Space Environment Service)",
+          "binding_or_powers": "Advisory",
+          "status": "Short-term forecasting is good. The monitoring spacecraft are national assets."
+        },
+        "regulate": {
+          "mechanisms": "The standards on space-weather advisories in Annex 3 of the Chicago Convention are binding on 193 states, but they apply to aviation only. No standard exists for electricity grids, satellites or telecommunications. The standards of the International Electrotechnical Commission are voluntary.",
+          "type": "Treaty annex (one sector)",
+          "coverage": "Universal (aviation only)",
+          "binding_or_powers": "Binding on a small part of the risk",
+          "status": "The hardening of grids is a national matter and is uneven."
+        },
+        "finance": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "None for this risk. The safety audits of the International Civil Aviation Organization cover aviation only and carry no sanctions.",
+          "type": "Audit",
+          "coverage": "Universal (aviation)",
+          "binding_or_powers": "No sanction",
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 2,
+        "regulate": 1,
+        "finance": 0,
+        "enforce": 0
+      },
+      "score_sum": 3,
+      "maturity": "Nascent",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "Forecasting is governed. The systems at risk are not.",
+      "gap": "No binding resilience standard protects grids and critical infrastructure against a storm of Carrington size. The UN Global Risk Report 2026 lists the space-based event among the risks with a data gap.",
+      "maturity_note": null
+    },
+    {
+      "code": "N4",
+      "name": "Natural pandemic",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The World Health Organization has 193 members since the withdrawal of the United States took effect in January 2026, and Argentina has announced that it will withdraw. Its detection system includes the WHO Hub for Pandemic and Epidemic Intelligence in Berlin (2021), the Global Outbreak Alert and Response Network, the Global Influenza Surveillance and Response System (since 1952) and the notification of events under the International Health Regulations. The WHO works with the FAO, the World Organisation for Animal Health and UNEP on One Health.",
+          "type": "UN agency, networks",
+          "coverage": "Universal",
+          "binding_or_powers": "Advisory",
+          "status": "This is the strongest detection architecture of any risk in the Monitor."
+        },
+        "regulate": {
+          "mechanisms": "The International Health Regulations (2005) are binding on 196 states parties. Amendments adopted in 2024 added a new alert level, the 'pandemic emergency', and provisions on equity. They entered into force on 19 September 2025 for the states that did not reject them. The United States rejected them. The WHO Pandemic Agreement was adopted on 20 May 2025 (resolution WHA78.1, by 124 votes to 0 with 11 abstentions). It will be binding once it is in force. It opens for signature only after an annex on Pathogen Access and Benefit-Sharing is adopted. The deadline of May 2026 was missed, and the new target is May 2027.",
+          "type": "Treaty",
+          "coverage": "Universal (International Health Regulations)",
+          "binding_or_powers": "Binding, but the obligations are mostly procedural (notification, core capacities). The Pandemic Agreement is adopted but not in force.",
+          "status": "The exit of the United States has dented universality."
+        },
+        "finance": {
+          "mechanisms": "The Pandemic Fund, hosted by the World Bank since 2022, has received more than US$2 billion, against an estimated need of US$10 billion a year. The WHO also has a Contingency Fund for Emergencies. Two partnerships are not scored because they are not intergovernmental: CEPI (US$3.5 billion) and Gavi, whose replenishment for 2026 to 2030 raised about US$9 billion, below its target.",
+          "type": "Fund",
+          "coverage": "Broad donor base",
+          "binding_or_powers": null,
+          "status": "Dedicated, but far too small."
+        },
+        "enforce": {
+          "mechanisms": "The Emergency Committee under the International Health Regulations advises on declaring a public health emergency of international concern. The 2024 amendments created an Implementation Committee that reviews compliance in a facilitative way. There is no inspection and no sanction.",
+          "type": "Review",
+          "coverage": "Universal",
+          "binding_or_powers": "Review only",
+          "status": "COVID-19 showed that delays in notification have no consequences."
+        }
+      },
+      "scores": {
+        "assess": 3,
+        "regulate": 2,
+        "finance": 2,
+        "enforce": 1
+      },
+      "score_sum": 8,
+      "maturity": "Developed",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "The system detects well and complies weakly. In the UN Global Risk Report 2026, pandemics and biological risks are outside the top ten of every region. The report itself warns against this shift in attention.",
+      "gap": "There is no leverage to secure compliance. The bargain on pathogen access and equity is unfinished. Financing is a fraction of the need. A major power is outside the WHO.",
+      "maturity_note": "The trend would turn upward if the Pandemic Agreement enters into force. The exit of the United States pulls it down. The net result is stable."
+    },
+    {
+      "code": "E1",
+      "name": "Climate change",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The Intergovernmental Panel on Climate Change (IPCC) has 195 members and is working on its seventh assessment cycle. The World Meteorological Organization runs the Global Atmosphere Watch and publishes the State of the Climate reports. The Global Climate Observing System and the Emissions Gap Report of UNEP complete the picture.",
+          "type": "Panel, UN agencies",
+          "coverage": "Universal",
+          "binding_or_powers": "Advisory",
+          "status": "Exemplary. It is the model that every other risk borrows."
+        },
+        "regulate": {
+          "mechanisms": "The UN Framework Convention on Climate Change (1992) has 198 parties. The Paris Agreement (2015) has 194 parties since the withdrawal of the United States took effect on 27 January 2026. In February 2026 the United States also gave notice that it will leave the Framework Convention itself on 27 February 2027. The climate conference COP31 in Antalya (9 to 22 November 2026) closed without its main political decision. At least 32 countries rejected the draft 'Antalya Pact' because it did not mention fossil fuels. The decision on the mitigation work programme was also blocked. Technical decisions on adaptation, the Adaptation Fund and just transition were adopted.",
+          "type": "Treaty",
+          "coverage": "Universal, without the United States",
+          "binding_or_powers": "Binding on procedure (submitting national plans and reporting on them). The content of the national plans and the temperature goal of 1.5 to 2 °C are not binding.",
+          "status": "The national plans submitted in 2025 fall short of a 1.5 °C pathway. In 2026 the parties could not agree on a political response."
+        },
+        "finance": {
+          "mechanisms": "The Green Climate Fund received pledges of US$13.6 billion for its second replenishment, and about US$30 billion has been pledged to it since 2010. Other funds are the climate window of the Global Environment Facility, the Adaptation Fund and the Fund for Responding to Loss and Damage (2023). About US$0.8 billion has been pledged to the loss and damage fund, of which about US$0.5 billion had been paid in by July 2026, against funding requests of US$2.8 billion. In 2024 the conference COP29 set a new goal of US$300 billion a year by 2035. In 2026, new pledges to the UN climate funds fell to their lowest level in years.",
+          "type": "Funds",
+          "coverage": "Universal (parties to the Paris Agreement)",
+          "binding_or_powers": null,
+          "status": "This is the largest dedicated finance architecture of any risk. It is still far below the need, and new pledges are falling."
+        },
+        "enforce": {
+          "mechanisms": "The Enhanced Transparency Framework of the Paris Agreement requires reports every two years, which technical experts review. The Implementation and Compliance Committee is facilitative and cannot punish. Courts are opening a new route. In an advisory opinion of 23 July 2025, the International Court of Justice found that states have binding obligations to prevent significant harm to the climate. In 2024 the International Tribunal for the Law of the Sea found that greenhouse gases are a form of marine pollution.",
+          "type": "Review, courts",
+          "coverage": "Universal",
+          "binding_or_powers": "No sanction. Adjudication is emerging.",
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 3,
+        "regulate": 2,
+        "finance": 3,
+        "enforce": 1
+      },
+      "score_sum": 9,
+      "maturity": "Developed",
+      "trend": "↓",
+      "trend_label": "Eroding",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "The architecture is comprehensive, but the outcomes are weak. Emissions remain above the agreed pathway. In November 2026 the annual conference closed without a political agreement, although several technical decisions were adopted. In the UN Global Risk Report 2026, climate change is still the most important risk and among the three best prepared for, which refers to identifying the risk and not to reducing it.",
+      "gap": "Nobody enforces national targets. Finance is far below the need. The second-largest emitter is outside the regime. In 2026 the parties could not agree to name fossil fuels. This is a gap in effectiveness, not in architecture.",
+      "maturity_note": "The United States has left the Paris Agreement and is leaving the Framework Convention. The 2026 conference ended without a political outcome."
+    },
+    {
+      "code": "E2",
+      "name": "Biosphere collapse",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The Intergovernmental Science-Policy Platform on Biodiversity and Ecosystem Services (IPBES) has about 150 members. The FAO reports on forests, fisheries, soil and water. UNEP publishes the Global Environment Outlook, and the UN Convention to Combat Desertification publishes the Global Land Outlook. The Red List of the IUCN is not scored, because the IUCN is not purely intergovernmental. In October 2026 the first global review under the Convention on Biological Diversity found the world behind on 22 of the 23 targets for 2030.",
+          "type": "Panel, UN agencies",
+          "coverage": "Broad (IPBES); universal (FAO)",
+          "binding_or_powers": "Advisory",
+          "status": "Strong on biodiversity. Thin on fresh water and soil as global risks."
+        },
+        "regulate": {
+          "mechanisms": "The Convention on Biological Diversity (1993) has 196 parties; the United States is not one of them. Its Kunming-Montreal Global Biodiversity Framework (2022) sets 23 voluntary targets, including the protection of 30% of land and sea by 2030. Other treaties are CITES on trade in endangered species (185 parties, binding trade rules), the Ramsar Convention on wetlands (172), the Convention on Migratory Species (133) and the Convention to Combat Desertification (197). The High Seas Treaty entered into force on 17 January 2026 and has more than 70 parties. Pollution is covered by the Basel (191), Stockholm (186), Rotterdam (167) and Minamata (about 150) conventions. The UN Watercourses Convention has only 38 parties. Negotiations on a global plastics treaty failed to reach agreement in Geneva in August 2025 and continue.",
+          "type": "Treaties",
+          "coverage": "Universal (Convention on Biological Diversity, without the United States)",
+          "binding_or_powers": "Binding frameworks with voluntary targets (biodiversity). Binding rules by sector (trade in species, chemicals).",
+          "status": "The Aichi targets for 2010 to 2020 were almost all missed. The review of October 2026 warns that the 2030 targets will not be met unless action speeds up."
+        },
+        "finance": {
+          "mechanisms": "The Global Environment Facility funds biodiversity; its eighth funding round totals US$5.3 billion for all areas. The Global Biodiversity Framework Fund (2023) holds about US$0.4 billion. China's Kunming Biodiversity Fund holds US$230 million. The Cali Fund (2024) should collect payments from companies that use genetic sequence data; it held less than US$9,000 in October 2026. The target of US$20 billion a year in international flows by 2025 was missed. The target for 2030 is US$200 billion a year from all sources. In October 2026 the parties agreed to set up a financial mechanism under the Convention for the period after 2030, but left its form to their next conference in 2028.",
+          "type": "Funds",
+          "coverage": "Broad",
+          "binding_or_powers": null,
+          "status": "Dedicated, but about ten times too small."
+        },
+        "enforce": {
+          "mechanisms": "CITES has a compliance procedure with trade suspensions. It is used and it works, but it covers a narrow field. The Convention on Biological Diversity relies on reporting and review only. The chemicals conventions have compliance committees without sanctions.",
+          "type": "Review; sanction under CITES only",
+          "coverage": null,
+          "binding_or_powers": "Sanction in one narrow field",
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 2,
+        "regulate": 2,
+        "finance": 2,
+        "enforce": 1
+      },
+      "score_sum": 7,
+      "maturity": "Developed",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "The architecture exists on paper, the targets are missed and the finance lags behind. In the UN Global Risk Report 2026, biodiversity and pollution fell most in perceived importance and imminence.",
+      "gap": "The targets are voluntary. Finance is far short. The United States is absent. No global regime covers fresh water or soil. The plastics treaty is unresolved.",
+      "maturity_note": "The score is at the bottom of the band for Developed."
+    },
+    {
+      "code": "W1",
+      "name": "Nuclear war",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The International Atomic Energy Agency (180 members) applies safeguards under 182 comprehensive safeguards agreements; the Additional Protocol is in force for about 142 states. The International Monitoring System of the Comprehensive Nuclear-Test-Ban Treaty Organization has 337 facilities and operates although the treaty is not in force. In December 2024 the UN General Assembly created an independent Scientific Panel on the Effects of Nuclear War (resolution 79/238). Its 21 experts were appointed in July 2025 and will report in 2027. It is the first such study since 1988. The UN Institute for Disarmament Research and the UN Scientific Committee on the Effects of Atomic Radiation also contribute.",
+          "type": "Agency, monitoring, panel",
+          "coverage": "Universal",
+          "binding_or_powers": "Advisory (assessment); verification (safeguards)",
+          "status": "The monitoring of proliferation and testing is world-class. The monitoring of the risk of war is only now being built."
+        },
+        "regulate": {
+          "mechanisms": "The Treaty on the Non-Proliferation of Nuclear Weapons (1970) has 191 parties. India, Israel and Pakistan never joined, and North Korea withdrew in 2003. The Comprehensive Nuclear-Test-Ban Treaty (1996) has 187 signatures and about 178 ratifications but is not in force: nine states whose ratification is required are missing, and Russia revoked its ratification in November 2023. The Treaty on the Prohibition of Nuclear Weapons (2021) has 75 states parties (July 2026) and 25 further signatories. No nuclear-armed state has joined it. Its first Review Conference takes place in November and December 2026. Five treaties create nuclear-weapon-free zones that cover about 116 states. Security Council resolution 1540 binds all 193 UN members to keep such weapons from non-state actors. The Nuclear Suppliers Group (48 members) coordinates export controls. Between the United States and Russia, the New START treaty expired on 5 February 2026 without a successor and without negotiations. For the first time since 1972, no treaty limits the two largest arsenals. The INF Treaty ended in 2019 and the Open Skies Treaty in 2020 and 2021.",
+          "type": "Treaties, club",
+          "coverage": "Universal (Non-Proliferation Treaty)",
+          "binding_or_powers": "Binding and verified on non-proliferation. The disarmament obligation of Article VI is not enforced. No binding limit applies to any arsenal. The test ban rests on custom only.",
+          "status": "All nine states with nuclear weapons are outside any numerical limit. China is in no arms-control framework."
+        },
+        "finance": {
+          "mechanisms": "The regular budget and the Technical Cooperation Fund of the International Atomic Energy Agency pay for verification and safety, not for reducing the risk of war. The test-ban organisation has its own budget. No fund exists for arms control or risk reduction.",
+          "type": "Budgets",
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": "The money finances verification, not risk reduction."
+        },
+        "enforce": {
+          "mechanisms": "The Board of the International Atomic Energy Agency can refer a state to the UN Security Council, as it did with Iran in 2006 and with North Korea. The Council has imposed sanctions on North Korea since 2006 (resolution 1718). UN sanctions on Iran were re-imposed through the 'snapback' mechanism on 28 September 2025. The Agency carries out inspections.",
+          "type": "Verification, referral, sanction",
+          "coverage": "Universal",
+          "binding_or_powers": "Sanction power exists",
+          "status": "Partly effective. North Korea acquired weapons while under sanctions. Iran's programme was met with military strikes in June 2025, not with compliance."
+        }
+      },
+      "scores": {
+        "assess": 3,
+        "regulate": 2,
+        "finance": 1,
+        "enforce": 2
+      },
+      "score_sum": 8,
+      "maturity": "Developing",
+      "trend": "↓",
+      "trend_label": "Eroding",
+      "capped_by_critical_actor_gate": true,
+      "in_practice": "The regime governs who may acquire nuclear weapons far better than whether the states that have them use them. The layer that limited arsenals has lapsed. In the UN Global Risk Report 2026, weapons of mass destruction re-entered the top ten risks in three regions, and large-scale war is the major risk for which the world is least prepared.",
+      "gap": "There are no limits on arsenals. There are no rules on AI in nuclear command and control. The test-ban treaty is not in force. The states with nuclear weapons are outside the prohibition treaty.",
+      "maturity_note": null
+    },
+    {
+      "code": "W2",
+      "name": "Engineered pandemic",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The Implementation Support Unit of the Biological Weapons Convention has four staff. A scientific and technological advisory mechanism was recommended by the working group of 2023 to 2026 but does not exist yet. The working group was extended into 2026, and the decision falls to the Tenth Review Conference in 2027. The UN Secretary-General's Mechanism can investigate alleged use, with experts drawn from a roster when needed. Outbreaks are detected through the WHO systems described under natural pandemic, but these cannot attribute an outbreak to an actor. The WHO Global Guidance Framework for the Responsible Use of the Life Sciences (2022) is soft law.",
+          "type": "Unit, mechanism",
+          "coverage": "Universal in principle",
+          "binding_or_powers": "Advisory",
+          "status": "No standing body assesses dual-use biology or biology enabled by AI."
+        },
+        "regulate": {
+          "mechanisms": "The Biological Weapons Convention (1975) has 189 states parties and contains a binding prohibition. It has no verification body: negotiations on a verification protocol collapsed in 2001. The Geneva Protocol of 1925 has 146 parties. Security Council resolution 1540 binds all 193 UN members. The Australia Group (43 members) is a voluntary club for export controls. The Cartagena Protocol (173 parties) covers the biosafety of living modified organisms, not weapons.",
+          "type": "Treaty, club",
+          "coverage": "Universal (Biological Weapons Convention)",
+          "binding_or_powers": "Binding but not verified. Nothing covers dual-use research, laboratory biosafety or the design of pathogens with AI.",
+          "status": "The critical actors are inside the Convention, but their compliance cannot be verified."
+        },
+        "finance": {
+          "mechanisms": "No dedicated fund exists. A fund for international cooperation and assistance under the Convention has been proposed but not created. The Pandemic Fund and the trust fund for resolution 1540 touch the risk only in passing.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "Under Article VI of the Convention a state can complain to the Security Council; this has never been done. Confidence-building measures are voluntary, and about half of the parties submit them. The Secretary-General's Mechanism has investigated chemical allegations but never a biological one.",
+          "type": "Self-reporting",
+          "coverage": "Universal",
+          "binding_or_powers": "No verification, no sanction",
+          "status": "Weak by design."
+        }
+      },
+      "scores": {
+        "assess": 1,
+        "regulate": 2,
+        "finance": 1,
+        "enforce": 1
+      },
+      "score_sum": 5,
+      "maturity": "Developing",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "The prohibition is fifty years old and has no way to detect cheating. It now faces a technology that removes the barrier of expertise. In the UN Global Risk Report 2026, biological risks fell in perceived importance in every region.",
+      "gap": "Four things are missing: verification, the governance of dual-use research and of biology enabled by AI, a dedicated assessment body, and any finance.",
+      "maturity_note": null
+    },
+    {
+      "code": "W3",
+      "name": "Other WMD (chemical, radiological)",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "For chemical weapons, the Organisation for the Prohibition of Chemical Weapons has a standing Technical Secretariat and a Scientific Advisory Board. For radioactive material, the International Atomic Energy Agency keeps an Incident and Trafficking Database. The details are given for each sub-regime.",
+          "type": "Agencies",
+          "coverage": "Universal (chemical); broad (radiological)",
+          "binding_or_powers": "Verification (chemical); advisory (radiological)",
+          "status": "Strong for chemical weapons, thinner for radioactive material."
+        },
+        "regulate": {
+          "mechanisms": "The Chemical Weapons Convention (193 parties) bans chemical weapons and is verified. Radioactive material is covered by conventions on physical protection and on nuclear terrorism, and by a voluntary code of conduct on radioactive sources.",
+          "type": "Treaties, code",
+          "coverage": "Universal (chemical); broad (radiological)",
+          "binding_or_powers": "Binding and verified (chemical); partly binding (radiological)",
+          "status": "All declared chemical stockpiles were destroyed by July 2023. The security of radioactive sources is uneven."
+        },
+        "finance": {
+          "mechanisms": "The chemical regime is paid for from the budget of its organisation and from trust funds. The radiological regime relies on the voluntary Nuclear Security Fund.",
+          "type": "Budget, funds",
+          "coverage": "Universal (chemical); broad (radiological)",
+          "binding_or_powers": null,
+          "status": "Adequate for chemical weapons, small for radioactive material."
+        },
+        "enforce": {
+          "mechanisms": "The chemical regime has inspections, the attribution of use and the suspension of rights, and it has used them. The radiological regime has advisory missions on invitation only.",
+          "type": "Inspection and sanction (chemical); advisory (radiological)",
+          "coverage": null,
+          "binding_or_powers": "Sanction power, used (chemical); none (radiological)",
+          "status": "Proven for chemical weapons, absent for radioactive material."
+        }
+      },
+      "scores": {
+        "assess": 2.5,
+        "regulate": 2.5,
+        "finance": 2,
+        "enforce": 2
+      },
+      "scores_note": "Each pillar score is the average of the chemical and radiological sub-regimes.",
+      "score_sum": 9,
+      "maturity": "Developed",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "The chemical-weapons regime is the only current regime in the Monitor that reaches the level Fully developed. The regime for radioactive material is weaker and has no right of inspection.",
+      "gap": "Two things are missing: the security of radioactive sources with an independent right of inspection, and enforcement against a state that defies the chemical regime under the protection of a great power.",
+      "maturity_note": "The score of 9 is the average of the chemical sub-regime (11, Fully developed) and the radiological sub-regime (7, Developed).",
+      "sub_regimes": {
+        "chemical": {
+          "name": "Chemical weapons",
+          "pillars": {
+            "assess": {
+              "mechanisms": "The Technical Secretariat and the Scientific Advisory Board of the Organisation for the Prohibition of Chemical Weapons (OPCW), together with the system of declarations by states.",
+              "type": "Agency",
+              "coverage": "Universal",
+              "binding_or_powers": "Verification",
+              "status": "Standing, expert and funded."
+            },
+            "regulate": {
+              "mechanisms": "The Chemical Weapons Convention (1997) has 193 states parties. Egypt, North Korea and South Sudan are outside, and Israel has signed but not ratified.",
+              "type": "Treaty",
+              "coverage": "Universal",
+              "binding_or_powers": "Binding and verified",
+              "status": "All declared stockpiles (72,000 tonnes) have been destroyed. Destruction was completed in July 2023."
+            },
+            "finance": {
+              "mechanisms": "The regular budget of the OPCW, assistance under Article X of the Convention, and voluntary trust funds, such as the one for the destruction of Syria's chemical weapons in 2013 and 2014.",
+              "type": "Budget, trust funds",
+              "coverage": "Universal",
+              "binding_or_powers": null,
+              "status": "There is no standing fund for reduction, but destruction was financed when it was needed."
+            },
+            "enforce": {
+              "mechanisms": "The OPCW carries out routine inspections and, on request, challenge inspections. Its Investigation and Identification Team attributes the use of chemical weapons, as it did in Syria. In 2021 the Conference of the States Parties suspended Syria's rights. Cases can be referred to the UN Security Council or General Assembly, but Russia has vetoed action in the Council.",
+              "type": "Inspection, attribution, sanction",
+              "coverage": "Universal",
+              "binding_or_powers": "Sanction power, used",
+              "status": "Proven. The OPCW received the Nobel Peace Prize in 2013. The limits show when a state defies the regime under the protection of a great power."
+            }
+          },
+          "scores": {
+            "assess": 3,
+            "regulate": 3,
+            "finance": 2,
+            "enforce": 3
+          },
+          "score_sum": 11,
+          "maturity": "Fully developed"
+        },
+        "radiological": {
+          "name": "Radioactive material",
+          "pillars": {
+            "assess": {
+              "mechanisms": "The Incident and Trafficking Database of the International Atomic Energy Agency (about 145 states) and the Agency's Nuclear Security Series of guidance.",
+              "type": "Agency",
+              "coverage": "Broad",
+              "binding_or_powers": "Advisory",
+              "status": null
+            },
+            "regulate": {
+              "mechanisms": "The Convention on the Physical Protection of Nuclear Material (1987, 164 parties) and its 2005 Amendment (in force since 2016, about 135 parties). The International Convention for the Suppression of Acts of Nuclear Terrorism (2005, about 125 parties). The Code of Conduct on the Safety and Security of Radioactive Sources of the International Atomic Energy Agency (2004), to which about 145 states have made a political commitment.",
+              "type": "Treaties, code",
+              "coverage": "Broad",
+              "binding_or_powers": "Binding on physical protection; soft law on radioactive sources",
+              "status": "The security of radioactive sources is uneven."
+            },
+            "finance": {
+              "mechanisms": "The Nuclear Security Fund of the International Atomic Energy Agency, which is voluntary and receives about €40 million a year.",
+              "type": "Fund",
+              "coverage": "Broad donor base",
+              "binding_or_powers": null,
+              "status": "Small but dedicated."
+            },
+            "enforce": {
+              "mechanisms": "The advisory missions of the International Atomic Energy Agency on physical protection take place only on invitation. There is no right of inspection and no sanction.",
+              "type": "Advisory",
+              "coverage": null,
+              "binding_or_powers": "None",
+              "status": null
+            }
+          },
+          "scores": {
+            "assess": 2,
+            "regulate": 2,
+            "finance": 2,
+            "enforce": 1
+          },
+          "score_sum": 7,
+          "maturity": "Developed"
+        }
       }
-     },
-     "scores": {
-      "assess": 3,
-      "regulate": 3,
-      "finance": 2,
-      "enforce": 3
-     },
-     "score_sum": 11,
-     "maturity": "Fully developed"
     },
-    "radiological": {
-     "pillars": {
-      "assess": {
-       "mechanisms": "IAEA Incident and Trafficking Database (~145 states); Nuclear Security series",
-       "type": "Agency",
-       "coverage": "Broad",
-       "binding_or_powers": "Advisory",
-       "status": null
+    {
+      "code": "T1",
+      "name": "Uncontrolled advanced AI",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The UN General Assembly created the Independent International Scientific Panel on AI in August 2025 (resolution 79/325). Its 40 experts presented a first report at the Global Dialogue on AI Governance in Geneva on 6 and 7 July 2026. The report finds that there is 'no technical guarantee' that frontier systems follow instructions. The next Dialogue takes place in New York on 3 and 4 May 2027. The International AI Safety Report, chaired by Yoshua Bengio, is written by experts nominated by about 33 governments, the European Union, the UN and the OECD. The International Network of AI Safety and Security Institutes has 10 members: the United States, the United Kingdom, Japan, South Korea, Singapore, Canada, Australia, France, Kenya and the European Union. China is not a member. The OECD runs an AI Policy Observatory.",
+          "type": "Panel, network",
+          "coverage": "Universal (UN panel); club (safety institutes)",
+          "binding_or_powers": "Advisory",
+          "status": "New, thin and promising. It is an 'IPCC for AI' in its first year."
+        },
+        "regulate": {
+          "mechanisms": "No binding instrument covers the safety of frontier models or the loss of control. The Framework Convention on AI of the Council of Europe (2024) is the first binding AI treaty. It has about 19 signatories, including the United States, the United Kingdom, the European Union, Canada, Japan, Israel and Switzerland. It has one ratification (the European Union, 15 May 2026) and needs five, including three member states of the Council of Europe, to enter into force. It protects rights and excludes national security. Soft law includes the UNESCO Recommendation on the Ethics of AI (2021, 193 states), the OECD AI Principles (47 adherents), two resolutions of the UN General Assembly (78/265 and 78/311, 2024), the Global Digital Compact (2024) and the code of conduct of the G7 Hiroshima Process. Sixteen companies made private Frontier AI Safety Commitments in Seoul in 2024. Two rival groupings have formed around the leading AI powers. Pax Silica, led by the United States, was launched on 12 December 2025 with a non-binding declaration, which about 25 governments had signed by November 2026. It aims to secure the supply chains for chips, AI and critical minerals among partners. On 15 November 2026, ten of them signed the San Francisco Declaration, which sets up working groups and contains no safety rules. The World AI Cooperation Organization (WAICO), proposed by China, was founded in Shanghai on 16 July 2026 by 29 states, including Russia, Brazil, Indonesia and South Africa. No Western state joined. It promotes cooperation and capacity-building and sets no safety rules.",
+          "type": "Treaty (not in force), soft law, clubs",
+          "coverage": "Club (binding treaty, Pax Silica, WAICO); universal (soft law)",
+          "binding_or_powers": "Soft law. The one binding treaty is not in force and does not cover this risk.",
+          "status": "The United States and China hold about 90% of frontier computing power. They are bound by no safety rule, and each now leads its own grouping."
+        },
+        "finance": {
+          "mechanisms": "None. The Global Fund for AI proposed in the Global Digital Compact is for capacity-building, not for safety.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        }
       },
-      "regulate": {
-       "mechanisms": "CPPNM 1987 (164) and 2005 Amendment (in force 2016; ~135); ICSANT 2005 (~125); IAEA Code of Conduct on radioactive sources (2004; ~145 political commitments)",
-       "type": "Treaties; code",
-       "coverage": "Broad",
-       "binding_or_powers": "Binding (physical protection); soft (sources)",
-       "status": "Source security uneven"
+      "scores": {
+        "assess": 2,
+        "regulate": 1,
+        "finance": 0,
+        "enforce": 0
       },
-      "finance": {
-       "mechanisms": "IAEA Nuclear Security Fund (voluntary, ~€40 m/yr)",
-       "type": "Fund",
-       "coverage": "Broad donors",
-       "binding_or_powers": null,
-       "status": "Small but dedicated"
+      "score_sum": 3,
+      "maturity": "Nascent",
+      "trend": "↑",
+      "trend_label": "Strengthening",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "Scientific assessment arrived in 2025 and 2026. Governance is now emerging on three separate tracks: a universal UN track that assesses and discusses, a grouping led by the United States and an organisation led by China. None of them sets safety rules for frontier AI. In the UN Global Risk Report 2026, this risk shows the sharpest rise in perceived importance, preparedness ranks 24th of 28, and a gap in data is the stated barrier.",
+      "gap": "Compared with the size of the risk, this is the largest gap in the Monitor. There are no safety rules, no oversight of frontier development or of computing power, no fund and no enforcement. The split into rival groupings makes universal rules harder to reach.",
+      "maturity_note": "More institutions exist than a year ago, but they are dividing along geopolitical lines."
+    },
+    {
+      "code": "T2",
+      "name": "Failed geoengineering",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The IPCC assessed solar radiation modification in its sixth assessment report. UNEP reviewed it in the report One Atmosphere (2023). The Scientific Assessment Panel of the Montreal Protocol was mandated in 2023 (decisions XXXV/3 and XXXV/4) to assess the effects of stratospheric aerosols on the ozone layer. The World Meteorological Organization also contributes.",
+          "type": "Panels within other regimes",
+          "coverage": "Universal",
+          "binding_or_powers": "Advisory",
+          "status": "The risk is assessed inside other regimes. There is no dedicated body."
+        },
+        "regulate": {
+          "mechanisms": "The ENMOD Convention (1978, 78 parties) bans only the hostile use of environmental modification. A decision of the Convention on Biological Diversity (X/33, 2010) amounts to a moratorium in practice, but it is not binding and the United States is not a party. Under the London Convention and Protocol, a 2008 resolution on ocean fertilisation is not binding, and a 2013 amendment on marine geoengineering is not in force: it has 6 of the roughly 36 acceptances needed. Draft resolutions on solar radiation modification were withdrawn at the UN Environment Assembly in 2019 and 2024. The African Ministerial Conference on the Environment called for a global non-use agreement in 2023 and 2025. Nothing governs the injection of aerosols into the stratosphere, the thresholds for research or the danger of a termination shock.",
+          "type": "Treaty (narrow), soft law",
+          "coverage": "Partial",
+          "binding_or_powers": "Binding on a small part of the risk; otherwise none",
+          "status": null
+        },
+        "finance": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        }
       },
-      "enforce": {
-       "mechanisms": "IAEA IPPAS advisory missions — on invitation only; no inspection right, no sanction",
-       "type": "Advisory",
-       "coverage": null,
-       "binding_or_powers": "None",
-       "status": null
-      }
-     },
-     "scores": {
-      "assess": 2,
-      "regulate": 2,
-      "finance": 2,
-      "enforce": 1
-     },
-     "score_sum": 7,
-     "maturity": "Developed"
+      "scores": {
+        "assess": 2,
+        "regulate": 1,
+        "finance": 0,
+        "enforce": 0
+      },
+      "score_sum": 3,
+      "maturity": "Nascent",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "The technology is advancing faster than any rule for it. In the UN Global Risk Report 2026, preparedness ranks 27th of 28, the second lowest, and respondents expect the risk only after eight years.",
+      "gap": "There is no rule on deployment or research, no non-use agreement, no fund and no enforcement.",
+      "maturity_note": null
+    },
+    {
+      "code": "T3",
+      "name": "Unknown unknowns",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The UN Global Risk Report appears every two years (2024, 2026) under the Executive Office of the Secretary-General. The UN Futures Lab and the UN University do foresight work. In the Pact for the Future (2024) and its Declaration on Future Generations, states committed to strategic foresight, and a Special Envoy for Future Generations has been proposed.",
+          "type": "Reports, commitments",
+          "coverage": "Universal",
+          "binding_or_powers": "Advisory",
+          "status": "Foresight exists as a function, not as an institution."
+        },
+        "regulate": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "finance": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 1,
+        "regulate": 0,
+        "finance": 0,
+        "enforce": 0
+      },
+      "score_sum": 1,
+      "maturity": "Nascent",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "Foresight is carried out in reports and offices. No institution is responsible for acting on what they find.",
+      "gap": "No standing and funded mechanism exists to identify hazards early and to govern them before they mature.",
+      "maturity_note": null
+    },
+    {
+      "code": "F1",
+      "name": "Permanent global power lock-in",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The UN Scientific Panel on AI documents the concentration of computing power. UNCTAD reports on technology and competition. The Office of the High Commissioner for Human Rights and the Human Rights Council monitor civic space and rights. The OECD keeps statistics on competition and tax.",
+          "type": "Panels, agencies",
+          "coverage": "Universal",
+          "binding_or_powers": "Advisory",
+          "status": "No body assesses the concentration of power as a catastrophic risk."
+        },
+        "regulate": {
+          "mechanisms": "There is no global competition law. The UN Set of Principles on Restrictive Business Practices (1980) is not binding. The International Competition Network links more than 140 agencies but is soft. The two-pillar tax deal of the OECD and G20 Inclusive Framework covers 147 jurisdictions: its first pillar is dead, and its second pillar was weakened in January 2026 by a 'side-by-side' arrangement that exempts groups with a parent company in the United States. A UN Framework Convention on International Tax Cooperation is under negotiation until 2027; its terms of reference were adopted by 110 votes to 8 with 43 abstentions. For the final form of this risk, the relevant treaties are the International Covenant on Civil and Political Rights (174 parties), which binds states to protect political freedoms, and the Rome Statute of the International Criminal Court. The Statute has 124 parties since Hungary's withdrawal took effect in June 2026; the United States, China, Russia and India are outside. The UN Guiding Principles on Business and Human Rights are soft law, and a binding treaty on business and human rights has been under negotiation since 2014. The two groupings that formed around AI in 2025 and 2026, Pax Silica and the World AI Cooperation Organization, organise technology blocs. Neither limits concentration.",
+          "type": "Soft law, treaties (indirect)",
+          "coverage": "Broad (rights); club (tax)",
+          "binding_or_powers": "Soft on concentration. Binding only on rights, which address the risk indirectly.",
+          "status": "The critical actors are the two states and the few companies that control frontier computing power. Nothing binds them on concentration."
+        },
+        "finance": {
+          "mechanisms": "The UN Democracy Fund spends about US$5 million a year and is general in purpose.",
+          "type": "Fund (generic)",
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "The International Criminal Court prosecutes individuals, but its warrants are not enforced against major powers. The International Court of Justice hears disputes between states. The views of the Human Rights Committee and the Universal Periodic Review are peer review without sanction.",
+          "type": "Courts, review",
+          "coverage": "Broad to partial",
+          "binding_or_powers": "Weak",
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 1,
+        "regulate": 1,
+        "finance": 1,
+        "enforce": 1
+      },
+      "score_sum": 4,
+      "maturity": "Nascent",
+      "trend": "↓",
+      "trend_label": "Eroding",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "This is one of the least governed risks. In the UN Global Risk Report 2026, its importance rose sharply and preparedness ranks 22nd of 28.",
+      "gap": "Nothing addresses the concentration of transformative technology, monopoly power or the pathway to lock-in. The small part covered by tax rules is shrinking.",
+      "maturity_note": "The tax pillar was weakened in 2026."
+    },
+    {
+      "code": "F2",
+      "name": "Civilisational systems collapse",
+      "kind": "terminal hazard",
+      "pillars": {
+        "assess": {
+          "mechanisms": "Finance is monitored by the Financial Stability Board (24 jurisdictions and international organisations), the International Monetary Fund (191 members, with country surveillance, financial-sector assessments and the Global Financial Stability Report) and the Bank for International Settlements. Cyber risks are discussed in the UN Global Mechanism on security in the use of information and communication technologies (2025), the permanent successor to an open-ended working group, and at the International Telecommunication Union. Food is monitored by the FAO, the Agricultural Market Information System of the G20 and the Global Network Against Food Crises. Energy is monitored by the International Energy Agency (31 members). Disaster risk is covered by the Global Assessment Report of the UN Office for Disaster Risk Reduction.",
+          "type": "Bodies, agencies",
+          "coverage": "Universal (IMF); club (Financial Stability Board, International Energy Agency)",
+          "binding_or_powers": "Advisory",
+          "status": "Strong sector by sector. Nobody assesses how a failure cascades across sectors."
+        },
+        "regulate": {
+          "mechanisms": "The Articles of Agreement of the International Monetary Fund bind 191 members. The Basel III banking standards are soft law for 28 jurisdictions. The rules of the World Trade Organization bind 166 members. Sectoral safety regimes are binding and universal: the International Maritime Organization, the International Civil Aviation Organization and the Radio Regulations of the International Telecommunication Union. The UN Convention against Cybercrime was adopted in December 2024 and has 77 signatories (76 states and the European Union) but only 3 of the 40 ratifications it needs to enter into force. The Budapest Convention on Cybercrime has about 81 parties, including the United States, Japan, Canada, Australia and Argentina. The eleven UN norms of responsible state behaviour in cyberspace and the Sendai Framework are not binding. No binding standard covers the interdependence or resilience of critical infrastructure.",
+          "type": "Treaties, soft law",
+          "coverage": "Universal, by sector",
+          "binding_or_powers": "Binding in finance, trade and transport. Soft or not in force elsewhere.",
+          "status": null
+        },
+        "finance": {
+          "mechanisms": "The International Monetary Fund can lend about US$1 trillion. Regional financing arrangements and central-bank swap lines complete the Global Financial Safety Net. The World Bank has crisis facilities, and the UN has the Central Emergency Response Fund. All of these react to a crisis. Nothing pays in advance for resilience across sectors.",
+          "type": "Facilities",
+          "coverage": "Universal",
+          "binding_or_powers": null,
+          "status": "This is liquidity for crises, not risk reduction."
+        },
+        "enforce": {
+          "mechanisms": "The dispute settlement of the World Trade Organization is impaired: its Appellate Body has not functioned since 2019, and an interim appeal arrangement covers about 57 members. The International Monetary Fund attaches conditions to its loans. The Financial Stability Board and the Basel Committee use peer reviews. The International Maritime Organization and the International Civil Aviation Organization carry out mandatory audits without sanctions.",
+          "type": "Adjudication (impaired), review",
+          "coverage": null,
+          "binding_or_powers": "Weak",
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 2,
+        "regulate": 1,
+        "finance": 2,
+        "enforce": 1
+      },
+      "score_sum": 6,
+      "maturity": "Developing",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "Financial shocks from which the world can recover are well governed. The sectoral safety regimes are among the best-governed systems in the world: the safety conventions of shipping and aviation, the Radio Regulations and the obligation of members of the International Energy Agency to hold oil stocks for 90 days are binding, near-universal and audited. But nobody governs the interdependence between these systems, which is what makes this risk possible. The irreversible cascade across sectors has no owner. In the UN Global Risk Report 2026, worry about a financial crisis rose, a supply-chain collapse is now expected in the near term, and preparedness for a cybersecurity breakdown ranks 26th of 28.",
+      "gap": "No regime covers a polycrisis or the interdependence of infrastructure as a whole. The cybercrime convention is not in force.",
+      "maturity_note": "The financial channel alone would reach the level Developed."
+    },
+    {
+      "code": "M1",
+      "name": "Great-power rivalry",
+      "kind": "risk multiplier",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The UN Secretariat provides early warning through its Department of Political and Peacebuilding Affairs. The Security Council deliberates. The Conflict Prevention Centre of the OSCE serves 57 states on three continents. The UN Register of Conventional Arms is voluntary and receives about 60 reports a year. The UN Institute for Disarmament Research provides analysis.",
+          "type": "UN organs, office",
+          "coverage": "Universal",
+          "binding_or_powers": "Advisory",
+          "status": "Early warning exists. Transparency on arms is declining."
+        },
+        "regulate": {
+          "mechanisms": "The UN Charter (193 members) prohibits the use of force in Article 2(4). The rule is binding and universal. The Geneva Conventions (196 parties) and their Protocols regulate the conduct of war. The Arms Trade Treaty has 116 parties; the United States withdrew its signature, and Russia and China are outside. The Convention on Certain Conventional Weapons has 128 parties. The OSCE has the Vienna Document on military transparency. No conventional or strategic arms control between the great powers remains in force: the Treaty on Conventional Armed Forces in Europe is suspended, the Open Skies Treaty has collapsed and New START has expired.",
+          "type": "Treaties",
+          "coverage": "Universal (Charter, humanitarian law); partial (Arms Trade Treaty)",
+          "binding_or_powers": "Binding on the use of force. Nothing covers rivalry, arms races or the management of escalation.",
+          "status": "The critical actors are the five permanent members of the Security Council."
+        },
+        "finance": {
+          "mechanisms": "The UN Peacebuilding Fund spends about US$200 million a year. UN peacekeeping is paid for by assessed contributions of about US$5.6 billion, which were cut in 2026. Both pay for stabilisation after conflict, not for preventing war between great powers.",
+          "type": "Funds",
+          "coverage": "Universal",
+          "binding_or_powers": null,
+          "status": "The money is dedicated to conflict, not to rivalry."
+        },
+        "enforce": {
+          "mechanisms": "Under Chapter VII of the Charter, the Security Council can impose binding sanctions and authorise force. The veto makes this impossible against a permanent member or a state that it protects. The International Court of Justice has compulsory jurisdiction over 74 states, and its judgments are enforced through the Council. The International Criminal Court has 124 parties; its jurisdiction over aggression is narrow, and the major powers are outside.",
+          "type": "Sanction, adjudication",
+          "coverage": "Universal",
+          "binding_or_powers": "The power exists but cannot be used where it matters most.",
+          "status": "Weak and declining, as Ukraine and Gaza show."
+        }
+      },
+      "scores": {
+        "assess": 2,
+        "regulate": 2,
+        "finance": 2,
+        "enforce": 1
+      },
+      "score_sum": 7,
+      "maturity": "Developing",
+      "trend": "↓",
+      "trend_label": "Eroding",
+      "capped_by_critical_actor_gate": true,
+      "in_practice": "On paper this is the most complete architecture, and it was designed for exactly this risk. By design it cannot act when a great power is the aggressor. In the UN Global Risk Report 2026, geopolitical tensions are among the three risks that are best identified, preparedness for large-scale war fell fastest, and 'weak governance or coordination mechanisms' is the top barrier for every risk.",
+      "gap": "The veto blocks enforcement. There is no arms control between great powers and no mechanism to manage escalation. The four drivers of rivalry named in the UN Global Risk Report 2026 (resource shortages, economic fragmentation, misinformation and institutional decay) each fall under other, weaker regimes.",
+      "maturity_note": null
+    },
+    {
+      "code": "M2",
+      "name": "Social fragmentation, disinformation, governance failure",
+      "kind": "risk multiplier",
+      "pillars": {
+        "assess": {
+          "mechanisms": "UNESCO (194 members) monitors media and information. The UN Global Principles for Information Integrity (June 2024) set out expectations. The Office of the High Commissioner for Human Rights monitors rights. The UN Global Risk Report is itself an assessment. Indices such as V-Dem and Freedom House, and the Inter-Parliamentary Union, are not bodies of governments and are not scored.",
+          "type": "Agency, principles",
+          "coverage": "Universal",
+          "binding_or_powers": "Advisory",
+          "status": "No intergovernmental body assesses the integrity of the information environment or the decay of institutions as risks."
+        },
+        "regulate": {
+          "mechanisms": "The International Covenant on Civil and Political Rights (174 parties) is binding. Its Article 19 protects expression and its Article 20 prohibits incitement. The Convention on the Elimination of All Forms of Racial Discrimination has 182 parties. The Global Digital Compact (2024) and the UNESCO Guidelines for the Governance of Digital Platforms (2023) are soft law. The Budapest Convention and the UN Convention against Cybercrime deal with crime, not with disinformation. No instrument governs the accountability of platforms, synthetic media or the retreat of multilateralism itself.",
+          "type": "Treaties (indirect), soft law",
+          "coverage": "Broad to universal",
+          "binding_or_powers": "Binding on rights; soft on the risk itself",
+          "status": "Any rule is in tension with the protection of free expression."
+        },
+        "finance": {
+          "mechanisms": "The UN Democracy Fund and the International Programme for the Development of Communication of UNESCO are both small and general.",
+          "type": "Funds (generic)",
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "The views of the Human Rights Committee are not binding. The Universal Periodic Review is peer review without sanction.",
+          "type": "Review",
+          "coverage": "Universal",
+          "binding_or_powers": "None",
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 1,
+        "regulate": 1,
+        "finance": 1,
+        "enforce": 1
+      },
+      "score_sum": 4,
+      "maturity": "Nascent",
+      "trend": "↓",
+      "trend_label": "Eroding",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "This multiplier weakens every other regime, and the gap is almost total. In the UN Global Risk Report 2026, mis- and disinformation is still the most imminent risk, the collapse of the rule of law is the most connected node, and confidence in the capacity of institutions to reduce risk fell for 23 of 28 risks.",
+      "gap": "Everything is missing except human rights law. The weakness of this multiplier helps to explain the weakness of the others.",
+      "maturity_note": null
+    },
+    {
+      "code": "M3",
+      "name": "AI as amplifier",
+      "kind": "risk multiplier",
+      "pillars": {
+        "assess": {
+          "mechanisms": "The bodies listed for uncontrolled advanced AI also apply here: the UN Scientific Panel on AI, the International AI Safety Report and the network of AI safety institutes. None of them assesses the link between AI and biological weapons or between AI and nuclear weapons specifically. The summits on Responsible AI in the Military Domain (The Hague 2023, Seoul 2024, A Coruña 2026) discuss military AI.",
+          "type": "Panels, summits",
+          "coverage": "Universal; club",
+          "binding_or_powers": "Advisory",
+          "status": null
+        },
+        "regulate": {
+          "mechanisms": "The Convention on Certain Conventional Weapons (128 parties) has discussed lethal autonomous weapons systems for more than a decade. At its Seventh Review Conference in Geneva (16 to 21 November 2026), the parties did not agree to start negotiations on a binding instrument. They gave a group of governmental experts a new mandate for 2027 and 2028 to develop 'an international instrument', without deciding whether it will be legally binding. More than 95 states supported a binding instrument. Russia blocked consensus, and the United States and several other military powers also opposed binding rules. In October 2026, 163 states backed a resolution in the First Committee of the UN General Assembly that calls for negotiations. Soft law consists of General Assembly resolution 79/239 on AI in the military domain (December 2024), the Blueprint for Action of the Seoul summit (2024, about 60 endorsers, without China) and a political declaration on the responsible military use of AI led by the United States (about 58 endorsers). At the third summit, in A Coruña in February 2026, the United States and China did not endorse the declaration. The Wassenaar Arrangement (42 members) coordinates export controls on dual-use goods, including some computing hardware; controls on advanced chips are national. Nothing covers AI in nuclear command and control. Nothing covers the design of pathogens with AI: the Biological Weapons Convention is silent, and the screening commitments of frontier AI companies are private.",
+          "type": "Expert group, soft law, club",
+          "coverage": "Broad (128 parties to the weapons convention); club (others)",
+          "binding_or_powers": "Soft law. A mandate to negotiate binding rules was blocked in November 2026.",
+          "status": "Talks on autonomous weapons continue until 2028 without a commitment to a treaty."
+        },
+        "finance": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        },
+        "enforce": {
+          "mechanisms": "None.",
+          "type": null,
+          "coverage": null,
+          "binding_or_powers": null,
+          "status": null
+        }
+      },
+      "scores": {
+        "assess": 2,
+        "regulate": 1,
+        "finance": 0,
+        "enforce": 0
+      },
+      "score_sum": 3,
+      "maturity": "Nascent",
+      "trend": "→",
+      "trend_label": "Stable",
+      "capped_by_critical_actor_gate": false,
+      "in_practice": "This is the fastest-rising multiplier, and it is governed by declarations. In 2026 the attempt to start treaty negotiations on autonomous weapons failed, and the two leading AI powers stayed outside the main declaration on military AI.",
+      "gap": "The links between AI and nuclear weapons and between AI and biological weapons fall between the nuclear, biological and AI regimes. No regime owns them. There are still no binding rules on autonomous weapons.",
+      "maturity_note": "The trend moved from strengthening to stable in November 2026, when the mandate to negotiate a treaty on autonomous weapons was blocked."
     }
-   },
-   "pillars": {
-    "assess": {
-     "mechanisms": "OPCW Technical Secretariat and Scientific Advisory Board; declarations regime",
-     "type": "Agency",
-     "coverage": "Universal",
-     "binding_or_powers": "Verification",
-     "status": "Standing, expert, funded"
-    },
-    "regulate": {
-     "mechanisms": "Chemical Weapons Convention 1997 — 193 states parties (outside: Egypt, DPRK, South Sudan; Israel signatory)",
-     "type": "Treaty",
-     "coverage": "Universal",
-     "binding_or_powers": "Binding + verified",
-     "status": "All declared stockpiles (72,000 t) destroyed — completed July 2023"
-    },
-    "finance": {
-     "mechanisms": "OPCW regular budget; Article X assistance; voluntary trust funds (e.g., Syria destruction 2013–14)",
-     "type": "Budget; trust funds",
-     "coverage": "Universal",
-     "binding_or_powers": null,
-     "status": "No standing reduction fund, but destruction was financed when needed"
-    },
-    "enforce": {
-     "mechanisms": "OPCW inspections (routine, and challenge inspections on request); Investigation and Identification Team attributing use (Syria); Conference of States Parties suspended Syria's rights (2021); referral to UNSC/UNGA available (Council action vetoed by Russia)",
-     "type": "Inspection; attribution; sanction",
-     "coverage": "Universal",
-     "binding_or_powers": "Sanction power, used",
-     "status": "Proven — Nobel Peace Prize 2013; limits shown when a state defies the regime under great-power protection"
-    }
-   },
-   "scores": {
-    "assess": "3/2",
-    "regulate": "3/2",
-    "finance": "2/2",
-    "enforce": "3/1"
-   },
-   "score_sum": 9,
-   "maturity": "Developed",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "maturity_note": "Blended score 9 across the chemical (11, Fully developed) and radiological (7, Developed) sub-regimes; the chemical-weapons regime is the only live regime to reach Fully developed.",
-   "in_practice": null,
-   "gap": "radiological source security and any independent inspection right; enforcement against a defiant, protected state."
-  },
-  {
-   "code": "T1",
-   "name": "Uncontrolled advanced AI",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "UN Independent International Scientific Panel on AI (UNGA 79/325, Aug 2025; 40 experts; first report presented at the Global Dialogue on AI Governance, Geneva, 6–7 July 2026 — finding \"no technical guarantee\" that frontier systems follow instructions; next Dialogue May 2027); International AI Safety Report (Bengio; experts nominated by ~33 governments, EU, UN, OECD); International Network of AI Safety/Security Institutes (10 members: US, UK, Japan, Korea, Singapore, Canada, Australia, France, Kenya, EU — China outside); OECD AI Policy Observatory",
-     "type": "Panel; network",
-     "coverage": "Universal (panel) / Club (institutes)",
-     "binding_or_powers": "Advisory",
-     "status": "New, thin, promising — an \"IPCC for AI\" in its first year"
-    },
-    "regulate": {
-     "mechanisms": "No binding instrument on frontier-model safety or loss of control. Council of Europe Framework Convention on AI (2024) — first binding AI treaty; ~19 signatories incl. US, UK, EU, Canada, Japan, Israel, Switzerland; 1 ratification (EU, 15 May 2026); not in force (5 needed, 3 CoE); rights-focused; excludes national security. Soft law: UNESCO Recommendation on AI Ethics (2021; 193), OECD AI Principles (47 adherents; GPAI merged in 2024), UNGA resolutions 78/265 and 78/311 (2024), Global Digital Compact (2024), G7 Hiroshima Process code of conduct; Frontier AI Safety Commitments (Seoul 2024 — 16 companies, private)",
-     "type": "Treaty (not in force); soft law",
-     "coverage": "Club (binding) / Universal (soft)",
-     "binding_or_powers": "Soft; binding not in force and not on this risk",
-     "status": "Critical actors (US, China — ~90% of frontier compute) bound by nothing"
-    },
-    "finance": {
-     "mechanisms": "none — the GDC's proposed Global Fund for AI is for capacity-building, not safety",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 2,
-    "regulate": 1,
-    "finance": 0,
-    "enforce": 0
-   },
-   "score_sum": 3,
-   "maturity": "Nascent",
-   "trend": "↑",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "assessment arrived in 2025–26; nothing else exists. UN26: sharpest rise in perceived importance of any risk; preparedness 24th of 28; data gap the stated barrier.",
-   "gap": "the largest relative to risk magnitude on the map — no safety rules, no oversight of frontier development or compute, no fund, no enforcement.",
-   "maturity_note": null
-  },
-  {
-   "code": "T2",
-   "name": "Failed geoengineering",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "IPCC (SRM assessed in AR6); UNEP One Atmosphere SRM review (2023); Montreal Protocol Scientific Assessment Panel — mandated (decisions XXXV/3–4, 2023) to assess stratospheric-aerosol effects on ozone; WMO",
-     "type": "Panels (within other regimes)",
-     "coverage": "Universal",
-     "binding_or_powers": "Advisory",
-     "status": "Assessed inside other regimes; no dedicated body"
-    },
-    "regulate": {
-     "mechanisms": "ENMOD Convention 1978 (78 parties) — bans hostile environmental modification only; CBD decision X/33 (2010) — de facto moratorium, non-binding, US not a party; London Convention/Protocol — 2008 resolution on ocean fertilisation (non-binding) and 2013 amendment on marine geoengineering — not in force (6 acceptances of the ~36 needed); UNEA resolutions on SRM withdrawn in 2019 and 2024; African Ministerial Conference (AMCEN 2023, 2025) calls for a global non-use agreement. Nothing governs stratospheric aerosol injection, research thresholds or termination shock",
-     "type": "Treaty (narrow); soft law",
-     "coverage": "Partial",
-     "binding_or_powers": "Binding on a sliver; otherwise none",
-     "status": null
-    },
-    "finance": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 2,
-    "regulate": 1,
-    "finance": 0,
-    "enforce": 0
-   },
-   "score_sum": 3,
-   "maturity": "Nascent",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "the intervention is advancing faster than any rule for it. UN26: preparedness 27th of 28 — second-least-prepared-for risk; expected after eight years.",
-   "gap": "no rule on deployment or research, no non-use agreement, no fund, no enforcement.",
-   "maturity_note": null
-  },
-  {
-   "code": "T3",
-   "name": "Unknown unknowns",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "UN Global Risk Report (2024, 2026 — biennial, EOSG); UN Futures Lab; Pact for the Future (2024) and Declaration on Future Generations commitments to strategic foresight (proposed Special Envoy for Future Generations); UNU",
-     "type": "Reports; commitments",
-     "coverage": "Universal",
-     "binding_or_powers": "Advisory",
-     "status": "Foresight exists as a function, not an institution"
-    },
-    "regulate": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "finance": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 1,
-    "regulate": 0,
-    "finance": 0,
-    "enforce": 0
-   },
-   "score_sum": 1,
-   "maturity": "Nascent",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": null,
-   "gap": "no standing, resourced anticipatory mechanism to identify and govern hazards before they mature.",
-   "maturity_note": null
-  },
-  {
-   "code": "F1",
-   "name": "Permanent global power lock-in",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "UN Scientific Panel on AI (documents compute concentration); UNCTAD (technology and competition reports); OHCHR / Human Rights Council (civic-space and rights monitoring); OECD competition and tax statistics",
-     "type": "Panels; agencies",
-     "coverage": "Universal",
-     "binding_or_powers": "Advisory",
-     "status": "No body assesses concentration of power as a catastrophic risk"
-    },
-    "regulate": {
-     "mechanisms": "No global competition law. UN Set of Principles on Restrictive Business Practices (1980, non-binding); International Competition Network (140+ agencies, soft); OECD/G20 Inclusive Framework two-pillar tax deal (147 jurisdictions) — Pillar One dead, Pillar Two weakened by the Jan 2026 \"side-by-side\" arrangement exempting US-parented groups; UN Framework Convention on International Tax Cooperation — negotiating (INC sessions to 2027; ToR vote 110–8–43). On the terminal form: ICCPR (174; binding political freedoms), Rome Statute (124 parties after Hungary's withdrawal took effect June 2026; US, China, Russia, India outside); UN Guiding Principles on Business and Human Rights (soft); binding business-and-human-rights treaty negotiating since 2014",
-     "type": "Soft law; treaties (indirect)",
-     "coverage": "Broad (rights) / Club (tax)",
-     "binding_or_powers": "Soft on concentration; binding only on rights, indirectly",
-     "status": "Critical actors: the two states and handful of firms controlling frontier compute — bound by nothing on concentration"
-    },
-    "finance": {
-     "mechanisms": "UN Democracy Fund (~US$5 m/yr) — generic",
-     "type": "Fund (generic)",
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "ICC (prosecution of individuals; warrants unenforced against major powers); ICJ; Human Rights Committee views and UPR — peer review, no sanction",
-     "type": "Courts; review",
-     "coverage": "Broad / partial",
-     "binding_or_powers": "Weak",
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 1,
-    "regulate": 1,
-    "finance": 1,
-    "enforce": 1
-   },
-   "score_sum": 4,
-   "maturity": "Nascent",
-   "trend": "↓",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "one of the least-governed risks. UN26: importance up sharply; preparedness 22nd of 28.",
-   "gap": "nothing addresses concentration of transformative technology, monopoly power or the lock-in pathway; the tax sliver is retreating.",
-   "maturity_note": "tax pillar weakened 2026"
-  },
-  {
-   "code": "F2",
-   "name": "Civilisational systems collapse",
-   "kind": "terminal hazard (leaf)",
-   "pillars": {
-    "assess": {
-     "mechanisms": "Finance: FSB (24 jurisdictions + IOs), IMF (191; Article IV surveillance, FSAP, Global Financial Stability Report), BIS; cyber: UN Global Mechanism on ICT security (2025, permanent successor to the OEWG), ITU; food: FAO / AMIS (G20), Global Network Against Food Crises; energy: IEA (31 members); disaster: UNDRR Global Assessment Report",
-     "type": "Bodies; agencies",
-     "coverage": "Universal (IMF) / Club (FSB, IEA)",
-     "binding_or_powers": "Advisory",
-     "status": "Strong sector by sector; no integrated assessment of cross-sector cascade"
-    },
-    "regulate": {
-     "mechanisms": "IMF Articles (binding, 191); Basel III (soft, 28 jurisdictions); WTO (166; binding); sectoral safety regimes — IMO, ICAO, ITU Radio Regulations (binding, universal); UN Convention against Cybercrime — adopted Dec 2024, 77 signatories (76 states + EU), 3 ratifications, not in force (40 needed); Budapest Convention (~81 parties incl. US, Japan, Canada, Australia, Argentina); UN norms of responsible state behaviour in cyberspace (11 norms, non-binding); Sendai (soft). No binding standard on critical-infrastructure interdependence or resilience",
-     "type": "Treaties; soft law",
-     "coverage": "Universal (sectoral)",
-     "binding_or_powers": "Binding in finance/trade/transport; soft or not in force elsewhere",
-     "status": null
-    },
-    "finance": {
-     "mechanisms": "IMF lending (~US$1 tn capacity) and the Global Financial Safety Net (regional arrangements, swap lines); World Bank crisis facilities; UN CERF — all reactive; nothing finances cross-sector resilience ex ante",
-     "type": "Facilities",
-     "coverage": "Universal",
-     "binding_or_powers": null,
-     "status": "Crisis liquidity, not risk reduction"
-    },
-    "enforce": {
-     "mechanisms": "WTO dispute settlement (Appellate Body defunct since 2019; MPIA covers ~57 members); IMF conditionality; FSB/Basel peer reviews; IMO/ICAO mandatory audits — no sanction",
-     "type": "Adjudication (impaired); review",
-     "coverage": null,
-     "binding_or_powers": "Weak",
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 2,
-    "regulate": 1,
-    "finance": 2,
-    "enforce": 1
-   },
-   "score_sum": 6,
-   "maturity": "Developing",
-   "trend": "→",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "recoverable financial shocks are well governed, and the sectoral safety regimes on which coupling runs — IMO SOLAS, ICAO, ITU Radio Regulations, the IEA 90-day stock obligation, all binding and near-universal with mandatory audits — are individually among the best-governed systems on Earth; but their interdependence, the enabling condition of F2, is governed by no one, and the irreversible cross-sector cascade that defines the leaf has no owner. UN26: financial-crisis worry up; supply chain now near-term; cybersecurity preparedness 26th of 28.",
-   "gap": "no integrated polycrisis or infrastructure-interdependence regime; cyber convention not in force.",
-   "maturity_note": "the financial channel alone would score Developed"
-  },
-  {
-   "code": "M1",
-   "name": "Great-power rivalry",
-   "kind": "risk multiplier",
-   "pillars": {
-    "assess": {
-     "mechanisms": "UN Secretariat / DPPA early warning; Security Council (deliberation); OSCE Conflict Prevention Centre (57 states, three continents); UN Register of Conventional Arms (voluntary; ~60 reports/yr); UNIDIR",
-     "type": "Organs; office",
-     "coverage": "Universal",
-     "binding_or_powers": "Advisory",
-     "status": "Early warning exists; transparency on arms declining"
-    },
-    "regulate": {
-     "mechanisms": "UN Charter (193) — Art. 2(4) prohibition of the use of force, binding and universal; Geneva Conventions (196 — universal) and Protocols; Arms Trade Treaty (116 parties; US signature withdrawn, Russia and China outside); CCW (128); OSCE Vienna Document; no conventional or strategic arms control between great powers remains in force (CFE suspended; Open Skies collapsed; New START expired)",
-     "type": "Treaties",
-     "coverage": "Universal (Charter, IHL) / Partial (ATT)",
-     "binding_or_powers": "Binding on the use of force; nothing on rivalry, arms racing or escalation management",
-     "status": "Critical actors: the P5"
-    },
-    "finance": {
-     "mechanisms": "UN Peacebuilding Fund (~US$200 m/yr); UN peacekeeping (assessed, ~US$5.6 bn, cut in 2026) — post-conflict and stabilisation, not prevention of great-power war",
-     "type": "Funds",
-     "coverage": "Universal",
-     "binding_or_powers": null,
-     "status": "Dedicated to conflict, not to rivalry"
-    },
-    "enforce": {
-     "mechanisms": "Security Council Chapter VII — binding sanctions and authorised force, structurally unavailable against a permanent member or its protégé (veto); ICJ (compulsory jurisdiction accepted by 74 states; enforcement via the Council); ICC (124; aggression jurisdiction narrow; major powers outside)",
-     "type": "Sanction; adjudication",
-     "coverage": "Universal",
-     "binding_or_powers": "Power exists; unusable where it matters",
-     "status": "Weak and declining (Ukraine, Gaza)"
-    }
-   },
-   "scores": {
-    "assess": 2,
-    "regulate": 2,
-    "finance": 2,
-    "enforce": 1
-   },
-   "score_sum": 7,
-   "maturity": "Developing",
-   "trend": "↓",
-   "capped_by_critical_actor_gate": true,
-   "in_practice": "the most complete architecture on paper, designed for exactly this risk, and unable by construction to act when a great power is the aggressor. UN26: geopolitical tensions among the three best-prepared-for risks for identification; large-scale war fell fastest in preparedness; \"weak governance or coordination mechanisms\" the top barrier to every risk.",
-   "gap": "veto; no great-power arms control; no escalation-management mechanism; UN26's four drivers of rivalry (resource shortage, economic fragmentation, misinformation, institutional decay) each sit in other, weaker regimes.",
-   "maturity_note": null
-  },
-  {
-   "code": "M2",
-   "name": "Social fragmentation, disinformation, governance failure",
-   "kind": "risk multiplier",
-   "pillars": {
-    "assess": {
-     "mechanisms": "UNESCO (194) media and information monitoring; UN Global Principles for Information Integrity (June 2024); OHCHR; UN Global Risk Report itself. Not scored: V-Dem, Freedom House, IPU (non-intergovernmental or parliamentary)",
-     "type": "Agency; principles",
-     "coverage": "Universal",
-     "binding_or_powers": "Advisory",
-     "status": "No intergovernmental body assesses the integrity of the information environment or institutional decay as risks"
-    },
-    "regulate": {
-     "mechanisms": "ICCPR (174) — Art. 19 expression, Art. 20 prohibition of incitement, binding; ICERD (182); Global Digital Compact (2024, soft); UNESCO Guidelines for the Governance of Digital Platforms (2023, soft); Budapest / UN cybercrime conventions (crime, not disinformation). No instrument governs platform accountability, synthetic media or the retreat of multilateralism itself",
-     "type": "Treaties (indirect); soft law",
-     "coverage": "Broad / Universal",
-     "binding_or_powers": "Binding on rights; soft on the risk",
-     "status": "In tension with free-expression protections"
-    },
-    "finance": {
-     "mechanisms": "UN Democracy Fund; UNESCO IPDC media-development programme — both small, generic",
-     "type": "Funds (generic)",
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "Human Rights Committee views (non-binding); Universal Periodic Review — peer review, no sanction",
-     "type": "Review",
-     "coverage": "Universal",
-     "binding_or_powers": "None",
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 1,
-    "regulate": 1,
-    "finance": 1,
-    "enforce": 1
-   },
-   "score_sum": 4,
-   "maturity": "Nascent",
-   "trend": "↓",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "near-total gap on the meta-multiplier that degrades every other regime. UN26: mis- and disinformation still the most imminent risk; rule-of-law collapse the most connected node; confidence in institutions' capacity to reduce risk down for 23 of 28.",
-   "gap": "everything except rights law; and this is the multiplier whose weakness explains the others.",
-   "maturity_note": null
-  },
-  {
-   "code": "M3",
-   "name": "AI as amplifier",
-   "kind": "risk multiplier",
-   "pillars": {
-    "assess": {
-     "mechanisms": "As T1 (UN Scientific Panel; International AI Safety Report; AISI network) — none assesses the AI–bio or AI–nuclear nexus specifically; REAIM summits (Hague 2023, Seoul 2024) on military AI",
-     "type": "Panels; summits",
-     "coverage": "Universal / Club",
-     "binding_or_powers": "Advisory",
-     "status": null
-    },
-    "regulate": {
-     "mechanisms": "CCW Group of Governmental Experts on LAWS — three-year mandate concluded 5 Sept 2026 with a watered-down final report; 76 states support negotiating a binding instrument (70 of them CCW parties — a majority); decision at the Seventh CCW Review Conference, 16–20 Nov 2026; US and Russia oppose binding rules. UNGA resolution 79/239 (Dec 2024) on AI in the military domain; REAIM Blueprint for Action (Seoul 2024; ~60 endorsers, China not among them); US-led Political Declaration on Responsible Military Use of AI (~58 endorsers). Wassenaar Arrangement (42; dual-use export controls incl. some compute — chip controls are national). Nothing on AI in nuclear command and control; nothing on AI-enabled pathogen design (BWC silent; frontier-lab bio-screening commitments private)",
-     "type": "GGE; soft law; club",
-     "coverage": "Broad (CCW 128) / Club",
-     "binding_or_powers": "Soft; binding under negotiation",
-     "status": null
-    },
-    "finance": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    },
-    "enforce": {
-     "mechanisms": "none",
-     "type": null,
-     "coverage": null,
-     "binding_or_powers": null,
-     "status": null
-    }
-   },
-   "scores": {
-    "assess": 2,
-    "regulate": 1,
-    "finance": 0,
-    "enforce": 0
-   },
-   "score_sum": 3,
-   "maturity": "Nascent",
-   "trend": "↑",
-   "capped_by_critical_actor_gate": false,
-   "in_practice": "the fastest-rising multiplier, governed by declarations.",
-   "gap": "the AI–nuclear and AI–bio convergences fall between the nuclear, biological and AI regimes and are owned by none.",
-   "maturity_note": "watch November 2026"
-  }
- ]
+  ]
 }

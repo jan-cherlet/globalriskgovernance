@@ -1,0 +1,220 @@
+{
+ "tints": {
+  "--domain-blue-tint": "#6274A7",
+  "--domain-teal-tint": "#6A9D8E",
+  "--domain-vermilion-tint": "#D4836E",
+  "--domain-aubergine-tint": "#826576",
+  "--domain-saffron-tint": "#BC8806",
+  "--domain-blush-tint": "#E0A799"
+ },
+ "domains": [
+  {
+   "slug": "natural-hazards",
+   "name": "Natural hazards",
+   "file": "domain-natural-hazards.svg",
+   "card": "#1F3A8A",
+   "tint": "#6274A7",
+   "base_form": "circle (a planet, a body)"
+  },
+  {
+   "slug": "biological-risks",
+   "name": "Biological risks",
+   "file": "domain-biological-risks.svg",
+   "card": "#E8A600",
+   "tint": "#BC8806",
+   "base_form": "virus (spiked circle)"
+  },
+  {
+   "slug": "earth-system",
+   "name": "Environment & Earth system",
+   "file": "domain-earth-system.svg",
+   "card": "#1F6F5C",
+   "tint": "#6A9D8E",
+   "base_form": "leaf / drop (pointed oval)"
+  },
+  {
+   "slug": "weapons-conflict",
+   "name": "Weapons & conflict",
+   "file": "domain-weapons-conflict.svg",
+   "card": "#C23B1E",
+   "tint": "#D4836E",
+   "base_form": "wedge (segment of a circle)"
+  },
+  {
+   "slug": "technology-society",
+   "name": "Technology & society",
+   "file": "domain-technology-society.svg",
+   "card": "#4A1F3D",
+   "tint": "#826576",
+   "base_form": "rounded square (block, link)"
+  },
+  {
+   "slug": "multipliers",
+   "name": "Risk multipliers",
+   "file": "domain-multipliers.svg",
+   "card": "#EBCFC6",
+   "tint": "#E0A799",
+   "base_form": "growing circles"
+  }
+ ],
+ "risks": [
+  {
+   "code": "N1",
+   "name": "Asteroid / comet impact",
+   "slug": "asteroid-comet-impact",
+   "domain": "natural-hazards",
+   "card": "#1F3A8A",
+   "illustration": "risk-asteroid-comet-impact.svg",
+   "symbol": "symbol-asteroid-comet-impact.svg"
+  },
+  {
+   "code": "N2",
+   "name": "Supervolcanic eruption",
+   "slug": "supervolcanic-eruption",
+   "domain": "natural-hazards",
+   "card": "#1F3A8A",
+   "illustration": "risk-supervolcanic-eruption.svg",
+   "symbol": "symbol-supervolcanic-eruption.svg"
+  },
+  {
+   "code": "N3",
+   "name": "Severe space weather",
+   "slug": "severe-space-weather",
+   "domain": "natural-hazards",
+   "card": "#1F3A8A",
+   "illustration": "risk-severe-space-weather.svg",
+   "symbol": "symbol-severe-space-weather.svg"
+  },
+  {
+   "code": "N4",
+   "name": "Natural pandemic",
+   "slug": "natural-pandemic",
+   "domain": "biological-risks",
+   "card": "#E8A600",
+   "illustration": "risk-natural-pandemic.svg",
+   "symbol": "symbol-natural-pandemic.svg"
+  },
+  {
+   "code": "W2",
+   "name": "Engineered pandemic",
+   "slug": "engineered-pandemic",
+   "domain": "biological-risks",
+   "card": "#E8A600",
+   "illustration": "risk-engineered-pandemic.svg",
+   "symbol": "symbol-engineered-pandemic.svg"
+  },
+  {
+   "code": "E1",
+   "name": "Climate change",
+   "slug": "climate-change",
+   "domain": "earth-system",
+   "card": "#1F6F5C",
+   "illustration": "risk-climate-change.svg",
+   "symbol": "symbol-climate-change.svg"
+  },
+  {
+   "code": "E2",
+   "name": "Biosphere collapse",
+   "slug": "biosphere-collapse",
+   "domain": "earth-system",
+   "card": "#1F6F5C",
+   "illustration": "risk-biosphere-collapse.svg",
+   "symbol": "symbol-biosphere-collapse.svg"
+  },
+  {
+   "code": "T2",
+   "name": "Failed geoengineering",
+   "slug": "failed-geoengineering",
+   "domain": "earth-system",
+   "card": "#1F6F5C",
+   "illustration": "risk-failed-geoengineering.svg",
+   "symbol": "symbol-failed-geoengineering.svg"
+  },
+  {
+   "code": "W1",
+   "name": "Nuclear war",
+   "slug": "nuclear-war",
+   "domain": "weapons-conflict",
+   "card": "#C23B1E",
+   "illustration": "risk-nuclear-war.svg",
+   "symbol": "symbol-nuclear-war.svg"
+  },
+  {
+   "code": "W3",
+   "name": "Other WMD (chemical, radiological)",
+   "slug": "other-wmd-chemical-radiological",
+   "domain": "weapons-conflict",
+   "card": "#C23B1E",
+   "illustration": "risk-other-wmd-chemical-radiological.svg",
+   "symbol": "symbol-other-wmd-chemical-radiological.svg"
+  },
+  {
+   "code": "T1",
+   "name": "Uncontrolled advanced AI",
+   "slug": "uncontrolled-advanced-ai",
+   "domain": "technology-society",
+   "card": "#4A1F3D",
+   "illustration": "risk-uncontrolled-advanced-ai.svg",
+   "symbol": "symbol-uncontrolled-advanced-ai.svg"
+  },
+  {
+   "code": "T3",
+   "name": "Unknown unknowns",
+   "slug": "unknown-unknowns",
+   "domain": "technology-society",
+   "card": "#4A1F3D",
+   "illustration": "risk-unknown-unknowns.svg",
+   "symbol": "symbol-unknown-unknowns.svg"
+  },
+  {
+   "code": "F1",
+   "name": "Permanent global power lock-in",
+   "slug": "permanent-global-power-lock-in",
+   "domain": "technology-society",
+   "card": "#4A1F3D",
+   "illustration": "risk-permanent-global-power-lock-in.svg",
+   "symbol": "symbol-permanent-global-power-lock-in.svg"
+  },
+  {
+   "code": "F2",
+   "name": "Civilisational systems collapse",
+   "slug": "civilisational-systems-collapse",
+   "domain": "technology-society",
+   "card": "#4A1F3D",
+   "illustration": "risk-civilisational-systems-collapse.svg",
+   "symbol": "symbol-civilisational-systems-collapse.svg"
+  },
+  {
+   "code": "M1",
+   "name": "Great-power rivalry",
+   "slug": "great-power-rivalry",
+   "domain": "multipliers",
+   "card": "#EBCFC6",
+   "illustration": "risk-great-power-rivalry.svg",
+   "symbol": "symbol-great-power-rivalry.svg"
+  },
+  {
+   "code": "M2",
+   "name": "Social fragmentation, disinformation, governance failure",
+   "slug": "social-fragmentation-disinformation-governance-failure",
+   "domain": "multipliers",
+   "card": "#EBCFC6",
+   "illustration": "risk-social-fragmentation-disinformation-governance-failure.svg",
+   "symbol": "symbol-social-fragmentation-disinformation-governance-failure.svg"
+  },
+  {
+   "code": "M3",
+   "name": "AI as amplifier",
+   "slug": "ai-as-amplifier",
+   "domain": "multipliers",
+   "card": "#EBCFC6",
+   "illustration": "risk-ai-as-amplifier.svg",
+   "symbol": "symbol-ai-as-amplifier.svg"
+  }
+ ],
+ "logo": {
+  "file": "logo.svg",
+  "colour": "#1F1E1D",
+  "meaning": "The world inside a ring of governance that does not close; the open quarter also makes the mark read as a G."
+ }
+}

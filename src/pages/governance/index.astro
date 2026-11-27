@@ -1,0 +1,66 @@
+---
+// Overview of governance maturity across all risks.
+import Base from '../../layouts/Base.astro';
+import Dots from '../../components/Dots.astro';
+import { site, pillarLabels } from '../../site.config.mjs';
+import { risks, PILLARS, MATURITY_ORDER, MATURITY_LEVELS, RG } from '../../lib/data.mjs';
+const order = [...MATURITY_ORDER].reverse();
+const bm = RG.methodology.benchmark;
+---
+<Base title="Governance overview" description="The maturity of multilateral governance for each global catastrophic and existential risk, scored on four pillars.">
+  <div class="wrap doc">
+    <header class="page-head">
+      <p class="eyebrow">{site.name}</p>
+      <h1>How well is each risk governed?</h1>
+      <p class="lead">Each risk is scored on four functions that multilateral institutions must fulfil: to assess the risk, to regulate it, to finance its reduction and to enforce the rules. The total gives a maturity level.</p>
+    </header>
+    <hr />
+    {order.map((level) => {
+      const rows = risks.filter((r) => r.gov.maturity === level).sort((a, b) => b.gov.score_sum - a.gov.score_sum);
+      return (
+        <section>
+          <div class="level-head">
+            <h2>{level}</h2>
+            <span class="badge num" data-level={level}>{rows.length} of {risks.length}</span>
+          </div>
+          <p class="measure" style="font-size:var(--t-card);margin-top:6px">{MATURITY_LEVELS[level].meaning}</p>
+          {rows.length === 0 ? (
+            <p class="measure"><strong>No risk reaches this level.</strong></p>
+          ) : (
+            <div class="table-scroll">
+              <table class="gov-table">
+                <thead><tr><th scope="col">Risk</th><th scope="col">Score</th>{PILLARS.map((p) => <th scope="col">{pillarLabels[p]}</th>)}<th scope="col">Trend</th></tr></thead>
+                <tbody>
+                  {rows.map((r) => (
+                    <tr class={`d-${r.domain.color}`}>
+                      <td><span class="dom" aria-hidden="true"></span><a href={`${r.href}#governance`}>{r.name}</a>{r.gov.capped_by_critical_actor_gate && <span class="small muted"> (capped)</span>}</td>
+                      <td class="num">{r.gov.score_sum}/12</td>
+                      {PILLARS.map((p) => <td><Dots score={r.gov.scores[p]} /></td>)}
+                      <td><span aria-hidden="true">{r.gov.trend}</span> {r.gov.trend_label}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      );
+    })}
+
+    <section class="prose" style="margin-top:56px">
+      <h2>The benchmark: the ozone layer</h2>
+      <p>{bm.note}</p>
+      <div class="pillar-cards wide" style="max-width:60rem">
+        {PILLARS.map((p) => (
+          <article class="scard">
+            <span class="label"><span>{pillarLabels[p]}</span><Dots score={bm.scores[p]} /></span>
+            <p>{bm.pillars[p].mechanisms}</p>
+            <p class="small">{bm.pillars[p].status}</p>
+          </article>
+        ))}
+      </div>
+      <p style="margin-top:1em">A level marked "capped" would be higher on its score alone. {RG.methodology.maturity_indicator.critical_actor_gate}</p>
+      <p><a href="/method/#governance">Read how the scores are given</a>.</p>
+    </section>
+  </div>
+</Base>
