@@ -1,0 +1,164 @@
+---
+// Browse and filter page (redesign file, M08): exactly six filters, results grouped by domain.
+import Base from '../../layouts/Base.astro';
+import Maturity from '../../components/Maturity.astro';
+import { icon } from '../../lib/icons.mjs';
+import { site } from '../../site.config.mjs';
+import { risks, domains, domainRisks, L_BANDS, I_BANDS, FAILURE_MODES, MATURITY_ORDER, TREND_LABELS } from '../../lib/data.mjs';
+
+const trendKey = { '↑': 'up', '→': 'flat', '↓': 'down' };
+const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+const rowData = (r) => ({
+  'data-domain': r.domain.slug,
+  'data-modes': r.isMultiplier ? '' : r.failure_modes.join(' '),
+  'data-l': r.isMultiplier ? '' : String(r.L.modal),
+  'data-i': r.isMultiplier ? '' : range(r.I.modal, r.I.tail).join(' '),
+  'data-maturity': r.gov.maturity,
+  'data-trend': trendKey[r.gov.trend],
+  'data-mult': r.isMultiplier ? 'true' : 'false',
+});
+const usedMaturity = new Set(risks.map((r) => r.gov.maturity));
+---
+<Base title="Browse all risks" description="Filter the 14 risks and 3 risk multipliers by domain, failure mode, likelihood, impact, and the maturity and trend of their multilateral governance.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">{site.name}</p>
+      <h1>Looking for a specific risk?</h1>
+      <p class="lead">The Monitor covers {risks.length} entries: 14 risks and 3 risk multipliers. Filter them by what they are, how likely and how severe they are, and how well they are governed.</p>
+    </header>
+
+    <form class="filters" id="filters" aria-label="Filters">
+      <fieldset class="wide">
+        <legend>Domain</legend>
+        <div class="toggles">
+          {domains.map((d) => <label class="toggle"><input type="checkbox" name="domain" value={d.slug} /><span>{d.name} <span class="count" data-count></span></span></label>)}
+        </div>
+      </fieldset>
+      <fieldset class="wide">
+        <legend>Failure mode</legend>
+        <div class="toggles">
+          {Object.entries(FAILURE_MODES).map(([k, m]) => <label class="toggle"><input type="checkbox" name="mode" value={k} /><span>{m.label}: {m.definition.replace(/\.$/, '').toLowerCase()} <span class="count" data-count></span></span></label>)}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Likelihood by 2100 <span class="hint">(most likely estimate)</span></legend>
+        <div class="checks">
+          {Object.entries(L_BANDS).map(([k, b]) => <label class="check"><input type="checkbox" name="l" value={k.slice(1)} /><span>{b.label} ({b.range}) <span class="count" data-count></span></span></label>)}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Impact level <span class="hint">(most likely to worst case)</span></legend>
+        <div class="checks">
+          {Object.entries(I_BANDS).map(([k, b]) => <label class="check"><input type="checkbox" name="i" value={k.slice(1)} /><span>{b.label} <span class="count" data-count></span></span></label>)}
+        </div>
+      </fieldset>
+      <fieldset class="full-phone">
+        <legend>Maturity of multilateral governance</legend>
+        <div class="checks">
+          {MATURITY_ORDER.map((m) => <label class="check"><input type="checkbox" name="maturity" value={m} disabled={!usedMaturity.has(m)} /><span>{m} <span class="count" data-count></span></span></label>)}
+        </div>
+      </fieldset>
+      <div class="wide">
+        <label class="legend" for="trend">Trend of multilateral governance</label>
+        <select id="trend" name="trend" style="max-width:24rem">
+          <option value="">All</option>
+          <option value="up">↑ {TREND_LABELS['↑']}</option>
+          <option value="flat">→ {TREND_LABELS['→']}</option>
+          <option value="down">↓ {TREND_LABELS['↓']}</option>
+        </select>
+      </div>
+    </form>
+
+    <div class="result-bar">
+      <strong id="result-count" aria-live="polite">{risks.length} of {risks.length} shown</strong>
+      <button type="button" id="clear" hidden>Clear all filters</button>
+      <span class="small" id="mult-note" hidden>The 3 risk multipliers are not assessed on this dimension.</span>
+    </div>
+
+    <div id="results" style="padding-bottom:72px">
+      {domains.map((d) => (
+        <section class={`group d-${d.color}`} data-group={d.slug}>
+          <div class="group-head">
+            <Fragment set:html={icon(`domain-${d.slug}.svg`)} />
+            <div>
+              <h3><a href={`/risks/${d.slug}/`} style="text-decoration:none">{d.name}</a></h3>
+              <p>{d.line}</p>
+            </div>
+          </div>
+          <ul class="rows">
+            {domainRisks(d).map((r) => (
+              <li {...rowData(r)}><a href={r.href}>
+                <span class="name">{r.name}</span>
+                <span class="facts-line">{r.isMultiplier
+                  ? `Risk multiplier. Strength: ${r.strength.toLowerCase()}.`
+                  : `Likelihood: ${r.L.label.toLowerCase()}${r.L.lo !== r.L.hi ? ` (range ${r.L.loLabel.toLowerCase()} to ${r.L.hiLabel.toLowerCase()})` : ''}. Impact: ${r.I.label.toLowerCase()}${r.I.tail > r.I.modal ? `, worst case ${r.I.tailLabel.toLowerCase()}` : ''}.`}</span>
+                <span class="right"><Maturity gov={r.gov} /></span>
+              </a></li>
+            ))}
+          </ul>
+        </section>
+      ))}
+      <p id="none" hidden style="padding-top:28px">No entry matches these filters. <button type="button" class="text-link" id="clear2" style="background:none;border:0;padding:0;cursor:pointer;font:inherit">Clear all filters</button></p>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var form = document.getElementById('filters');
+      var rows = Array.prototype.slice.call(document.querySelectorAll('#results li[data-domain]'));
+      var groups = Array.prototype.slice.call(document.querySelectorAll('#results [data-group]'));
+      var total = rows.length;
+      var keys = ['domain', 'mode', 'l', 'i', 'maturity'];
+      var attr = { domain: 'domain', mode: 'modes', l: 'l', i: 'i', maturity: 'maturity' };
+      function state() {
+        var s = {};
+        keys.forEach(function (k) { s[k] = Array.prototype.slice.call(form.querySelectorAll('input[name="' + k + '"]:checked')).map(function (x) { return x.value; }); });
+        s.trend = form.trend.value;
+        return s;
+      }
+      function has(row, k, v) { var a = row.dataset[attr[k]]; return k === 'maturity' || k === 'domain' ? a === v : (' ' + a + ' ').indexOf(' ' + v + ' ') !== -1; }
+      function match(row, s, skip) {
+        for (var n = 0; n < keys.length; n++) {
+          var k = keys[n]; if (k === skip || !s[k].length) continue;
+          if (!s[k].some(function (v) { return has(row, k, v); })) return false;
+        }
+        if (skip !== 'trend' && s.trend && row.dataset.trend !== s.trend) return false;
+        return true;
+      }
+      function apply(push) {
+        var s = state(), shown = 0;
+        rows.forEach(function (r) { var ok = match(r, s); r.hidden = !ok; if (ok) shown++; });
+        groups.forEach(function (g) { g.hidden = !g.querySelector('li[data-domain]:not([hidden])'); });
+        // counts per option: entries that match all the other filters and this option
+        keys.forEach(function (k) {
+          form.querySelectorAll('input[name="' + k + '"]').forEach(function (inp) {
+            var n = rows.filter(function (r) { return match(r, s, k) && has(r, k, inp.value); }).length;
+            var c = inp.parentNode.querySelector('[data-count]'); if (c) c.textContent = '(' + n + ')';
+          });
+        });
+        var active = keys.some(function (k) { return s[k].length; }) || !!s.trend;
+        document.getElementById('result-count').textContent = shown + ' of ' + total + ' shown';
+        document.getElementById('clear').hidden = !active;
+        document.getElementById('none').hidden = shown !== 0;
+        document.getElementById('mult-note').hidden = !(s.mode.length || s.l.length || s.i.length);
+        if (push !== false) {
+          var q = new URLSearchParams();
+          keys.forEach(function (k) { if (s[k].length) q.set(k, s[k].join(',')); });
+          if (s.trend) q.set('trend', s.trend);
+          var qs = q.toString();
+          history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+        }
+      }
+      function clear() { form.reset(); apply(); }
+      // restore state from the address
+      var q = new URLSearchParams(location.search);
+      keys.forEach(function (k) { (q.get(k) || '').split(',').forEach(function (v) { if (!v) return; var el = form.querySelector('input[name="' + k + '"][value="' + v.replace(/"/g, '') + '"]'); if (el && !el.disabled) el.checked = true; }); });
+      if (q.get('trend')) form.trend.value = q.get('trend');
+      form.addEventListener('change', function () { apply(); });
+      form.addEventListener('submit', function (e) { e.preventDefault(); });
+      document.getElementById('clear').addEventListener('click', clear);
+      document.getElementById('clear2').addEventListener('click', clear);
+      apply(false);
+    })();
+  </script>
+</Base>

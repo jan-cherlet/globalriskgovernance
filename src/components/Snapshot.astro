@@ -1,0 +1,72 @@
+---
+// Snapshot panel of a risk page: stylised distribution charts for likelihood and impact (redesign file, M11).
+import { distributionChart } from '../lib/chart.mjs';
+import { L_BANDS, I_BANDS, MATURITY_ORDER, amplified } from '../lib/data.mjs';
+const { risk } = Astro.props;
+const g = risk.gov;
+let lChart = '', iChart = '', lLine = '', iLine = '';
+if (!risk.isMultiplier) {
+  const { L, I } = risk;
+  const sameL = L.lo === L.hi;
+  lLine = `Most likely: ${L.label} (${L.range}) · range: ${sameL ? L.loLabel + ' only' : L.loLabel + ' to ' + L.hiLabel}${L.rising ? ' · ↑ rising' : ''}`;
+  lChart = distributionChart({ modal: L.modal, lo: L.lo, hi: L.hi, peakLabel: L.label, leftLabel: L_BANDS.L1.label, rightLabel: L_BANDS.L5.label,
+    aria: `Likelihood by 2100. Most likely: ${L.label}, ${L.range}. Range: ${L.loLabel} to ${L.hiLabel}.${L.rising ? ' Rising.' : ''}` });
+  iLine = `Most likely: ${I.label} · worst case: ${I.tailLabel}${I.tipping ? ' (tipping cascade)' : ''}`;
+  iChart = distributionChart({ modal: I.modal, lo: I.modal, hi: I.tail, impact: true, dashedTail: I.tipping, peakLabel: I.label, leftLabel: I_BANDS.I1.label, rightLabel: I_BANDS.I5.label,
+    aria: `Impact. Most likely: ${I.label}. Worst case: ${I.tailLabel}.${I.tipping ? ' The worst case is a cascade of tipping points.' : ''}` });
+}
+const dims = risk.isMultiplier ? [] : risk.impact.dominant_dimensions.replace(/, and /g, ', ').split(/,\s*/).map((s) => s.trim()).filter(Boolean);
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+---
+<aside class="snapshot" aria-labelledby="snap-h">
+  <div>
+    <span class="label">{risk.isMultiplier ? 'Multiplier snapshot' : 'Risk snapshot'}</span>
+    <h2 id="snap-h">{risk.name}</h2>
+    <p class="sum">{risk.summary}</p>
+  </div>
+  {!risk.isMultiplier && (
+    <div class="group">
+      <span class="label">Likelihood by 2100</span>
+      <Fragment set:html={lChart} />
+      <p class="line">{lLine}</p>
+    </div>
+    <div class="group">
+      <span class="label">Impact</span>
+      <Fragment set:html={iChart} />
+      <p class="line">{iLine}</p>
+    </div>
+  )}
+  {risk.isMultiplier && (
+    <div class="group">
+      <span class="label">Strength</span>
+      <ul class="pills"><li class="pill">{risk.strength}</li></ul>
+    </div>
+    <div class="group">
+      <span class="label">Amplifies</span>
+      <ul class="pills">{amplified(risk).map((r) => <li class="pill">{r.name}</li>)}</ul>
+      {risk.amplifies_note && <p class="line">{risk.amplifies_note}</p>}
+    </div>
+  )}
+  <div class="group">
+    <span class="label">Maturity of multilateral governance</span>
+    <ol class="stops" aria-label={`Maturity of multilateral governance: ${g.maturity}, ${g.trend_label.toLowerCase()}`}>
+      {MATURITY_ORDER.map((m) => <li aria-current={m === g.maturity ? 'true' : undefined}>{m}</li>)}
+    </ol>
+    <p class="line">Trend: <span aria-hidden="true">{g.trend}</span> {g.trend_label.toLowerCase()}</p>
+  </div>
+  {!risk.isMultiplier && (
+    <div class="group">
+      <span class="label">Failure mode and time profile</span>
+      <ul class="pills"><li class="pill">{risk.failure_mode}</li><li class="pill">{risk.time_profile}</li></ul>
+    </div>
+    <div class="group">
+      <span class="label">Dominant impact dimensions</span>
+      <ul class="pills">{dims.map((d) => <li class="pill">{cap(d)}</li>)}</ul>
+    </div>
+    <div class="group">
+      <span class="label">Confidence in the assessment</span>
+      <ul class="pills"><li class="pill">{risk.confidence}</li></ul>
+    </div>
+  )}
+  {!risk.isMultiplier && <p class="foot">Stylised: the curves show the most likely level and the assessed range. They are not calculated distributions.</p>}
+</aside>

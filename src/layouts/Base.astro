@@ -1,0 +1,128 @@
+---
+import '@fontsource-variable/newsreader/opsz.css';
+import '@fontsource-variable/newsreader/opsz-italic.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import fontUrl from '@fontsource-variable/newsreader/files/newsreader-latin-opsz-normal.woff2?url';
+import { site } from '../site.config.mjs';
+import { GR, RG, latestDate, fmtDate } from '../lib/data.mjs';
+import Newsletter from '../components/Newsletter.astro';
+
+const { title, description = site.description, subnav = null, newsletter = false } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : site.name;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const menu = [
+  ['Risks', '/#risks'], ['Governance', '/governance/'], ['Browse all', '/risks/'], ['Interactive grid', '/map/'],
+];
+const menu2 = [['Method', '/method/'], ['About', '/about/'], ['Data', '/data/'], ['Contact', site.contactUrl]];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="author" content={site.author} />
+  <link rel="canonical" href={canonical} />
+  <link rel="preload" as="font" type="font/woff2" href={fontUrl} crossorigin />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content={site.name} />
+  <meta name="twitter:card" content="summary" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  {site.enableAnnouncement && (
+    <div class="announce"><div class="wrap"><span class="t"><strong>{site.announcement.prefix}</strong> {site.announcement.text}</span><a href={site.announcement.href}>Read more →</a></div></div>
+  )}
+  <header class="site-header">
+    <div class="wrap">
+      <a class="wordmark" href="/" aria-label={`${site.name}, home`}>
+        <span class="dot" aria-hidden="true"></span>
+        <span class="site-title">Global Risk<br />Governance Monitor</span>
+      </a>
+      <a class="menu-btn" href="#footer-nav" id="menu-open" role="button" aria-haspopup="dialog" aria-controls="menu" aria-label="Open the menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="2.4" rx="1.2"/><rect x="3" y="10.8" width="18" height="2.4" rx="1.2"/><rect x="3" y="16.6" width="18" height="2.4" rx="1.2"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" data-open="false">
+    <div class="wrap">
+      <div class="top">
+        <a class="wordmark" href="/"><span class="dot" aria-hidden="true"></span><span class="site-title">Global Risk<br />Governance Monitor</span></a>
+        <button class="menu-btn" id="menu-close" aria-label="Close the menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="10.8" width="18" height="2.4" rx="1.2" transform="rotate(45 12 12)"/><rect x="3" y="10.8" width="18" height="2.4" rx="1.2" transform="rotate(-45 12 12)"/></svg>
+        </button>
+      </div>
+      <nav aria-label="Main">
+        {menu.map(([t, h]) => <a href={h}>{t}</a>)}
+        <div class="secondary">{menu2.map(([t, h]) => <a href={h}>{t}</a>)}</div>
+      </nav>
+    </div>
+  </div>
+
+  {subnav && (
+    <div class="subnav"><div class="wrap">
+      {subnav.back && <a class="btn" href={subnav.back.href}><span>‹ {subnav.back.label}</span></a>}
+      <a class="btn" href="/"><span>Monitor home</span></a>
+    </div></div>
+  )}
+
+  <main id="main"><slot /></main>
+
+  {newsletter && <Newsletter />}
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="grid">
+        <div>
+          <a class="wordmark" href="/"><span class="dot" aria-hidden="true"></span><span class="site-title">Global Risk<br />Governance Monitor</span></a>
+          <p class="tagline">{site.tagline}</p>
+        </div>
+        <nav id="footer-nav" aria-label="Footer">
+          <ul>{menu.map(([t, h]) => <li><a href={h}>{t}</a></li>)}</ul>
+        </nav>
+        <nav aria-label="About this site">
+          <ul>
+            {menu2.map(([t, h]) => <li><a href={h}>{t}</a></li>)}
+            <li><a href={site.paperUrl}>Paper (PDF)</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="fine">
+        <span>Data version {GR.version} (risks) and {RG.version} (governance), {fmtDate(latestDate)}.</span>
+        <span>© {new Date(latestDate).getUTCFullYear()} <a href={site.authorUrl}>{site.author}</a>. Text and data are licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license">CC BY-NC 4.0</a>: free to use, share and adapt for non-commercial purposes with attribution.</span>
+        <span>Cite as: {GR.citation}</span>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    (function () {
+      var menu = document.getElementById('menu'), open = document.getElementById('menu-open'), close = document.getElementById('menu-close');
+      if (!menu || !open) return;
+      function focusables() { return menu.querySelectorAll('a[href], button'); }
+      function show(e) { if (e) e.preventDefault(); menu.dataset.open = 'true'; document.body.style.overflow = 'hidden'; close.focus(); }
+      function hide() { menu.dataset.open = 'false'; document.body.style.overflow = ''; open.focus(); }
+      open.addEventListener('click', show);
+      open.addEventListener('keydown', function (e) { if (e.key === ' ') show(e); });
+      close.addEventListener('click', hide);
+      menu.addEventListener('click', function (e) { if (e.target.closest('nav a')) { menu.dataset.open = 'false'; document.body.style.overflow = ''; } });
+      document.addEventListener('keydown', function (e) {
+        if (menu.dataset.open !== 'true') return;
+        if (e.key === 'Escape') hide();
+        if (e.key === 'Tab') {
+          var f = focusables(), first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+---
+const { gov } = Astro.props;
+---
+<span class="badge" data-level={gov.maturity}>{gov.maturity} <span aria-hidden="true">{gov.trend}</span><span class="visually-hidden">, {gov.trend_label.toLowerCase()}</span></span>

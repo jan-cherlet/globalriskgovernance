@@ -1,0 +1,6 @@
+---
+// Three boxes showing a pillar score from 0 to 3 (half steps allowed).
+const { score } = Astro.props;
+const n = Number(score) || 0;
+---
+<span class="dots" role="img" aria-label={`${n} out of 3`}>{[1, 2, 3].map((k) => <i class={n >= k ? 'on' : n >= k - 0.5 ? 'half' : ''}></i>)}</span>

@@ -1,0 +1,19 @@
+---
+import { site } from '../site.config.mjs';
+const endpoint = site.newsletterEndpoint;
+---
+<section class="newsletter" aria-labelledby="nl-h">
+  <div class="wrap">
+    <h2 id="nl-h">The risks are global. So must be the way we govern them.</h2>
+    <p class="measure">The Monitor is updated when treaties, institutions or the evidence change. {endpoint ? 'Leave your e-mail address to hear about updates.' : 'Get in touch to hear about updates or to suggest a correction.'}</p>
+    {endpoint ? (
+      <form action={endpoint} method="post">
+        <label class="visually-hidden" for="nl-email">E-mail address</label>
+        <input id="nl-email" type="email" name="email" placeholder="Your e-mail address" autocomplete="email" required />
+        <button class="btn btn-primary" type="submit">Sign up</button>
+      </form>
+    ) : (
+      <div class="btn-row"><a class="btn" href={site.contactUrl}>Get in touch</a></div>
+    )}
+  </div>
+</section>

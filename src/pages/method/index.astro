@@ -1,0 +1,114 @@
+---
+// Methodology, generated from the methodology blocks of the two datasets.
+import Base from '../../layouts/Base.astro';
+import { site } from '../../site.config.mjs';
+import { GR, RG, L_BANDS, I_BANDS, FAILURE_MODES, MATURITY_ORDER, MATURITY_LEVELS, fmtDate } from '../../lib/data.mjs';
+const m = GR.methodology, g = RG.methodology;
+const ic = m.inclusion_criteria, tree = m.risk_tree, am = m.assessment_method;
+const crit = [ic.criterion_1_scope, ic.criterion_2_severity, ic.criterion_3_plausibility, ic.criterion_4_distinctness];
+const tests = [g.scope.test_1_multilateral, g.scope.test_2_intergovernmental, g.scope.test_3_function];
+const lead = (s) => { const i = s.indexOf('. '); return [s.slice(0, i + 1), s.slice(i + 2)]; };
+---
+<Base title="Method" description="How the Global Risk Governance Monitor selects risks, assesses their likelihood and impact, and scores the maturity of their multilateral governance.">
+  <div class="wrap doc">
+    <header class="page-head">
+      <p class="eyebrow">{site.name}</p>
+      <h1>How to read the Monitor</h1>
+      <p class="lead">The Monitor rests on two open datasets. One describes the risks. The other describes how they are governed. This page explains how both were made.</p>
+    </header>
+    <hr />
+    <div class="prose">
+      <ul class="toc" style="margin-top:24px">
+        <li><a class="btn" href="#risks">The risks</a></li>
+        <li><a class="btn" href="#assessment">Likelihood and impact</a></li>
+        <li><a class="btn" href="#governance">Governance</a></li>
+        <li><a class="btn" href="#sources">Sources and limits</a></li>
+      </ul>
+
+      <h2 id="risks">The risks</h2>
+      <p>{m.purpose}</p>
+      <h3>Terms</h3>
+      <p>{m.terminology.framing}</p>
+      <p>{m.terminology.global_catastrophic_risk}</p>
+      <p>{m.terminology.existential_risk}</p>
+      <p>{m.terminology.civilization_collapse}</p>
+      <h3>Which risks are included</h3>
+      <p>{ic.rule}</p>
+      <ol>{crit.map((c) => { const [a, b] = lead(c); return <li><strong>{a}</strong> {b}</li>; })}</ol>
+      <p>Three principles shape the list.</p>
+      <ul>{ic.structural_principles.map((s) => <li>{s}</li>)}</ul>
+      <h3>The risk tree</h3>
+      <p>{tree.basis}</p>
+      <p><strong>Root A: {tree.roots.A.name}.</strong> {tree.roots.A.description}</p>
+      <p><strong>Root B: {tree.roots.B.name}.</strong> {tree.roots.B.description} It has four channels.</p>
+      <ul>{Object.entries(tree.channels_under_root_B).map(([k, c]) => <li><strong>{c.name}.</strong> {c.description}</li>)}</ul>
+      <p>{tree.node_types.terminal_hazards} {tree.node_types.multipliers} {tree.node_types.cascades}</p>
+      <ul>{tree.tree.map((t) => <li>{t}</li>)}</ul>
+      <p>{tree.tipping_points}</p>
+      <p>On this website the risks are grouped in five domains and one group of multipliers. The domains are an editorial grouping for readers. They are not the same as the roots and channels of the risk tree.</p>
+      <h3>Failure modes</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Mode</th><th scope="col">Meaning</th></tr></thead>
+        <tbody>{Object.values(FAILURE_MODES).map((f) => <tr><td><strong>{f.label}</strong></td><td>{f.definition}</td></tr>)}</tbody>
+      </table></div>
+
+      <h2 id="assessment">Likelihood and impact</h2>
+      <p>{am.approach}</p>
+      <h3>Likelihood</h3>
+      <p>{am.likelihood_scale.definition}</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Level</th><th scope="col">Probability by 2100</th></tr></thead>
+        <tbody>{Object.values(L_BANDS).map((b) => <tr><td><strong>{b.label}</strong></td><td class="num">{b.range}</td></tr>)}</tbody>
+      </table></div>
+      <h3>Impact</h3>
+      <p>{am.impact_scale.definition}</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Level</th><th scope="col">Meaning</th></tr></thead>
+        <tbody>{Object.values(I_BANDS).map((b) => <tr><td><strong>{b.label}</strong></td><td>{b.definition}</td></tr>)}</tbody>
+      </table></div>
+      <h3>Confidence and evidence</h3>
+      <p>{am.confidence}</p>
+      <p>{am.evidence_base}</p>
+      <h3>How to read the charts</h3>
+      <p>On each risk page, likelihood and impact are drawn as a curve on a scale. The peak of the curve marks the most likely level. The ends of the curve mark the assessed range. For impact, the data give the most likely level and the worst case, so the curve has a long side only towards the worst case. The curves are stylised. They are not calculated probability distributions.</p>
+      <p>{am.dashboard_placement}</p>
+
+      <h2 id="governance">Governance</h2>
+      <p>{g.purpose}</p>
+      <h3>Which mechanisms are included</h3>
+      <p>{g.scope.rule}</p>
+      <ol>{tests.map((c) => { const [a, b] = lead(c); return <li><strong>{a}</strong> {b}</li>; })}</ol>
+      <p>{g.scope.coverage}</p>
+      <h3>The four pillars</h3>
+      <p>{g.pillars.basis}</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Pillar</th><th scope="col">What it covers</th></tr></thead>
+        <tbody>{['assess', 'regulate', 'finance', 'enforce'].map((p) => <tr><td><strong>{p.charAt(0).toUpperCase() + p.slice(1)}</strong></td><td>{g.pillars[p]}</td></tr>)}</tbody>
+      </table></div>
+      <h3>How each pillar is scored</h3>
+      <p>{g.pillar_scoring.scale}</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Score</th><th scope="col">Meaning</th></tr></thead>
+        <tbody>{['0', '1', '2', '3'].map((k) => <tr><td class="num"><strong>{k}</strong></td><td>{g.pillar_scoring[k]}</td></tr>)}</tbody>
+      </table></div>
+      <p>{g.pillar_scoring.natural_risks}</p>
+      <h3>The maturity indicator</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Level</th><th scope="col">Rule</th><th scope="col">Meaning</th></tr></thead>
+        <tbody>{[...MATURITY_ORDER].reverse().map((l) => <tr><td><strong>{l}</strong></td><td>{MATURITY_LEVELS[l].rule}</td><td>{MATURITY_LEVELS[l].meaning}</td></tr>)}</tbody>
+      </table></div>
+      <p><strong>The critical-actor gate.</strong> {g.maturity_indicator.critical_actor_gate}</p>
+      <p><strong>Trend.</strong> {g.maturity_indicator.trend.basis} The three values are strengthening (↑), stable (→) and eroding (↓).</p>
+      <p>{g.maturity_indicator.interpretation}</p>
+      <h3>The benchmark</h3>
+      <p>{g.benchmark.note} The <a href="/governance/">governance overview</a> shows its four pillars.</p>
+
+      <h2 id="sources">Sources and limits</h2>
+      <p>{am.limitations}</p>
+      <p>{g.verification}</p>
+      <h3>Reference reports</h3>
+      <ul>{m.source_reports.map((s) => <li><strong>{s.title}.</strong> {s.note}</li>)}</ul>
+      <p>The full argument is set out in the paper <a href={site.paperUrl}>{site.paperTitle}</a> (Cherlet, 2026). The data are on the <a href="/data/">data page</a>. Current versions: GlobalRisks {GR.version} and RiskGovernance {RG.version}, both dated {fmtDate(GR.date)}.</p>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../site.config.mjs';
+import { GR, RG, fmtDate } from '../../lib/data.mjs';
+const sets = [
+  { d: GR, file: 'GlobalRisks.json', what: 'Definitions of the 14 risks and 3 multipliers, the risk tree, and the assessment of likelihood and impact.' },
+  { d: RG, file: 'RiskGovernance.json', what: 'The institutions and treaties for each risk on four pillars, the scores, the maturity level and the trend.' },
+];
+---
+<Base title="Data" description="Download the two open datasets behind the Global Risk Governance Monitor, with licence and citation.">
+  <div class="wrap doc">
+    <header class="page-head">
+      <p class="eyebrow">{site.name}</p>
+      <h1>Data</h1>
+      <p class="lead">Every page of this website is generated from two open data files. You can download and reuse them.</p>
+    </header>
+    <hr />
+    <div class="prose">
+      <div class="download wide" style="margin-top:28px">
+        {sets.map((s) => (
+          <article class="scard">
+            <span class="label"><span>Version {s.d.version}, {fmtDate(s.d.date)}</span></span>
+            <h5>{s.file}</h5>
+            <p>{s.what}</p>
+            <p><a class="btn" href={`/${s.file}`} download>Download JSON</a></p>
+          </article>
+        ))}
+      </div>
+      <p>The files are also in the <a href={site.repoUrl}>repository on GitHub</a>, together with the source of this website.</p>
+
+      <h2>Licence</h2>
+      <p>{GR.license}</p>
+
+      <h2>How to cite</h2>
+      <p>{GR.citation}</p>
+      <p>{RG.citation}</p>
+      <p>Paper: Cherlet, J. (2026). <a href={site.paperUrl}><em>{site.paperTitle}</em></a>.</p>
+
+      <h2>What changed</h2>
+      <h4>GlobalRisks</h4>
+      <ul>{GR.changes.map((c) => <li>{c}</li>)}</ul>
+      <h4>RiskGovernance</h4>
+      <ul>{RG.changes.map((c) => <li>{c}</li>)}</ul>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,64 @@
+/* Design tokens (redesign file, M03 and M03A). Change values here and the whole site follows. */
+:root {
+  /* colour: palette C on warm paper */
+  --bg: #F0EEE6;
+  --text: #1F1E1D;
+  --surface-subtle: rgba(31, 30, 29, 0.05);
+  --rule: rgba(31, 30, 29, 0.15);
+  --outline: rgba(31, 30, 29, 0.25);
+  --field: #FAF9F5;
+  --domain-blue: #1F3A8A;
+  --domain-saffron: #E8A600;
+  --domain-teal: #1F6F5C;
+  --domain-vermilion: #C23B1E;
+  --domain-aubergine: #4A1F3D;
+  --domain-blush: #EBCFC6;
+  --accent: #C23B1E;
+  /* depth colours: icons and illustrations only */
+  --domain-blue-tint: #6274A7;
+  --domain-saffron-tint: #BC8806;
+  --domain-teal-tint: #6A9D8E;
+  --domain-vermilion-tint: #D4836E;
+  --domain-aubergine-tint: #826576;
+  --domain-blush-tint: #E0A799;
+
+  /* type: Newsreader only */
+  --font: "Newsreader Variable", "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --fw-regular: 400;
+  --fw-label: 500;
+  --fw-heading: 600;
+  --t-title: 1.75rem;
+  --t-display: clamp(2.5rem, 1.972rem + 2.254vw, 4rem);
+  --t-h1: clamp(2.25rem, 1.898rem + 1.502vw, 3.25rem);
+  --t-h2: clamp(1.75rem, 1.574rem + 0.751vw, 2.25rem);
+  --t-h3: clamp(1.5rem, 1.412rem + 0.376vw, 1.75rem);
+  --t-h4: 1.5rem;
+  --t-h5: 1.25rem;
+  --t-lead: 1.5rem;
+  --t-body: 1.25rem;
+  --t-body-phone: 1.25rem;
+  --t-card: 1.125rem;
+  --t-small: 1rem;
+  --t-label: 0.875rem;
+  --t-button: 1rem;
+
+  /* layout */
+  --gutter: 24px;
+  --page: 1392px;
+  --measure: 34em;
+  --card-aspect: 4 / 3;
+  --card-gap: 16px;
+  --header-h: 84px;
+  --subnav-h: 64px;
+}
+@media (max-width: 767px) {
+  :root { --t-title: 1.5rem; --t-h4: 1.375rem; --t-lead: 1.375rem; --t-body: var(--t-body-phone); --header-h: 72px; }
+}
+
+/* domain colour sets: card fill, text on it, depth colour */
+.d-blue      { --d: var(--domain-blue);      --d-ink: var(--bg);   --d-tint: var(--domain-blue-tint); }
+.d-saffron   { --d: var(--domain-saffron);   --d-ink: var(--text); --d-tint: var(--domain-saffron-tint); }
+.d-teal      { --d: var(--domain-teal);      --d-ink: var(--bg);   --d-tint: var(--domain-teal-tint); }
+.d-vermilion { --d: var(--domain-vermilion); --d-ink: var(--bg);   --d-tint: var(--domain-vermilion-tint); }
+.d-aubergine { --d: var(--domain-aubergine); --d-ink: var(--bg);   --d-tint: var(--domain-aubergine-tint); }
+.d-blush     { --d: var(--domain-blush);     --d-ink: var(--text); --d-tint: var(--domain-blush-tint); }

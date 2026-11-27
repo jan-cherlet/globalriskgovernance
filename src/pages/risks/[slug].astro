@@ -1,0 +1,156 @@
+---
+// One template for two kinds of page under /risks/: a risk (or multiplier) page and a domain page.
+import Base from '../../layouts/Base.astro';
+import Snapshot from '../../components/Snapshot.astro';
+import Governance from '../../components/Governance.astro';
+import Maturity from '../../components/Maturity.astro';
+import { icon } from '../../lib/icons.mjs';
+import { site } from '../../site.config.mjs';
+import { risks, domains, domainRisks, multipliers, amplified, paragraphs, I_BANDS, FAILURE_MODES, SOURCES, GR, RG, fmtDate, latestDate } from '../../lib/data.mjs';
+
+export function getStaticPaths() {
+  return [
+    ...risks.map((r, i) => ({ params: { slug: r.slug }, props: { kind: 'risk', risk: r, prev: risks[i - 1] ?? null, next: risks[i + 1] ?? null } })),
+    ...domains.map((d, i) => ({ params: { slug: d.slug }, props: { kind: 'domain', domain: d, prev: domains[i - 1] ?? null, next: domains[i + 1] ?? null } })),
+  ];
+}
+const { kind, risk, domain, prev, next } = Astro.props;
+
+let explicit = [], general = [];
+if (kind === 'risk' && !risk.isMultiplier) {
+  explicit = multipliers.filter((m) => m.amplifies.includes(risk.code));
+  general = multipliers.filter((m) => m.amplifies_note && !explicit.includes(m));
+}
+const d = kind === 'risk' ? risk.domain : domain;
+const members = kind === 'domain' ? domainRisks(domain) : [];
+const levels = kind === 'domain' ? ['Fully developed', 'Developed', 'Developing', 'Nascent', 'Non-existent'].map((l) => [l, members.filter((r) => r.gov.maturity === l).length]).filter(([, n]) => n > 0) : [];
+---
+{kind === 'risk' ? (
+<Base title={risk.name} description={risk.summary} subnav={{ back: { label: d.name, href: `/risks/${d.slug}/` } }}>
+  <div class={`wrap risk-layout d-${d.color}`}>
+    <div class="banner" aria-hidden="true"><Fragment set:html={icon(`symbol-${risk.slug}.svg`)} /></div>
+    <div class="risk-side">
+      <div class="illustration"><Fragment set:html={icon(`risk-${risk.slug}.svg`, { label: `Illustration: ${risk.name}` })} /></div>
+      <Snapshot risk={risk} />
+    </div>
+    <article class="risk-main">
+      <div class="top">
+        <ol class="breadcrumb">
+          <li><a href="/">Monitor</a></li>
+          <li><a href={`/risks/${d.slug}/`}>{d.name}</a></li>
+          <li aria-current="page">{risk.name}</li>
+        </ol>
+        <h1>{risk.name}</h1>
+        <p class="lead">{risk.summary}</p>
+        <hr />
+      </div>
+      <div class="rest prose">
+        <section class="block">
+          <h4>{risk.isMultiplier ? 'What the multiplier is' : 'What the risk is'}</h4>
+          {paragraphs(risk.description).map((p) => <p>{p}</p>)}
+        </section>
+
+        {!risk.isMultiplier ? (
+          <section class="block">
+            <h4>Why it matters</h4>
+            <p>The assessment is a range, not a single value. It gives the most likely outcome if the risk reaches catastrophic scale, and the worst case.</p>
+            <dl class="facts">
+              <dt>Most likely impact</dt><dd><strong>{risk.I.label}.</strong>{' '}{I_BANDS[risk.impact.modal].definition}</dd>
+              {risk.I.tail > risk.I.modal && <><dt>Worst case</dt><dd><strong>{risk.I.tailLabel}.</strong>{' '}{I_BANDS[risk.impact.tail].definition}{risk.I.tipping ? ' The worst case would come through a cascade of tipping points.' : ''}</dd></>}
+              <dt>Failure mode</dt><dd><strong>{risk.failure_mode}.</strong>{' '}{risk.failure_modes.length === 1 ? FAILURE_MODES[risk.failure_modes[0]].definition : risk.failure_modes.length < 4 ? risk.failure_modes.map((m) => `${FAILURE_MODES[m].label}: ${FAILURE_MODES[m].definition.replace(/\.$/, '').toLowerCase()}.`).join(' ') : 'The form of an unknown hazard cannot be predicted.'}</dd>
+              <dt>Severity</dt><dd>{risk.severity_ceiling}.</dd>
+              <dt>Time profile</dt><dd>{risk.time_profile}.</dd>
+              <dt>Confidence</dt><dd>{risk.confidence}.</dd>
+            </dl>
+          </section>
+        ) : (
+          <section class="block">
+            <h4>How it amplifies other risks</h4>
+            {paragraphs(risk.amplification_detail).map((p) => <p>{p}</p>)}
+            <dl class="facts">
+              <dt>Strength</dt><dd><strong>{risk.strength}.</strong>{' '}{risk.strength_detail}</dd>
+            </dl>
+          </section>
+        )}
+
+        <Governance risk={risk} />
+
+        <section class="block">
+          <h4>Key sources</h4>
+          {risk.sources_note && <p>{risk.sources_note}</p>}
+          <div class="source-cards">
+            {risk.sources.map((id) => SOURCES[id] && (
+              <article class="scard">
+                <span class="label">Reference report</span>
+                <h5>{SOURCES[id].title}</h5>
+                <p>{SOURCES[id].note}</p>
+              </article>
+            ))}
+          </div>
+          <p class="small" style="margin-top:14px">The sources for the governance assessment are the treaties, resolutions and institutions named above. See the <a href="/method/">method</a> for how they were verified.</p>
+        </section>
+
+        <section class="block">
+          <h4>Linked risks</h4>
+          {risk.isMultiplier ? (
+            <>
+              <p>This multiplier raises the following risks in particular.{risk.amplifies_note ? ' ' + risk.amplifies_note : ''}</p>
+              <ul class="linklist">
+                {amplified(risk).map((r) => <li><a href={r.href}><span class="t">{r.name}</span><span class="meta"><Maturity gov={r.gov} /></span></a></li>)}
+              </ul>
+            </>
+          ) : (
+            <>
+              <p>These multipliers raise the likelihood or the severity of this risk.</p>
+              <ul class="linklist">
+                {explicit.map((m) => <li><a href={m.href}><span class="t">{m.name}</span><span class="meta">Names this risk directly</span></a></li>)}
+                {general.map((m) => <li><a href={m.href}><span class="t">{m.name}</span><span class="meta">Acts on every risk</span></a></li>)}
+              </ul>
+            </>
+          )}
+        </section>
+
+        <nav class="prevnext" aria-label="Previous and next">
+          {prev ? <a href={prev.href}><span class="label">‹ Previous</span><h5>{prev.name}</h5></a> : <span></span>}
+          {next ? <a class="next" href={next.href}><span class="label">Next ›</span><h5>{next.name}</h5></a> : <span></span>}
+        </nav>
+        <p class="suggest">Want to suggest an improvement? <a href={site.contactUrl}>Get in touch</a>.</p>
+        <p class="small muted">Data version {GR.version} (risk) and {RG.version} (governance), {fmtDate(latestDate)}. Code in the datasets: {risk.code}.</p>
+      </div>
+    </article>
+  </div>
+</Base>
+) : (
+<Base title={domain.name} description={domain.line} subnav={{ back: null }}>
+  <div class={`wrap d-${domain.color}`}>
+    <div class="domain-hero">
+      <div class="square"><Fragment set:html={icon(`domain-${domain.slug}.svg`, { label: `Domain icon: ${domain.name}` })} /></div>
+      <div>
+        <p class="eyebrow">{site.name}</p>
+        <h1>{domain.name}</h1>
+        <hr />
+        <p class="lead question">{domain.question}</p>
+        <div class="framing">{domain.framing.map((p) => <p>{p}</p>)}</div>
+      </div>
+    </div>
+    <hr />
+    <section class="block" style="padding-bottom:72px">
+      <h2>{domain.slug === 'multipliers' ? 'The multipliers' : 'Risks in this domain'}</h2>
+      <p>{`Of the ${members.length} ${domain.slug === 'multipliers' ? 'multipliers' : 'risks'} here, ${levels.map(([l, n]) => `${n} ${n === 1 ? 'has' : 'have'} ${l} governance`).join(', ').replace(/, ([^,]*)$/, ' and $1')}.`}</p>
+      <ul class="rows">
+        {members.map((r) => (
+          <li><a href={r.href}>
+            <span class="name">{r.name}</span>
+            <span class="facts-line">{r.summary}</span>
+            <span class="right"><Maturity gov={r.gov} /></span>
+          </a></li>
+        ))}
+      </ul>
+      <nav class="prevnext" aria-label="Previous and next domain">
+        {prev ? <a href={`/risks/${prev.slug}/`}><span class="label">‹ Previous domain</span><h5>{prev.name}</h5></a> : <span></span>}
+        {next ? <a class="next" href={`/risks/${next.slug}/`}><span class="label">Next domain ›</span><h5>{next.name}</h5></a> : <span></span>}
+      </nav>
+    </section>
+  </div>
+</Base>
+)}
