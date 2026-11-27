@@ -1,6 +1,6 @@
 // Loads the two datasets from the repository root and joins them. Everything on the site is derived from here.
-import { readFileSync } from 'node:fs';
-import { domains } from '../site.config.mjs';
+import { readFileSync, existsSync } from 'node:fs';
+import { domains, homeOrder } from '../site.config.mjs';
 
 const read = (f) => JSON.parse(readFileSync(new URL(`../../${f}`, import.meta.url), 'utf-8'));
 export const GR = read('GlobalRisks.json');
@@ -22,19 +22,41 @@ const gov = Object.fromEntries(RG.risks.map((r) => [r.code, r]));
 const domainOf = {};
 domains.forEach((d) => d.members.forEach((c) => { domainOf[c] = d; }));
 
+// An entry that is new in the data and not yet listed in site.config.mjs still gets a place:
+// multipliers go to the multipliers group, risks go to a domain chosen by the letter of their code.
+const bySlug = Object.fromEntries(domains.map((d) => [d.slug, d]));
+const byLetter = { N: 'natural-hazards', E: 'earth-system', W: 'weapons-conflict', T: 'technology-society', F: 'technology-society', M: 'multipliers' };
+const fallbackDomain = (r) => {
+  const d = r.kind === 'risk multiplier' ? bySlug.multipliers : (bySlug[byLetter[r.code[0]]] && byLetter[r.code[0]] !== 'multipliers' ? bySlug[byLetter[r.code[0]]] : bySlug['technology-society']);
+  console.warn(`[data] ${r.code} "${r.name}" is not listed in a domain in src/site.config.mjs; it is shown under "${d.name}".`);
+  return d;
+};
+
+// Icons are found by risk code (public/icons/icons.json), so a risk can be renamed in the data without losing its icon.
+// An entry without an icon of its own uses the icon of its domain.
+const iconDir = new URL('../../public/icons/', import.meta.url);
+const iconIndex = JSON.parse(readFileSync(new URL('icons.json', iconDir), 'utf-8'));
+const iconOf = Object.fromEntries(iconIndex.risks.map((i) => [i.code, i]));
+const has = (file) => !!file && existsSync(new URL(file, iconDir));
+
 const num = (band) => Number(band.slice(1));
 
 const all = GR.risks.map((r) => {
-  const d = domainOf[r.code];
-  if (!d) throw new Error(`Risk ${r.code} is not assigned to a domain in site.config.mjs`);
+  const d = domainOf[r.code] || fallbackDomain(r);
   const g = gov[r.code];
-  if (!g) throw new Error(`Risk ${r.code} has no governance record`);
+  if (!g) throw new Error(`GlobalRisks.json lists ${r.code} "${r.name}", but RiskGovernance.json has no entry with that code. Add it, then the site can be built.`);
   const isMultiplier = r.kind === 'risk multiplier';
+  const ic = iconOf[r.code] || {};
   return {
     ...r,
     slug: slugify(r.name),
     isMultiplier,
     domain: d,
+    icons: {
+      symbol: has(ic.symbol) ? ic.symbol : `domain-${d.slug}.svg`,
+      illustration: has(ic.illustration) ? ic.illustration : `domain-${d.slug}.svg`,
+      own: has(ic.symbol),
+    },
     gov: g,
     href: `/risks/${slugify(r.name)}/`,
     L: isMultiplier ? null : { modal: num(r.likelihood.modal), lo: num(r.likelihood.range[0]), hi: num(r.likelihood.range[1]), rising: r.likelihood.rising,
@@ -45,14 +67,35 @@ const all = GR.risks.map((r) => {
   };
 });
 
-// Site order: by domain (order of the table), then as listed in the domain.
-export const risks = domains.flatMap((d) => d.members.map((c) => all.find((r) => r.code === c)));
-if (risks.length !== GR.risks.length) throw new Error('The domain table does not account for every risk exactly once');
+// Site order: by domain (order of the table), then as listed in the domain; entries that are new in the data come last in their domain.
+const rank = (d, r) => { const i = d.members.indexOf(r.code); return i === -1 ? 1000 : i; };
+export const risks = domains.flatMap((d) => all.filter((r) => r.domain === d).sort((a, b) => rank(d, a) - rank(d, b)));
+for (const g of RG.risks) if (!all.some((r) => r.code === g.code)) console.warn(`[data] RiskGovernance.json has an entry ${g.code} "${g.name}" that is not in GlobalRisks.json; it is not shown.`);
 export const hazards = risks.filter((r) => !r.isMultiplier);
 export const multipliers = risks.filter((r) => r.isMultiplier);
 export const byCode = Object.fromEntries(risks.map((r) => [r.code, r]));
 export { domains };
-export const domainRisks = (d) => d.members.map((c) => byCode[c]);
+export const domainRisks = (d) => risks.filter((r) => r.domain === d);
+// Order of the cards on the front page (site.config.mjs, homeOrder); domains not named there follow in table order.
+const homeRank = (d) => { const i = homeOrder.indexOf(d.slug); return i === -1 ? homeOrder.length + domains.indexOf(d) : i; };
+export const homeHazards = [...hazards].sort((a, b) => homeRank(a.domain) - homeRank(b.domain));
+
+// Places on the likelihood and impact grid. The data gives each risk a cell; if two risks claim the same cell,
+// the second moves to the nearest free cell (same row first), so that no risk is hidden.
+const ROWS = 4, COLS = 5;
+export const gridPlace = (() => {
+  const taken = new Map(), out = {};
+  for (const r of hazards) {
+    const row0 = Math.min(Math.max(r.grid?.impact_row ?? r.I.modal, 1), ROWS), col0 = Math.min(Math.max(r.grid?.likelihood_col ?? r.L.modal, 1), COLS);
+    const cells = [];
+    for (let row = 1; row <= ROWS; row++) for (let col = 1; col <= COLS; col++) cells.push({ row, col, d: Math.abs(col - col0) + 2 * Math.abs(row - row0) });
+    const free = cells.sort((a, b) => a.d - b.d).find((c) => !taken.has(`${c.row}-${c.col}`));
+    if (!free) { console.warn(`[data] No free cell on the grid for ${r.code}; it is not shown on the grid.`); continue; }
+    if (free.d > 0) console.warn(`[data] ${r.code} shares its grid cell with another risk; it is shown in the nearest free cell.`);
+    taken.set(`${free.row}-${free.col}`, r); out[r.code] = free;
+  }
+  return { at: (row, col) => taken.get(`${row}-${col}`), of: (code) => out[code] };
+})();
 
 export const maturityCounts = MATURITY_ORDER.map((m) => ({ level: m, n: risks.filter((r) => r.gov.maturity === m).length }));
 export const latestDate = [GR.date, RG.date].sort().pop();

@@ -4,13 +4,13 @@ import Base from '../../layouts/Base.astro';
 import Dots from '../../components/Dots.astro';
 import { icon } from '../../lib/icons.mjs';
 import { site, pillarLabels } from '../../site.config.mjs';
-import { hazards, multipliers, risks, L_BANDS, I_BANDS, PILLARS, GR } from '../../lib/data.mjs';
+import { hazards, multipliers, risks, gridPlace, L_BANDS, I_BANDS, PILLARS, GR } from '../../lib/data.mjs';
 
 const ROWS = [4, 3, 2, 1];
 const COLS = [1, 2, 3, 4, 5];
-const at = (row, col) => hazards.find((r) => Math.min(r.grid.impact_row, 4) === row && r.grid.likelihood_col === col);
+const at = (row, col) => gridPlace.at(row, col);
 ---
-<Base title="Interactive grid" description="The 14 risks placed on a grid of likelihood and impact, with a second view that shows the maturity of their multilateral governance.">
+<Base title="Interactive grid" description={`The ${hazards.length} risks placed on a grid of likelihood and impact, with a second view that shows the maturity of their multilateral governance.`}>
   <div class="wrap doc">
     <header class="page-head" style="padding-bottom:24px">
       <p class="eyebrow">{site.name}</p>
@@ -27,8 +27,8 @@ const at = (row, col) => hazards.find((r) => Math.min(r.grid.impact_row, 4) === 
     </div>
 
     <div class="map-board" data-face="risks" id="board">
-      <div class="axis-x" style="grid-row:1">Increasing likelihood →</div>
-      <div class="axis-y" style="grid-column:1">Increasing impact →</div>
+      <div class="axis-x" style="grid-row:1">Increasing likelihood <span aria-hidden="true">→</span></div>
+      <div class="axis-y" style="grid-column:1">Increasing impact <span aria-hidden="true">→</span></div>
       {ROWS.map((row, ri) => COLS.map((col) => {
         const r = at(row, col);
         return (
@@ -37,7 +37,7 @@ const at = (row, col) => hazards.find((r) => Math.min(r.grid.impact_row, 4) === 
               <button type="button" class={`tile on-color d-${r.domain.color}`} data-code={r.code}>
                 <span class="tname">{r.name}</span>
                 <span class="trow">
-                  <span class="tmeta f-risks"><Fragment set:html={icon(`symbol-${r.slug}.svg`, { cls: 'sym' })} /></span>
+                  <span class="tmeta f-risks"><Fragment set:html={icon(r.icons.symbol, { cls: 'sym' })} /></span>
                   <span class="tmeta f-gov" hidden><span class="long">{r.gov.maturity}</span><span class="short num" aria-hidden="true">{r.gov.score_sum}/12</span> <span aria-hidden="true">{r.gov.trend}</span><span class="visually-hidden">, {r.gov.trend_label.toLowerCase()}</span></span>
                 </span>
               </button>

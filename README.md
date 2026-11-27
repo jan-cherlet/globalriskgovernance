@@ -19,9 +19,19 @@ Every page is generated from the two JSON files when the site is built. To chang
 
 ## Updating the data
 
-1. Edit `GlobalRisks.json` or `RiskGovernance.json` (on GitHub: open the file, click the pencil, commit).
-2. Raise the `version` and `date` at the top of the file and add a line to `changes`.
-3. The site rebuilds by itself within a few minutes.
+Replace `GlobalRisks.json` and `RiskGovernance.json` in the repository root (upload or push to `main`). The site then rebuilds and publishes itself within a few minutes. Nothing else needs to be edited.
+
+What follows the data on its own:
+
+- all text, scores, maturity levels, trends, likelihood and impact values, sources, version number and date;
+- the counts in the text, the filters and their numbers, the grid, the governance overview;
+- a renamed risk: its page moves to the new name and keeps its icon (icons are found by risk code);
+- a new risk or multiplier: it gets a page, a card and a place in the lists. Until it is added to a domain in `src/site.config.mjs` it is placed by the letter of its code, and until it has an icon of its own it uses the icon of its domain;
+- a removed risk: its page and card disappear.
+
+What does not follow on its own, because it is written by hand in `src/site.config.mjs`: the line, the question and the three framing paragraphs of each domain, and the texts of the front page and the About page.
+
+Each risk in `GlobalRisks.json` needs an entry with the same code in `RiskGovernance.json`. If one is missing, the build stops with a message that names the code, and the published site stays as it was. The build log is under the Actions tab on GitHub.
 
 ## Building on your own computer
 

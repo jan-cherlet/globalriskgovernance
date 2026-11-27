@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Maturity from '../../components/Maturity.astro';
 import { icon } from '../../lib/icons.mjs';
 import { site } from '../../site.config.mjs';
-import { risks, domains, domainRisks, L_BANDS, I_BANDS, FAILURE_MODES, MATURITY_ORDER, TREND_LABELS } from '../../lib/data.mjs';
+import { risks, hazards, multipliers, domains, domainRisks, L_BANDS, I_BANDS, FAILURE_MODES, MATURITY_ORDER, TREND_LABELS } from '../../lib/data.mjs';
 
 const trendKey = { '↑': 'up', '→': 'flat', '↓': 'down' };
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
@@ -19,12 +19,12 @@ const rowData = (r) => ({
 });
 const usedMaturity = new Set(risks.map((r) => r.gov.maturity));
 ---
-<Base title="Browse all risks" description="Filter the 14 risks and 3 risk multipliers by domain, failure mode, likelihood, impact, and the maturity and trend of their multilateral governance.">
+<Base title="Browse all risks" description={`Filter the ${hazards.length} risks and ${multipliers.length} risk multipliers by domain, failure mode, likelihood, impact, and the maturity and trend of their multilateral governance.`}>
   <div class="wrap">
     <header class="page-head">
       <p class="eyebrow">{site.name}</p>
       <h1>Looking for a specific risk?</h1>
-      <p class="lead">The Monitor covers {risks.length} entries: 14 risks and 3 risk multipliers. Filter them by what they are, how likely and how severe they are, and how well they are governed.</p>
+      <p class="lead">The Monitor covers {risks.length} entries: {hazards.length} risks and {multipliers.length} risk multipliers. Filter them by what they are, how likely and how severe they are, and how well they are governed.</p>
     </header>
 
     <form class="filters" id="filters" aria-label="Filters">
@@ -72,7 +72,7 @@ const usedMaturity = new Set(risks.map((r) => r.gov.maturity));
     <div class="result-bar">
       <strong id="result-count" aria-live="polite">{risks.length} of {risks.length} shown</strong>
       <button type="button" id="clear" hidden>Clear all filters</button>
-      <span class="small" id="mult-note" hidden>The 3 risk multipliers are not assessed on this dimension.</span>
+      <span class="small" id="mult-note" hidden>The {multipliers.length} risk multipliers are not assessed on this dimension.</span>
     </div>
 
     <div id="results" style="padding-bottom:72px">

@@ -82,6 +82,10 @@ export const domains = [
   },
 ];
 
+// Order of the risk cards on the front page, by domain: green, yellow, red, purple, blue. The multipliers follow in their own block.
+// The browse page, the domain pages and the Previous / Next links keep the order of the table above.
+export const homeOrder = ['earth-system', 'biological-risks', 'weapons-conflict', 'technology-society', 'natural-hazards'];
+
 export const pillarLabels = { assess: 'Assess', regulate: 'Regulate', finance: 'Finance', enforce: 'Enforce' };
 export const pillarPlain = { assess: 'Knowledge', regulate: 'Rules', finance: 'Money', enforce: 'Teeth' };
 export const pillarQuestion = { assess: 'Who assesses the risk?', regulate: 'Which rules apply?', finance: 'Who pays to reduce it?', enforce: 'Who checks and enforces?' };

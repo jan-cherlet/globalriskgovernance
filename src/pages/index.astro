@@ -2,12 +2,18 @@
 import Base from '../layouts/Base.astro';
 import RiskCard from '../components/RiskCard.astro';
 import { site } from '../site.config.mjs';
-import { hazards, multipliers, risks, maturityCounts } from '../lib/data.mjs';
+import { hazards, homeHazards, multipliers, risks, maturityCounts } from '../lib/data.mjs';
 
 const count = (level) => maturityCounts.find((m) => m.level === level)?.n ?? 0;
 const heroImage = null; // {{hero-image}}: to be decided. While empty, the hero is text only.
-const words = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen'];
+const words = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 const w = (n) => words[n] ?? String(n);
+// "four are rated Developed, four Developing and nine Nascent", built from whatever levels the data holds
+const topLevel = maturityCounts[maturityCounts.length - 1]?.level;
+const top = count(topLevel);
+const lower = maturityCounts.filter((m) => m.level !== topLevel && m.n > 0).reverse();
+const parts = lower.map((m, i) => (i === 0 ? `${w(m.n)} ${m.n === 1 ? 'is' : 'are'} rated ${m.level}` : `${w(m.n)} ${m.level}`));
+const rest = parts.length > 1 ? `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}` : parts[0] || '';
 ---
 <Base newsletter>
   <section class="hero">
@@ -16,7 +22,7 @@ const w = (n) => words[n] ?? String(n);
         <div class="text">
           <h1>{site.name}</h1>
           <p class="lead">{site.description}</p>
-          <p>The Monitor describes {hazards.length} risks that could cause a global catastrophe this century, and {w(multipliers.length)} conditions that make them worse. For each one it lists the institutions and treaties that exist to reduce the risk and rates how mature that governance is. Of these {risks.length} entries, {count('Fully developed') === 0 ? 'none has' : `${w(count('Fully developed'))} have`} fully developed governance: {w(count('Developed'))} are rated Developed, {w(count('Developing'))} Developing and {w(count('Nascent'))} Nascent.</p>
+          <p>The Monitor describes {hazards.length} risks that could cause a global catastrophe this century, and {w(multipliers.length)} conditions that make them worse. For each one it lists the institutions and treaties that exist to reduce the risk and rates how mature that governance is. Of these {risks.length} entries, {top === 0 ? 'none has' : top === 1 ? 'one has' : `${w(top)} have`} fully developed governance{rest ? `: ${rest}` : ''}.</p>
           <div class="btn-row">
             <a class="btn" href="/about/">About the Monitor</a>
             <a class="btn" href="/risks/">Browse all risks</a>
@@ -32,7 +38,7 @@ const w = (n) => words[n] ?? String(n);
       <h2>Explore the risks</h2>
       <p class="measure" style="margin-top:0.5em">Each card is one risk. It shows how likely the risk is to reach catastrophic scale by 2100 and how mature its multilateral governance is. The colour shows the domain.</p>
       <div class="cards">
-        {hazards.map((r) => <RiskCard risk={r} />)}
+        {homeHazards.map((r) => <RiskCard risk={r} />)}
         <a class="card card-cta" href="/risks/">
           <h3>Looking for a specific risk?</h3>
           <span class="go">Browse and filter all risks →</span>

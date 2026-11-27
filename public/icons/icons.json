@@ -211,5 +211,10 @@
    "illustration": "risk-ai-as-amplifier.svg",
    "symbol": "symbol-ai-as-amplifier.svg"
   }
- ]
+ ],
+ "logo": {
+  "file": "logo.svg",
+  "colour": "#1F1E1D",
+  "meaning": "The world inside a ring of governance that does not close; the open quarter also makes the mark read as a G."
+ }
 }

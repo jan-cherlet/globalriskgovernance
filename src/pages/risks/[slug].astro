@@ -28,9 +28,9 @@ const levels = kind === 'domain' ? ['Fully developed', 'Developed', 'Developing'
 {kind === 'risk' ? (
 <Base title={risk.name} description={risk.summary} subnav={{ back: { label: d.name, href: `/risks/${d.slug}/` } }}>
   <div class={`wrap risk-layout d-${d.color}`}>
-    <div class="banner" aria-hidden="true"><Fragment set:html={icon(`symbol-${risk.slug}.svg`)} /></div>
+    <div class="banner" aria-hidden="true"><Fragment set:html={icon(risk.icons.symbol)} /></div>
     <div class="risk-side">
-      <div class="illustration"><Fragment set:html={icon(`risk-${risk.slug}.svg`, { label: `Illustration: ${risk.name}` })} /></div>
+      <div class="illustration"><Fragment set:html={icon(risk.icons.illustration, { label: `Illustration: ${risk.name}` })} /></div>
       <Snapshot risk={risk} />
     </div>
     <article class="risk-main">

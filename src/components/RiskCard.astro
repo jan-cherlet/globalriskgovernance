@@ -4,7 +4,7 @@ const { risk } = Astro.props;
 const g = risk.gov;
 ---
 <a class={`card on-color d-${risk.domain.color}`} href={risk.href}>
-  <Fragment set:html={icon(`symbol-${risk.slug}.svg`, { cls: 'sym' })} />
+  <Fragment set:html={icon(risk.icons.symbol, { cls: 'sym' })} />
   <h3>{risk.name}</h3>
   <p class="desc">{risk.summary}</p>
   <div class="foot">
