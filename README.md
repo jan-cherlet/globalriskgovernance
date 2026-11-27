@@ -21,6 +21,8 @@ Every page is generated from the two JSON files when the site is built. To chang
 
 Replace `GlobalRisks.json` and `RiskGovernance.json` in the repository root (upload or push to `main`). The site then rebuilds and publishes itself within a few minutes. Nothing else needs to be edited.
 
+When you change a file, raise its `version` and `date` at the top and add a line to `changes`. The footer and the Data page show these.
+
 What follows the data on its own:
 
 - all text, scores, maturity levels, trends, likelihood and impact values, sources, version number and date;
